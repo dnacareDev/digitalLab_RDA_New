@@ -81,6 +81,8 @@ public class ScheduleServiceImpl implements ScheduleService
 		Users user = AuthUtil.sessionUser();
 		
 		List<Schedule> scheduleList = mapper.selectMonthSchedule(user , type);
+		
+		System.out.println(scheduleList);
 
 		return scheduleList;
 	}

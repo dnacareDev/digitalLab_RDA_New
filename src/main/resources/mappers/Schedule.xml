@@ -53,6 +53,8 @@
             <result property="each" column="each" />
             <result property="prj_dtl_no" column="prj_dtl_no" />
             <result property="prj_nm" column="prj_nm" />
+            <!-- 과제 책임자 이름 추가 -->
+            <result property="main_rspr_nm" column="main_rspr_nm" /> 
         </collection>
 	</resultMap>
 
@@ -232,7 +234,7 @@
 		SELECT sch.plan_supervisor, sch.plan_manager, to_char(sch.start_date,'yyyy_mm_dd') as start_date, to_char(sch.end_date,'yyyy_mm_dd') as end_date,
 		sch.plan_comment, sch.step_id, sch.batch_id, sch.create_date, sch.modify_date, sch.sch_title, sch.plan_supervisor,
 		sch.sch_contents, sch.sch_share, sch.sch_type as sch_type, sch.sch_id , sch.plan_id , p.plan_code , d2.division as division , d1.division as division_parents, u.name as name,
-		easy_d2.DIVISION easy_division, easy_d1.DIVISION easy_division_parents, p.USEE_AT_CODE plan_type , s.* , r.prj_dtl_no , r.prj_nm
+		easy_d2.DIVISION easy_division, easy_d1.DIVISION easy_division_parents, p.USEE_AT_CODE plan_type , s.* , r.prj_dtl_no , r.prj_nm , r.main_rspr_nm
 		FROM schedule sch
 		LEFT OUTER JOIN schedule_manager sch_m ON sch.sch_id = sch_m.sch_id
 		LEFT OUTER JOIN plan p ON sch.plan_id = p.plan_id

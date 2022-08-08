@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let _has = item.classList.contains('modal_on_btn');
             let _id = item.getAttribute('data-modal');
             
+            let _date = item.getAttribute('data-this_date');
+            
+            
             if(_id !== '' && _has) {
                 let lookupModalId = document.getElementById(_id);
 
@@ -51,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     lookupModalId.dataset.plan_id = target.dataset.plan_id;
                     lookupModalId.classList.add('on');
                     
-                    selectSchedule(schId);
+                    //selectSchedule(schId);
+                    selectSchedule(schId, _date);
                 });
             
                 modalCloseBtn.forEach((item) => {
@@ -389,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             return dateA > dateB ? 1 : -1;
         };
+        
     };
 
     let todayDate = day.getDate();
@@ -476,6 +481,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function dataApennd(date1, date2, text, color, sch, schId, planId) {
         let thisDate = document.getElementById(date1);
         let lastDate = document.getElementById(date2);
+        
+        //console.log(text)
+        //console.log(text.split('(')[0]);
 
         // 날짜 사이의 추출한 날짜 문자열 id값 배열
         let betwDateArr = [];
@@ -494,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let i = 0; i < beTwDate.length; i++) {
             betwDateArr.push(dateIdChange2(beTwDate[i]));
         };
-
+        
 
 
         // 데이터의 날짜가 현재 달에 있는지 확인
@@ -502,14 +510,16 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let i = 0; i < betwDateArr.length; i++) {
             let _beDate = document.getElementById(betwDateArr[i - 1]);
             let _thisDate = document.getElementById(betwDateArr[i]);
-
+            
+            //console.log(betwDateArr[i]);
+            
             if(_thisDate !== null) {
 
                 let _title = [];
 
                 if(_beDate !== null) {
                     let sameT = _beDate.querySelectorAll('.date_task > p');
-
+                    
                     sameT.forEach((item, idx) => {
                         let sameTitle = item.getAttribute('title');
                         if(idx === 0) {
@@ -556,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalDiv.setAttribute('class', 'date_task modal_on_btn');
                     modalDiv.dataset.sch_id = schId
                     modalDiv.dataset.plan_id = planId
+                    modalDiv.dataset.this_date = betwDateArr[i] 		// data-this_date 에 해당일자 데이터 집어넣기
                     
                     modalDiv.setAttribute('data-modal', '_taskTable2');
 
@@ -828,10 +839,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             };
                         };
                     };
-
-
-
-
                 };
             };
         };
@@ -963,9 +970,14 @@ document.addEventListener('DOMContentLoaded', () => {
         md5();
     };
 
-    function selectSchedule(sch_id){
+	function selectSchedule(sch_id, _date){
 		
 		console.log(sch_id , "sch_id")
+		
+		const date = _date.split("_");
+		
+		// 클릭한 위치의 날짜를 적용
+		$('.data_date_text').text(`${date[0]}년 ${date[1]}월 ${date[2]}일`);
 		
 		$.ajax({
 			url : `/schedule/${sch_id}/month`,
@@ -1046,10 +1058,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	 if(data != null) {
          for (let i = 0; i < data.length; i++) {
-			
+	
 			let color = FilColor[colorIndex];
             try {
-                let calender = new TestData(dateIdChange2(data[i].start_date),data[i].name+"("+data[i]?.seedList[0].prj_dtl_no+") - "+data[i]?.seedList[0].prj_nm , color ,dateIdChange2(data[i].end_date), data[i].sch_type, data[i].sch_id, data[i].plan_id);
+                // let calender = new TestData(dateIdChange2(data[i].start_date),data[i].name+"("+data[i]?.seedList[0].prj_dtl_no+") - "+data[i]?.seedList[0].prj_nm , color ,dateIdChange2(data[i].end_date), data[i].sch_type, data[i].sch_id, data[i].plan_id);
+                // 등록자 이름에서 과제 책임자 이름으로 변경
+                let calender = new TestData(dateIdChange2(data[i].start_date),data[i].seedList[0].main_rspr_nm+"("+data[i]?.seedList[0].prj_dtl_no+") - "+data[i]?.seedList[0].prj_nm , color ,dateIdChange2(data[i].end_date), data[i].sch_type, data[i].sch_id, data[i].plan_id);
                 dataAr.push(calender);
             }catch (e){
                 console.log("undefined catch");

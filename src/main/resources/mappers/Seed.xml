@@ -119,6 +119,8 @@
 <!--    report name Column 없어서 Select시 미적용-->
     <select id="selectSeedList" parameterType="SearchParam" resultType="Seed">
         SELECT TO_CHAR(s.send_date , 'YYYY-MM-DD hh24:mm') as send_date , TO_CHAR(s.receive_date , 'YYYY-MM-DD hh24:mm') as receive_date , s.*, p.place_name, g2.genetic genetic_depth2, g1.genetic genetic_depth1, r.prj_nm report_name, r.report_id , u.name as sender_name, r.prj_dtl_no
+        
+        
         FROM seed s
         LEFT OUTER JOIN place p on p.place_id = s.place_id
         LEFT OUTER JOIN user_report sr on sr.user_report_id = s.user_report_id

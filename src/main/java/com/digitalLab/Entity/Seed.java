@@ -36,6 +36,8 @@ public class Seed {
     private String seed_comment;
     private String template_head;
     private String template_body;
+    //과제 책임자 이름 추가
+    private String main_rspr_nm;
 
     private int USEE_AT_CODE;
     private String ATCH_FILE_NM;
