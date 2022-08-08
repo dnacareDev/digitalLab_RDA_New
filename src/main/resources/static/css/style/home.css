@@ -1,0 +1,68 @@
+@charset "utf-8";
+/********* 공통 *********/
+/* card - head - btn box */
+.card_header .card_btn_wrap .home_cheack_box:not(:last-child) {margin-right: 10px;}
+.home_cheack_box > label {display: block; width: 175px; line-height: 38px; text-align: center; border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid #768BF4; cursor: pointer;}
+.home_cheack_box > .cart_check_box[type="radio"] {display: none;}
+
+/* checked */
+.home_cheack_box > .cart_check_box[type="radio"]:checked + label {background-color: #788DEE; color: #fff; font-weight: 500;}
+
+/* date */
+.card_info_box .date_box { margin-left: 20px;}
+.card_info_box .date_box > label > .date_select[type="date"] {width: 200px; height: 40px; background-color: #F8F7F7; padding: 5px 10px 5px 20px; border-radius: 5px;}
+
+/* download */
+.card_info_box .download { height: 20px; width: 21px; margin-left: 40px; background-color: none; background: url('../../images/dark_dawnload.png') no-repeat center center; background-size: 100%;}
+
+
+
+/******** main - card 1 ********/
+/* card - head - 공통 */
+.card_box .card .card_header .card_btn_wrap,
+.card_box .card .card_header .card_info_box .card_switch_box,
+.card_box .card .card_header .card_info_box {display: flex; align-items: center;}
+
+
+/* card - head - card_info_box */
+/* switch */
+.card_info_box .card_switch_box .card_switch {width: 41px;}
+.card_switch_box .card_switch > .switch_check[type="checkbox"] {display: none;}
+.card_switch_box .card_switch > label {display: block; background-color: #E4E4E4; height: 20px; border-radius: 10px; -webkit-border-radius: 10px; position: relative; transition: 0.1s all;}
+.card_switch_box .card_switch > label:before {content: ''; position: absolute; left: 2px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;background-color: #fff; border-radius: 50%; -webkit-border-radius: 50%; transition: 0.2s all;}
+
+/* checked */
+.card_switch > .switch_check[type="checkbox"]:checked + label {background-color: #768BF5;}
+.card_switch > .switch_check[type="checkbox"]:checked + label:before {left: 23px;}
+
+.card_info_box .card_switch_box > span {margin-right: 10px; font-size: 1.5rem; margin-top: -2px;}
+.card_info_box .card_switch_box > span:first-child {margin-top: -2.5px;}
+.card_info_box .card_switch_box > span:last-child {margin-right: 0; margin-left: 10px;}
+
+/***** card contents *****/
+
+
+
+
+
+
+/******** main - card 2 ********/
+.card_select_box > label {font-size: 1.4rem; margin-right: 10px;}
+.card_select_box .home_select {border: none; background-color: #F8F7F7;}
+
+
+
+
+
+
+
+
+
+.raido_box_wrap {display: flex;}
+.radio_box > input[type="checkbox"] {display: none;} 
+.radio_box > label {width: 20px; height: 20px; background-color: #fff; border: 1px solid #D9D9D9; display: inline-block; margin-top: -3px; border-radius: 3px; -webkit-border-radius: 3px; transition: 0.1s all; position: relative;}
+.radio_box > label:before {content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 12px; height: 10px; background: url('../../images/checkBox.png') no-repeat; background-size: 100%; transition: 0.5s all; opacity: 0;}
+  
+ /* :checked */
+ .radio_box > input[type="checkbox"]:checked + label{background-color: #788DEE; border: none;}
+ .radio_box > input[type="checkbox"]:checked + label:before {opacity: 1;}

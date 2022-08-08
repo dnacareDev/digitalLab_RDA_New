@@ -1,0 +1,106 @@
+@charset "utf-8";
+/********* card title box *********/
+.card_box .card_title_box {display: flex; padding: 10px 0 20px 1px; align-items: center;}
+
+.card_box .card_title_box .card_title {font-size: 2rem; font-weight: 700; margin-right: 30px;}
+
+.card_box .card_title_box .card_list_text {display: flex;}
+.card_box .card_title_box .card_list_text > li {color: #666666; margin-right: 5px;}
+
+/********* card  *********/
+#main .card_box .card {padding: 40px 30px; height: auto;}
+
+/***** card - header *****/
+#main .card_box .card .card_header .col_select_box {display: flex; align-items: center;}
+
+/* col select box - text */
+#main .card_box .card .card_header .col_select_box > span {font-size: 1.8rem; font-weight: 500; color: #7C8798; margin-right: 10px;} 
+#main .card_box .card .card_header .col_select_box > span:last-child {margin-right: 0; margin-left: 10px;}
+
+/* col select box - select */
+#main .card_box .card .card_header .col_select_box .col_select {width: 80px; height: 35px; padding: 5px 10px; background-position: right 15px center; font-size: 1.4rem;}
+
+/* col select box - right head box */
+#main .card_box .card .card_header .right_head_box {display: flex; align-items: center;}
+
+.cont_search_box {margin-right: 10px;}
+
+/* col select box - right head box - sec select */
+#main .right_head_box .sec_select_box {margin-right: 10px;}
+#main .right_head_box .sec_select_box .sec_select {width: 238px;}
+
+/* col select box - right head box - btn */
+#main .right_head_box .CSV_btn {padding: 0 20px 0 0; background: #6875E9 url("../../images/light_dawnload.png") no-repeat right 17px center;}
+#main .right_head_box .CSV_btn:active:focus {background: #525ec7 url("../../images/light_dawnload.png") no-repeat right 17px center -4px;}
+
+
+/***** card - table *****/
+ #main .assignment_sect .card .card_cont_box {overflow: hidden; padding-bottom: 70px; position: relative;}
+#main .card_cont_box .assignment_table {margin-bottom: 30px; width: 100%;}
+
+/* tr */
+#main .card_cont_box .assignment_table tr {cursor: pointer;}
+#main .card_cont_box .assignment_table > thead > tr {height: auto;}
+#main .card_cont_box .assignment_table > tbody {max-height: 400px; overflow: auto; display: block;}
+
+/* th,td */
+#main .card_cont_box .assignment_table tr > th,
+#main .card_cont_box .assignment_table tr > td { padding: 15px 15px 10px; flex: 1 !important; width: 100%;}
+
+/* th */
+#main .card_cont_box .assignment_table tr > th {height: auto; line-height: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0;}
+#main .card_cont_box .assignment_table tr > th > span {position: relative; display: inline-block; line-height: 40px;}
+#main .card_cont_box .assignment_table tr > th label {width: calc(100% - 100px);}
+#main .card_cont_box .assignment_table tr > th input[type="text"] {border: 1px solid #D9D9D9; display: block; line-height: 28px; border-radius: 4px; width: 100%; padding: 0 10px; font-size: 1.3rem;}
+
+
+/* td */
+#main .card_cont_box .assignment_table tr > td {padding: 0 10px;}
+#main .card_cont_box .assignment_table tr > td > a,
+#main .card_cont_box .assignment_table tr > td > span {display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+#main .card_cont_box .assignment_table tr > td > a {color: #6875E9; font-weight: bold; transition: 0.2s all;} 
+#main .card_cont_box .assignment_table tr > td > a:hover {text-decoration: underline;}
+
+
+
+.card_cont_box .assignment_table th:before {display: none;}
+.card_cont_box .assignment_table th > span:before {content: ''; position: absolute; right: -30px; top: calc(50% + 1px); transform: translateY(-50%); width: 14px; height: 14px; background: url('../../images/sort.png') no-repeat;}
+
+
+#main .assignment_sect .card_cont_box .cont_footer_box {justify-content: left; position: absolute; left: 50%; transform: translateX(0%); bottom: 0px; justify-content: right; width: 100%;}
+
+.card_cont_box .cont_footer_box .user_btn {line-height: 40px; text-align: center; margin-left: 390px;}
+
+
+#main .cont_footer_box.card_table_footer {
+    left: 0;
+    transform: translateX(0%);
+    padding: 0 30px;
+}
+
+
+#main .cont_footer_box.card_table_footer .list_btn {
+    background-color: #c5c5c5;
+}
+
+.file_cont_box  {
+    align-items: center;
+}
+
+.file_cont_box .form_box {
+    margin-bottom: 5px;
+}
+
+.file_download {
+    font-size: 1.4rem;
+}
+
+.file_download span {
+    color: #888888;
+}
+
+
+.file_download > a {
+    color: #6875E9;
+    font-weight: 500;
+}

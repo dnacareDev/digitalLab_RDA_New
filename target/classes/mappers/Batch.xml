@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.BatchMapper">
+
+    <insert id="registBatchList" parameterType="java.util.List">
+        INSERT ALL
+        <foreach collection="list" item="item" index="index" open=""  separator="" close="">
+            INTO batch(
+            batch_id,
+            plan_id,
+            genetic_id,
+            seed_id,
+            batch_index,
+            batch_sample,
+            batch_test,
+            batch_well,
+            plate_id
+            )
+            VALUES(
+            batch_seq_id.NEXTVAL,
+            #{item.plan_id},
+            #{item.genetic_id},
+            #{item.seed_id},
+            #{item.batch_index},
+            #{item.batch_sample},
+            #{item.batch_test},
+            #{item.batch_well},
+            #{item.plate_id}
+            )
+        </foreach>
+        select 1 from dual;
+    </insert>
+    
+    <insert id="registBatch" parameterType="Batch">
+    	INSERT INTO batch(
+            batch_id,
+            plan_id,
+            genetic_id,
+            seed_id,
+            batch_index,
+            batch_sample,
+            batch_test,
+            batch_well,
+            plate_id
+            )
+            VALUES(
+            batch_seq_id.NEXTVAL,
+            #{plan_id},
+            #{genetic_id},
+            #{seed_id},
+            #{batch_index},
+            #{batch_sample},
+            #{batch_test , jdbcType=VARCHAR},
+            #{batch_well , jdbcType=VARCHAR},
+            #{plate_id}
+            )
+    </insert>
+    
+    <select id="selectBatchByPlan" parameterType="int" resultType="Batch">
+        SELECT b.* , g2.genetic genetic_depth_2, g1.genetic genetic_depth_1,s.seed_id, p.plate_index
+        FROM batch b LEFT OUTER JOIN genetic g2 on b.genetic_id = g2.genetic_id
+                    LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+        LEFT OUTER JOIN plate p on p.plate_id = b.plate_id
+        LEFT OUTER JOIN seed s on b.seed_id = s.seed_id
+        WHERE p.plan_id = #{plan_id};
+    </select>
+
+    <delete id="deleteBatchByPlan" parameterType="int">
+        DELETE FROM batch b WHERE b.batch_id =
+                                (SELECT b.batch_id FROM batch b
+                                    left outer join plate p on p.plate_id = b.plate_id
+                                    WHERE p.plan_id = #{plan_id}
+                                )
+    </delete>
+
+    <select id="selectBatchByPlate" parameterType="int" resultType="Batch">
+        SELECT B.*, P.PLATE_INDEX, g1.genetic genetic_depth_1, g2.genetic genetic_depth_2
+        FROM BATCH B LEFT OUTER JOIN PLATE P ON P.PLATE_ID = B.PLATE_ID
+             LEFT OUTER JOIN genetic g2 on g2.genetic_id = b.genetic_id
+             LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+        WHERE B.PLATE_ID = #{plate_id}
+    </select>
+
+    <select id="selectBatchResult" parameterType="int" resultType="Batch">
+        SELECT B.*, P.PLATE_INDEX, g1.genetic genetic_depth_1, g2.genetic genetic_depth_2, p.plan_id
+        FROM BATCH B LEFT OUTER JOIN PLATE P ON P.PLATE_ID = B.PLATE_ID
+                     LEFT OUTER JOIN genetic g2 on g2.genetic_id = b.genetic_id
+                     LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+                     LEFT OUTER JOIN plan pl ON pl.plan_id = p.plan_id
+        WHERE pl.plan_id = #{plan_id}
+    </select>
+
+    <update id="updateBatchData" parameterType="Batch">
+        UPDATE BATCH
+        SET BATCH_DATA = #{batch_data},
+        MODIFY_DATE = sysdate
+        WHERE batch_id = #{batch_id}
+    </update>
+
+    <update id="updateBatchResult" parameterType="Batch">
+        UPDATE BATCH
+        SET BATCH_RESULT = #{batch_result}
+        WHERE batch_id = #{batch_id}
+    </update>
+
+    <select id="selectBatchById" parameterType="int" resultType="Batch">
+        SELECT * FROM BATCH WHERE batch_id = #{batch_id}
+    </select>
+    
+    <!-- 배치 서브스탭 리스트 -->
+    <select id="selectBatchSubStep" parameterType="int" resultType="Batch">
+        SELECT sub.batch_sub_data as batch_data, sub.batch_sub_id, B.*, P.PLATE_INDEX, g1.genetic genetic_depth_1, g2.genetic genetic_depth_2
+        FROM BATCH B LEFT OUTER JOIN PLATE P ON P.PLATE_ID = B.PLATE_ID
+             LEFT OUTER JOIN genetic g2 on g2.genetic_id = b.genetic_id
+             LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+        	 LEFT OUTER JOIN (SELECT batch_sub_id , batch_sub_data , batch_id FROM batch_sub WHERE step_id = #{step_id}) sub
+        	 ON B.batch_id = sub.batch_id
+        WHERE B.PLATE_ID = #{plate_id}
+    </select>
+    
+    <!-- 배치 서브스텝 등록 -->
+    <insert id="insertSubdata" parameterType="Batch">
+    	INSERT
+    	INTO
+    	batch_sub
+    	(
+    	batch_sub_id,
+    	step_id,
+    	batch_sub_data,
+    	batch_id
+    	)
+    	VALUES
+    	(
+    	batch_sub_seq_id.NEXTVAL,
+    	#{step_id},
+    	#{batch_data},
+    	#{batch_id}
+    	)
+    </insert>
+    
+    <!-- 배치 서브스텝 업데이트 -->
+    <update id="updateSubData" parameterType="Batch">
+    	UPDATE
+    	batch_sub
+    	SET
+    	batch_sub_data = #{batch_data}
+    	WHERE batch_sub_id = #{batch_sub_id}
+    </update>
+
+</mapper>

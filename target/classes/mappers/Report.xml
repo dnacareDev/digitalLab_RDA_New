@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.ReportMapper">
+	
+	<!-- 과제 등록 -->
+	<insert id="insertReport" parameterType="map">
+		INSERT
+		INTO report
+		(
+		report_id,
+		rnd_phase_nm,
+		kor_kywd,
+		tot_rsch_end_dt,
+		prj_type_nm,
+		prtcp_mp_dic_code_list,
+		prj_dtl_no,
+		tot_rsch_start_dt,
+		tot_rsch_start_year,
+		prj_dtl_nm,
+		prtcp_mp_list,
+		srownum,
+		update_dt,
+		main_rspr_top_dept_nm,
+		sub_rspr_top_dept_nm,
+		sub_rspr_nm,
+		prj_no,
+		rndco_tot_amt,
+		year_cnt,
+		main_rspr_dept_nm,
+		prj_nm,
+		prj_dtl_rspr_dic_code,
+		tot_rsch_end_year,
+		sub_rspr_dept_nm,
+		main_rspr_nm
+		)
+		VALUES
+		(
+		#{report_id},
+		#{RND_PHASE_NM , jdbcType=VARCHAR},
+		#{KOR_KYWD , jdbcType=VARCHAR},
+		#{TOT_RSCH_END_DT , jdbcType=VARCHAR},
+		#{PRJ_TYPE_NM , jdbcType=VARCHAR},
+		#{PRTCP_MP_DIC_CODE_LIST , jdbcType=VARCHAR},
+		#{PRJ_DTL_NO , jdbcType=VARCHAR},
+		#{TOT_RSCH_START_DT , jdbcType=VARCHAR},
+		#{TOT_RSCH_START_YEAR , jdbcType=VARCHAR},
+		#{PRJ_DTL_NM , jdbcType=VARCHAR},
+		#{PRTCP_MP_LIST , jdbcType=VARCHAR},
+		#{SROWNUM , jdbcType=VARCHAR},
+		#{UPDATE_DT , jdbcType=DATE},
+		#{MAIN_RSPR_TOP_DEPT_NM , jdbcType=VARCHAR},
+		#{SUB_RSPR_TOP_DEPT_NM , jdbcType=VARCHAR},
+		#{SUB_RSPR_NM , jdbcType=VARCHAR},
+		#{PRJ_NO , jdbcType=VARCHAR},
+		#{RNDCO_TOT_AMT , jdbcType=VARCHAR},
+		#{YEAR_CNT , jdbcType=VARCHAR},
+		#{MAIN_RSPR_DEPT_NM , jdbcType=VARCHAR},
+		#{PRJ_NM , jdbcType=VARCHAR},
+		#{PRJ_DTL_RSPR_DIC_CODE , jdbcType=VARCHAR},
+		#{TOT_RSCH_END_YEAR , jdbcType=VARCHAR},
+		#{SUB_RSPR_DEPT_NM , jdbcType=VARCHAR},
+		#{MAIN_RSPR_NM , jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 과제 업데이트 -->
+	<update id="updateReport" parameterType="map">
+		UPDATE
+		report
+		SET
+		rnd_phase_nm = #{RND_PHASE_NM , jdbcType=VARCHAR},
+		kor_kywd = #{KOR_KYWD , jdbcType=VARCHAR},
+		tot_rsch_end_dt = #{TOT_RSCH_END_DT , jdbcType=VARCHAR},
+		prj_type_nm = #{PRJ_TYPE_NM , jdbcType=VARCHAR},
+		prtcp_mp_dic_code_list = #{PRTCP_MP_DIC_CODE_LIST , jdbcType=VARCHAR},
+		prj_dtl_no = #{PRJ_DTL_NO , jdbcType=VARCHAR},
+		tot_rsch_start_dt = #{TOT_RSCH_START_DT , jdbcType=VARCHAR},
+		tot_rsch_start_year = #{TOT_RSCH_START_YEAR , jdbcType=VARCHAR},
+		prj_dtl_nm = #{PRJ_DTL_NM , jdbcType=VARCHAR},
+		prtcp_mp_list = #{PRTCP_MP_LIST , jdbcType=VARCHAR},
+		srownum  = #{SROWNUM},
+		update_dt = #{UPDATE_DT , jdbcType=DATE},
+		main_rspr_top_dept_nm = #{MAIN_RSPR_TOP_DEPT_NM , jdbcType=VARCHAR},
+		sub_rspr_top_dept_nm = #{SUB_RSPR_TOP_DEPT_NM , jdbcType=VARCHAR},
+		sub_rspr_nm = #{SUB_RSPR_NM , jdbcType=VARCHAR},
+		rndco_tot_amt = #{RNDCO_TOT_AMT , jdbcType=VARCHAR},
+		year_cnt = #{YEAR_CNT , jdbcType=VARCHAR},
+		main_rspr_dept_nm = #{MAIN_RSPR_DEPT_NM , jdbcType=VARCHAR},
+		prj_nm = #{PRJ_NM , jdbcType=VARCHAR},
+		prj_dtl_rspr_dic_code = #{PRJ_DTL_RSPR_DIC_CODE , jdbcType=VARCHAR},
+		tot_rsch_end_year = #{TOT_RSCH_END_YEAR , jdbcType=VARCHAR},
+		sub_rspr_dept_nm = #{SUB_RSPR_DEPT_NM , jdbcType=VARCHAR},
+		main_rspr_nm = #{MAIN_RSPR_NM , jdbcType=VARCHAR},
+		prj_no = #{PRJ_NO , jdbcType=VARCHAR}
+		WHERE prj_dtl_no = #{PRJ_DTL_NO}
+	</update>
+	
+	<!-- 과제 리스트 -->
+	<select id="selectReportList" resultType="Report">
+		SELECT *
+		FROM report
+		<where>
+			<if test="user.authority != 'ADMIN'">
+				<if test="user.authority != 'MANAGER' ">
+				AND prtcp_mp_dic_code_list LIKE '%'||#{user.digitalCode}||'%'
+				</if>
+			</if>
+			<if test="type == 'seed' ">
+				AND rnd_phase_nm IS NOT NULL
+			</if>
+		</where>
+	</select>
+	
+	<!-- 과제 상세보기 -->
+	<select id="selectReportById" resultType="Report">
+		SELECT
+		*
+		FROM report
+		WHERE report_id = #{report_id}
+	</select>
+	
+	<!-- 과제 중복체크 -->
+	<select id="checkPrj" parameterType="String" resultType="Report">
+		SELECT
+		*
+		FROM report
+		WHERE prj_dtl_no = #{prj_dtl_no}
+	</select>
+	
+	<!-- 시퀀스 값 -->
+	<select id="getSeqId" resultType="int">
+		SELECT report_seq_id.NEXTVAL FROM DUAL;
+	</select>
+	
+	
+	
+	<!-- ==================== -->
+	<!-- 매니져 등록 -->
+	<insert id="insertManager" parameterType="ReportManager">
+		INSERT
+		INTO report_manager
+		(
+		report_manager_id,
+		dic_code,
+		manager_type,
+		report_id
+		)
+		VALUES
+		(
+		#{report_manager_id},
+		#{dic_code},
+		#{manager_type},
+		#{report_id}
+		)
+	</insert>
+	
+	<!-- 시퀀스 값 -->
+	<select id="getManagerSeqId" resultType="int">
+		SELECT report_manager_seq_id.NEXTVAL FROM DUAL;
+	</select>
+	
+	<!-- ==================== -->
+	<!-- 시드 등록시 과제 등록 -->
+	<insert id="insertUserReport" parameterType="UserReport">
+		INSERT
+		INTO user_report
+		(
+		user_report_id,
+		report_id,
+		usee_at_code,
+		atch_file_nm,
+		orig_file_nm,
+		template_head,
+		template_body,
+		report_comment,
+		account
+		)
+		VALUES
+		(
+		#{user_report_id},
+		#{report_id},
+		#{USEE_AT_CODE},
+		#{ATCH_FILE_NM , jdbcType=VARCHAR},
+		#{ORIG_FILE_NM, jdbcType=VARCHAR},
+		#{template_head , jdbcType=VARCHAR},
+		#{template_body , jdbcType=VARCHAR},
+		#{report_comment , jdbcType=VARCHAR},
+	 	#{account}
+		)
+	</insert>
+	
+	<update id="updateUserReport" parameterType="UserReport">
+		UPDATE
+		user_report
+		SET
+		atch_file_nm = #{ATCH_FILE_NM , jdbcType=VARCHAR},
+		orig_file_nm = #{ORIG_FILE_NM, jdbcType=VARCHAR},
+		template_head = #{template_head , jdbcType=VARCHAR},
+		template_body = #{template_body , jdbcType=VARCHAR},
+		report_comment = #{report_comment , jdbcType=VARCHAR}
+		WHERE user_report_id = #{user_report_id}
+	</update>
+	
+	<!-- 시퀀스 값 -->
+	<select id="getUserReportSeqId" resultType="int">
+		SELECT user_report_seq_id.NEXTVAL FROM DUAL;
+	</select>
+	
+	<!-- 과제 체크 -->
+	<select id="checkUserReport" parameterType="UserReport" resultType="UserReport">
+		SELECT
+		*
+		FROM user_report
+		WHERE report_id = #{report_id}
+			AND usee_at_code = #{USEE_AT_CODE}
+	</select>
+	
+	<!-- 시료 과제 상세보기 -->
+	<select id="selectUserReportById" parameterType="int" resultType="UserReport">
+		SELECT
+		*
+		FROM user_report usr_r JOIN report r
+			ON usr_r.report_id = r.report_id
+		WHERE user_report_id = #{user_report_id}
+	</select>
+	
+	<!-- 분석 과제 리스트 -->
+	<select id="selectReportListByPlan" parameterType="Users" resultType="Report">
+		SELECT DISTINCT R.*
+		FROM PLAN P
+				 JOIN PLAN_SEED PS ON P.PLAN_ID = PS.PLAN_ID
+				 JOIN SEED S ON PS.SEED_ID = S.SEED_ID
+				 JOIN USER_REPORT USR_R ON S.USER_REPORT_ID = USR_R.USER_REPORT_ID
+				 JOIN REPORT R ON USR_R.REPORT_ID = R.REPORT_ID
+		WHERE PRJ_DTL_NO LIKE 'P%'
+			<if test="authority != 'ADMIN'">
+				<if test="authority != 'MANAGER' ">
+				AND R.prtcp_mp_dic_code_list LIKE '%'||#{digitalCode}||'%'
+				</if>
+			</if>
+	</select>
+
+	<!-- UserReport 삭제 (상태값 -1) -->
+	<update id="deleteUserReport">
+		UPDATE USER_REPORT SET STATUS = -1
+		WHERE USER_REPORT_ID = (SELECT se.user_report_id FROM seed se
+								WHERE se.seed_id = #{seed_id})
+	</update>
+
+	<select id="getUserReportIdCount" resultType="int">
+		SELECT (SELECT count(*) FROM seed s WHERE s.user_report_id = se.USER_REPORT_ID AND s.status = 1)
+		FROM seed se
+		WHERE se.seed_id = #{seed_id}
+	</select>
+
+	<delete id="deleteReportAssignments">
+		DELETE FROM REPORT WHERE REPORT_ID =
+		 (SELECT R.REPORT_ID FROM seed se
+		  JOIN USER_REPORT UR on se.USER_REPORT_ID = UR.USER_REPORT_ID
+		  JOIN REPORT R on UR.REPORT_ID = R.REPORT_ID
+		  WHERE se.seed_id = #{seed_id} AND R.RND_PHASE_NM IS NULL)
+	</delete>
+
+	<update id="updateReportComment">
+		UPDATE USER_REPORT SET REPORT_COMMENT = #{report_comment} WHERE USER_REPORT_ID = #{report_id}
+	</update>
+	
+	<insert id="testReportInsert" parameterType="Report">
+		INSERT
+		INTO report
+		(
+		report_id,
+		rnd_phase_nm,
+		kor_kywd,
+		tot_rsch_end_dt,
+		prj_type_nm,
+		prtcp_mp_dic_code_list,
+		prj_dtl_no,
+		tot_rsch_start_dt,
+		tot_rsch_start_year,
+		prj_dtl_nm,
+		prtcp_mp_list,
+		srownum,
+		update_dt,
+		main_rspr_top_dept_nm,
+		sub_rspr_top_dept_nm,
+		sub_rspr_nm,
+		prj_no,
+		rndco_tot_amt,
+		year_cnt,
+		main_rspr_dept_nm,
+		prj_nm,
+		prj_dtl_rspr_dic_code,
+		tot_rsch_end_year,
+		sub_rspr_dept_nm,
+		main_rspr_nm
+		)
+		VALUES
+		(
+		#{report_id},
+		#{rnd_phase_nm , jdbcType=VARCHAR},
+		#{kor_kywd , jdbcType=VARCHAR},
+		#{tot_rsch_end_dt , jdbcType=VARCHAR},
+		#{prj_type_nm , jdbcType=VARCHAR},
+		#{prtcp_mp_dic_code_list , jdbcType=VARCHAR},
+		#{prj_dtl_no , jdbcType=VARCHAR},
+		#{tot_rsch_start_dt , jdbcType=VARCHAR},
+		#{tot_rsch_start_year , jdbcType=VARCHAR},
+		#{prj_dtl_nm , jdbcType=VARCHAR},
+		#{prtcp_mp_list , jdbcType=VARCHAR},
+		#{srownum , jdbcType=VARCHAR},
+		#{update_dt , jdbcType=DATE},
+		#{main_rspr_top_dept_nm , jdbcType=VARCHAR},
+		#{sub_rspr_top_dept_nm , jdbcType=VARCHAR},
+		#{sub_rspr_nm , jdbcType=VARCHAR},
+		#{prj_no , jdbcType=VARCHAR},
+		#{rndco_tot_amt , jdbcType=VARCHAR},
+		#{year_cnt , jdbcType=VARCHAR},
+		#{main_rspr_dept_nm , jdbcType=VARCHAR},
+		#{prj_nm , jdbcType=VARCHAR},
+		#{prj_dtl_rspr_dic_code , jdbcType=VARCHAR},
+		#{tot_rsch_end_year , jdbcType=VARCHAR},
+		#{sub_rspr_dept_nm , jdbcType=VARCHAR},
+		#{main_rspr_nm , jdbcType=VARCHAR}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 장소 보기</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/user_management2_new.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/user_management2_new.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+<style>
+.caution {
+	margin-bottom: 30px;
+	font-size: 1.4rem;
+	color: red;
+}
+
+#main .user_form_box {
+	margin-bottom: 0px;
+}
+
+.new_user_form .user_data_box .form_box {
+	width: calc(25% - 8px);
+	margin-right: 10px;
+}
+
+.new_user_form .user_data_box .form_box:last-child {
+	margin-right: 0px;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box new_user_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">장소 관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">기본 정보 -</li>
+						<li class="card_inner_list">장소 관리</li>
+					</ul>
+					<div class="print_box on">
+                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+				</div>
+				<div class="card">
+					<div class="card_cont_box">
+						<form id="place_form" action="" class="new_user_form common_form">
+							<div class="user_data_box">
+								<span th:if="${result.place.place_join_count} != 1" class="caution">사용중인 장소로 수정,삭제가 불가 합니다.</span>
+								<div class="top_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"><span class="star">*</span>
+											장소 ID</label> <input type="text" id="place_code" name=""
+											th:value="${result.place.place_code}" readonly="readonly" disabled/>
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"><span class="star">*</span>
+											저장장소</label> <input type="text" id="place_name" name="place_name"
+											th:value="${result.place.place_name}">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">온도(°C)</label> <input
+											type="text" id="place_temp" name="place_temp"
+											th:value="${result.place.place_temp}">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">습도(%)</label> <input
+											type="text" id="place_place" name="place_humidty"
+											th:value="${result.place.place_humidty}">
+									</div>
+								</div>
+							</div>
+							
+							<input type="hidden" name="place_id" th:value="${result.place.place_id}" />
+							<input type="hidden" name="place_code" th:value="${result.place.place_code}"/>
+						</form>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<div class="re_btn_box">
+						<button th:if="${session.LOGIN_MEMBER.account == result.place.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickRegist();">수정</button>
+						<button th:if="${session.LOGIN_MEMBER.account == result.place.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickDelete();">삭제</button>
+					</div>
+				</div>
+			</section>
+			
+			<!-- 변경 이력 -->
+			 <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+                            	
+                            	<th:block th:each=" log : ${result.logList}">
+	                                <li class="change_list">
+	                                    <span class="change_check"></span>
+	                                    <div class="chang_text_box">
+	                                        <p class="change_text"><span th:text="${log.data_code}"></span> 
+	                                        <th:block th:switch="${log.action_type}">
+	                                        	<span th:case="1">등록</span>
+	                                        	<span th:case="2">수정</span>
+	                                        	<span th:case="3">삭제</span>
+	                                        	<span th:case="4">추가</span>
+	                                        </th:block>
+	                                        </p>
+	                                        <span class="change_date" th:text="${log.log_date}"></span>
+	                                    </div>
+	                                </li>
+                            	</th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script th:inline="javascript" type="text/javascript">
+		let place_id = `[[${result.place.place_id}]]`;
+		let join_count = `[[${result.place.place_join_count}]]`;
+	</script>
+	<script>
+		$('.list_btn').on('click', function() {
+			location.href = `/place/place_list`
+		})
+		
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+
+			if (!validateFunction('place_name', '저장장소를')) {
+				return false;
+			}
+
+			return true;
+		}
+
+		function checkJoin(){
+
+			if(join_count != 1){
+				alert("수정,삭제가 불가능합니다");
+				return false;
+			}
+			return true;
+		}
+
+		function onClickRegist() {
+
+			if(!checkJoin()){
+				return;
+			}
+
+			if (!checkForm()) {
+				return;
+			}
+
+			let place_form = $('#place_form')[0];
+			let formData = new FormData(place_form);
+
+			$.ajax({
+				url : "/place/place_modify",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("장소가 수정되었습니다");
+						location.href = `/place/place_detail/${place_id}`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+		
+		function onClickDelete() {
+
+			if(!checkJoin()){
+				return;
+			}
+
+			if(!confirm("삭제하시겠습니까")){
+				return;
+			}
+
+			$.ajax({
+				url : `/place/delete/${place_id}`,
+				type : "POST",
+				success : function(data) {
+					
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("삭제되었습니다");
+						location.href = `/place/place_list`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+	</script>
+</body>
+</html>

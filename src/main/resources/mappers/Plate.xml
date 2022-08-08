@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.PlateMapper">
+    <insert id="registPlate" parameterType="Plate">
+        INSERT INTO PLATE(
+            PLATE_ID,
+            PLAN_ID,
+            PLATE_INDEX,
+            PLATE_STATUS
+        )
+        VALUES(
+                  #{plate_id},
+                  #{plan_id},
+                  #{plate_index},
+                  0
+              )
+    </insert>
+
+    <delete id="deletePlateByPlan" parameterType="int">
+        DELETE FROM PLATE WHERE plan_id = #{plan_id}
+    </delete>
+
+    <select id="getSeqId" resultType="int">
+        SELECT PLATE_SEQ_ID.NEXTVAL FROM DUAL
+    </select>
+
+    <select id="selectPlateByPlan" parameterType="int" resultType="Plate">
+        SELECT DISTINCT p.*,s.start_date, s.end_date,s.sch_contents
+        FROM plate p
+            LEFT OUTER JOIN schedule s ON s.plate_id = p.plate_id
+            LEFT OUTER JOIN schedule_manager sm ON sm.sch_id = s.sch_id
+            LEFT OUTER JOIN batch b ON b.plate_id = p.plate_id
+        WHERE p.plan_id = #{plan_id}
+        ORDER BY plate_index
+    </select>
+
+    <select id="selectPlateByPlanApi" parameterType="int" resultType="PlateApiParam">
+        SELECT DISTINCT p.plate_id batch_id, p.PLATE_INDEX batch_index, s.start_date, s.end_date,s.sch_contents
+        FROM plate p
+                 LEFT OUTER JOIN schedule s ON s.plate_id = p.plate_id
+                 LEFT OUTER JOIN schedule_manager sm ON sm.sch_id = s.sch_id
+                 LEFT OUTER JOIN batch b ON b.plate_id = p.plate_id
+        WHERE p.plan_id = #{plan_id}
+        ORDER BY plate_index
+    </select>
+
+    <select id="findPlateById" parameterType="int" resultType="Plate">
+        SELECT
+        *
+        FROM plate
+        WHERE plate_id = #{plate_id}
+    </select>
+
+    <update id="updatePlateStatus">
+        UPDATE
+        plate
+        SET
+        plate_status = #{plate_status}
+        WHERE plate_id = #{plate_id}
+    </update>
+</mapper>

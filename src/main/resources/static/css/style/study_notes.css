@@ -1,0 +1,132 @@
+@charset "utf-8";
+/* _taskTable2 */
+#_taskTable2 .modal_box {
+    margin: 60px;
+    height: 100%;
+    max-height: 700px;
+}
+/* section - .modal_data_sect */
+#_taskTable2 .modal_data_sect {
+    max-height: 500px;
+    margin: 10px 20px 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* data_date_text */
+#_taskTable2 .data_date_text {
+    border-bottom: 4px solid #D9D9D9;
+    line-height: 35px;
+    padding-left: 10px;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+/* contents common - analysis_box */
+#_taskTable2 .analysis_box {
+    margin-bottom: 60px;
+}
+
+/* 제목 공통 - analysis_head_text */
+#_taskTable2 .analysis_head_text {
+    width: 300px;
+    border-bottom: 2px solid #D9D9D9;
+    padding-left: 10px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+#_taskTable2 .analysis_plan_title {
+    width: 100%;
+    margin-bottom: 50px;
+    font-weight: 500;
+}
+
+#_taskTable2 .analysis_plan_title .analysis_id {
+    font-weight: 400;
+}
+
+
+/* data box - analysis_box_list */
+#_taskTable2 .analysis_box_list {
+    margin-bottom: 20px;
+}
+
+#_taskTable2 .analysis_box_list .analysis_list {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+#_taskTable2 .analysis_list .an_list_text {
+    display: inline-block;
+    text-align: center;
+    line-height: 2;
+}
+#_taskTable2 .analysis_list .an_list_th {
+    font-weight: 500;
+    width: 150px;
+    margin-right: 20px;
+}
+
+
+/* data table - modal_analysis_table */
+#_taskTable2 .modal_analysis_table {
+    width: calc(100% - 30px);
+    border: 1px solid #D9D9D9;
+    margin: 0 10px 0 10px;
+}
+
+/* tr */
+#_taskTable2 .modal_analysis_table tr {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+#_taskTable2 .modal_analysis_table tbody tr:last-child {
+    border-bottom: none;
+}
+
+#_taskTable2 .modal_analysis_table tbody {
+    display: block;
+    width: 100%;
+}
+
+#_taskTable2 .modal_analysis_table tr {
+    display: flex;
+    width: 100%;
+}
+
+/* th, td */
+#_taskTable2 .modal_analysis_table th,
+#_taskTable2 .modal_analysis_table td {
+    text-align: center;
+    line-height: 35px;
+    font-size: 14px;
+}
+
+#_taskTable2 .modal_analysis_table th:not(:last-child),
+#_taskTable2 .modal_analysis_table td:not(:last-child) {
+    border-right: 1px solid #D9D9D9;
+}
+
+#_taskTable2 .modal_analysis_table tr th,
+#_taskTable2 .modal_analysis_table tr td {
+    display: inline-block;
+    flex: 1;
+}
+
+/* th */
+#_taskTable2 .modal_analysis_table th {
+    font-weight: 500;
+    line-height: 40px;
+}
+
+
+
+
+#_taskTable2 .form_inner_box {
+    padding-left: 15px;
+}
+
+#_taskTable2 .modal_file_box .form_box > .form_inner_box > .form_btn {
+    min-width: 119px;
+}

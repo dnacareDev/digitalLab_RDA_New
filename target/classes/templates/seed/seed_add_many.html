@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 시료 관리</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/harvesting_after.css">
+<link rel="stylesheet" href="/toastGrid/tui-grid.min.css" />
+<link rel="stylesheet" href="/toastGrid/tui-pagination.css" />
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/js/harvesting_after.js"></script>
+
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+<link rel="stylesheet" href="../../static/toastGrid/tui-grid.min.css" />
+<link rel="stylesheet" href="../../static/toastGrid/tui-pagination.css" />
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script>
+<script src="../../static/js/harvesting_after.js"></script> -->
+<style>
+#wrap #main .card {
+	padding-top: 30px;
+}
+
+#wrap #main .card_sect_footer {
+	justify-content: left;
+	margin-bottom: 40px;
+}
+
+#wrap #main .card_sect_footer span {
+	font-size: 1.4rem;
+	color: darkgray;
+}
+
+.save_table_card .save_table tr>th:nth-child(10), .save_table_card .save_table>tbody>tr>td:nth-child(10),
+	.save_table_card .save_table tr>th:nth-child(6), .save_table_card .save_table>tbody>tr>td:nth-child(6)
+	{
+	width: 210px;
+}
+
+.save_table_card .save_table tr>th:nth-child(4), .save_table_card .save_table>tbody>tr>td:nth-child(4)
+	{
+	width: 140px;
+}
+
+.save_table_card .card_cont_box .save_table {
+	min-width: 1893px;
+	border: 1px solid #d6dce2b7;
+	display: block;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">시료관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">시료 관리 -</li>
+						<li class="card_inner_list">대량 등록</li>
+					</ul>
+					<div class="print_box">
+						<button class="common_btn1">변경 이력</button>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<div class="card_sect_footer">
+							<input type="checkbox" id="task_unrelated"
+								class="common_checkBox task_unrelated_check"> <label
+								for="task_unrelated"
+								class="common_check_label task_unrelated_label"></label> <span>과제
+								비연계</span>
+						</div>
+						<form action="" class="harvesting_form common_form">
+							<div class="form_box task_box select_box">
+								<label for="" class="file_title">과제 정보</label> <select name="report_id"
+									id="report_id" class="task_select common_select">
+									<option value="-1" hidden>과제 정보 선택</option>
+									<th:block th:each="item : ${reportList.list}">
+										<option th:value="${item.report_id}" ><span th:text="${item.tot_rsch_start_year}+' - ('+${item.prj_dtl_no}+') '+${item.prj_dtl_nm}"></span></option>
+									</th:block>
+								</select>
+							</div>
+							<div class="form_box explane_box">
+								<label for="" class="file_title">원과제 설명</label>
+								<textarea name="report_comment" id="report_comment" class=""></textarea>
+							</div>
+						</form>
+
+					</div>
+				</div>
+
+
+				<!-- <div class="card">
+					<div class="card_cont_box">
+						<form action="" class="new_enroll_form common_form">
+							<div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input
+										type="file" name="excelFile" id="file_select1"
+										class="file_select_input" data-none="false"
+										accept=".xlsx, .xls"><label for="file_select1"
+										class="form_btn common_btn1">파일 선택</label>
+								</div>
+								<span class="ex_text"><span class="star">* </span> 엑셀,
+									pdf, hwp 파일만 등록 가능합니다</span>
+							</div>
+						</form>
+					</div>
+				</div> -->
+
+
+				<div class="card save_table_card_">
+					<div class="card_cont_box">
+						<div id="grid"></div>
+						<div class="card_addRe_footer">
+							<button type="button" class="add_row_btn common_btn1">추가</button>
+							<button type="button" class="delete_btn common_btn1">
+								삭제</button>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<button type="button" class="save_btn common_btn1">등록</button>
+				</div>
+			</section>
+			
+			<!-- 품종 모달 -->
+			<div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">품종/유전정보</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<p class="modal_form_title">품종/유전정보</p>
+							<div class="raido_box_wrap">
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_kind" checked> <label
+										for="_kind"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_genetic"> <label
+										for="_genetic"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_etc"> <label
+										for="_etc"></label>
+								</div>
+							</div>
+						</div>
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">작목</label> <select
+								class="common_select" id="genetic_main" onchange="onChangeGenetic(event);">
+								<option value="-1" hidden>작목 선택</option>
+								<th:block th:each=" genetic : ${geneticList}">
+									<option th:value="${genetic.genetic_id}"
+										th:text="${genetic.genetic}"></option>
+								</th:block>
+								<option value="-2" depth="1">신규등록</option>
+							</select>
+						</div>
+						
+						<div class="form_box modal_input_box off new_input_form_1" style="width: 100%;
+																						    padding-right: 0px;
+																						    flex-direction: row;
+																						    align-items: center;">
+							<label class="modal_form_title">신규 항목</label> <input
+								type="text" id="new_text_1">
+						</div>
+						
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title" id="genetic_name">품종</label> <select class="common_select"
+								id="genetic_sub">
+								<option value="-1" id="selectBox_type_text" hidden>품종 선택</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off new_input_form_2">
+							<label class="modal_form_title">신규 항목</label> <input
+								type="text" id="new_text_2">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn">사용</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+
+	<script src="/toastGrid//tui-pagination.js"></script>
+	<script src="/toastGrid//tui-grid.min.js"></script>
+	
+	<script type="text/javascript" th:inline="javascript">
+		
+		const reportList = [[${reportList}]];
+		const userList = [[${userList}]];
+		const eachList = [[${eachList}]];
+		const placeList = [[${placeList}]];
+		
+		let columndata = [{
+					header : '발송인 정보',
+					name : 'seed_sender',
+					editor : 'text',
+					width : 120
+				}, {
+					header : '발송 일자',
+					name : 'send_date',
+					editor : 'text',
+					width : 150
+				}]
+		
+		// 수취인 셀렉 박스
+		let user = {
+						header : '수취인 정보',
+						name : 'seed_receiver',
+						editor: {
+						      type: 'select',
+						      options: {
+						        listItems: [
+						          
+						        ]
+						      }
+						    },     
+						width : 150
+						} 
+		userList.forEach((item)=>{
+			user.editor.options.listItems.push({ text: item.name , value: item.name })
+		})
+		
+		columndata.push(user)
+		
+		columndata.push({
+			header : '수취 날짜',
+			name : 'receive_date',
+			editor : 'text',
+			width : 150
+		}, {
+			header : '타입/품종/유전정보 선택',
+			name : 'genetic',
+			editor : 'text',
+			width : 200
+		}, {
+			header : '시료량',
+			name : 'seed_amount',
+			editor : 'text',
+			width : 120
+		})
+		
+		// 시료량 단위 셀렉 박스
+		let each = {
+						header : '시료량 단위',
+						name : 'each_id',
+						editor: {
+						      type: 'select',
+						      options: {
+						        listItems: [
+						          
+						        ]
+						      }
+						    },     
+						width : 150
+						} 
+		eachList.forEach((item)=>{
+			each.editor.options.listItems.push({ text: item.each , value: item.each })
+		})
+		
+		//  시료 형태 셀렉 박스
+		let seedType = {
+						header : '시료 형태',
+						name : 'seed_type',
+						editor: {
+						      type: 'select',
+						      options: {
+						        listItems: [
+						          
+						        ]
+						      }
+						    },     
+						width : 150
+						}
+		
+		seedType.editor.options.listItems.push({ text: "원재료(row)" , value: "원재료(row)" },
+												{ text: "정선(clean)" , value: "정선(clean)" },
+												{ text: "분말(powder)" , value: "분말(powder)" },
+												{ text: "액상(liquid)" , value: "액상(liquid)" },
+												{ text: "기타(etc)" , value: "기타(etc)" })
+	
+		// 장소 셀렉 박스
+		let place = {
+						header : '저장 장소',
+						name : 'place_id',
+						editor: {
+						      type: 'select',
+						      options: {
+						        listItems: [
+						          
+						        ]
+						      }
+						    },     
+						width : 150
+						} 
+		placeList.forEach((item)=>{
+			place.editor.options.listItems.push({ text: item.place_name , value: item.place_name })
+		})
+		
+		columndata.push(each)
+		columndata.push(seedType)
+		columndata.push(place)
+		
+		columndata.push({
+			header : '담당자',
+			name : 'seed_manager',
+			editor : 'text',
+			width : 120
+		}, {
+			header : 'Comment',
+			name : 'seed_comment',
+			editor : 'text',
+			width : 200
+		} )
+		
+	</script>
+	
+	<script>
+		// toast- grid
+		let rowdata = [ {}, {}, {}, {}, {} ];
+		let checkRow = [];
+		let rowLength;
+	
+		// row key
+		let rowKey = 4;
+		
+		const Grid = tui.Grid;
+
+		let	instance = new Grid({
+				el : document.getElementById('grid'), // Container element
+				minBodyHeight : 5,
+				scrollX : true,
+				scrollY : false,
+				rowHeaders : [ 'rowNum' ],
+				pageOptions : {
+					perPage : 5
+				},
+				data : rowdata,
+				columns : columndata
+			});
+			//instance.resetData(newData); // Call API of instance's public method
+			Grid.applyTheme('clean'); // Call API of static method
+
+		instance.on('check' , (ev) =>{
+			checkRow.push(`${ev.rowKey}`);
+		})
+		
+		instance.on('uncheck' , (ev) =>{
+			const check = checkRow.indexOf(`${ev.rowKey}`);
+			checkRow.splice(check , 1);
+		})
+		
+		// 로우 추가
+		$('.add_row_btn').on('click' , function(){
+
+			instance.appendRow([{}], {
+			  extendPrevRowSpan: true,
+			  focus: true
+			});
+			
+			rowKey++;
+		})
+
+		// 로우 삭제
+		$('.delete_btn').on('click', function() {
+			
+			instance.removeRow(rowKey);
+			rowKey--;
+			
+		})
+
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+
+			let chk = $('#task_unrelated').is(':checked');
+
+			if (!chk) {
+
+				console.log($('#report_id').val());
+				let selected = $('#report_id').val();
+				if (selected == -1) {
+					alert("과제를 선택해주세요");
+					return;
+				}
+			}
+
+			return true;
+		}
+
+		$('.list_btn').on('click', function() {
+			location.href = `/seed/seed_list`;
+		})
+
+		// 등록 
+		$('.save_btn').on('click', function() {
+			
+			if(!checkForm()){
+				return;
+			}
+			
+			const seedList = [];
+
+			const rowLength = $('.tui-grid-cell-row-header').length - 1;
+
+			// 컬럼 헤드
+			for (let i = 0; i < rowLength; i++) {
+
+				let row = instance.getRow(i);
+				
+				if(row.seed_sender == null){
+					alert(`${i+1}번 발송인 정보를 입력하세요`)
+					return;
+				}
+				
+				if(row.send_date == null){
+					alert(`${i+1}번 발송일자를 입력하세요`)
+					return;
+				}
+				
+				if(row.seed_receiver == null){
+					
+					alert(`${i+1}번 수취인 정보를 입력하세요`)
+					return;
+					
+				}else{
+					let check = true;
+					userList.forEach((item) => {
+						if(row.seed_receiver == item.name){
+							
+							row.seed_receiver = item.account;
+							check = false;
+							return false;
+						}
+					})
+					
+					if(check){
+						alert(`${i+1}번 수취인 정보를 확인하세요`)
+						return;
+					}
+				}
+				
+				if(row.receive_date == null){
+					alert(`${i+1}번 수취일자를 입력하세요`)
+					return;
+				}
+				
+				if(row.genetic == null){
+					alert(`${i+1}번 타입/품종/유전정보를 입력하세요`)
+					return;
+				}
+				
+				if(row.seed_amount == null){
+					alert(`${i+1}번 시료량을 입력하세요`)
+					return;
+				}else{
+					if(isNaN(row.seed_amount)){
+						alert(`${i+1}번 시료량의 숫자를 입력하세요`)
+						return;
+					}
+				}
+				
+				if(row.each_id == null){
+					
+					alert(`${i+1}번 시료 단위를 입력하세요`)
+					return;
+				}else{
+					let check = true;
+					eachList.forEach((item) => {
+						if(row.each_id == item.each){
+							
+							row.each_id = item.each_id;
+							check = false;
+							return false;
+						}
+					})
+					
+					if(check){
+						alert(`${i+1}번 시료 단위를 확인하세요`)
+						return;
+						
+					}
+				}
+				
+				if(row.seed_type == null){
+					alert(`${i+1}번 시료 형태를 입력하세요`)
+					return;
+				}else{
+					
+					switch (row.seed_type) {
+						case "원재료(row)": row.seed_type = "1"
+							break;
+						case "정선(clean)": row.seed_type = "2"
+							break;
+						case "분말(powder)": row.seed_type = "3"
+							break;
+						case "액상(liquid)": row.seed_type = "1"
+							break;
+						case "기타(etc)": row.seed_type = "5"
+							break;
+						default:
+							alert(`${i+1}번 시료 형태를 확인하세요`)
+							return;
+					}
+					
+				}
+				
+				if(row.place_id == null){
+					alert(`${i+1}번 저장 장소를 입력하세요`)
+					return;
+				}else{
+					let check = true;
+					placeList.forEach((item) => {
+						if(row.place_id == item.place_name){
+							
+							row.place_id = item.place_id;
+							check = false;
+							return false;
+						}
+					})
+					
+					if(check){
+						alert(`${i+1}번 저장 장소를 확인하세요`)
+						return;
+					}
+				}
+				
+				seedList.push(row);
+			}
+			
+			let chk = $('#task_unrelated').is(':checked');
+			let report_id = $('#report_id').val();
+			let seed_report = $('#seed_report').val();
+			let report_comment = $('#report_comment').val();
+			
+			$.ajax({
+				type : "POST",
+				url : "/seed/seed_many_add",
+				data : JSON.stringify({
+					"report_chk" : chk,
+					"report_id" : report_id,
+					"seed_report" : seed_report,
+					"seedList" : seedList,
+					"report_comment" : report_comment
+				}),
+				contentType : 'application/json; charset=utf-8',
+				success : function(data) {
+
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("시료가 등록되었습니다");
+						location.href = "/seed/seed_list";
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			});
+		})
+
+	</script>
+</body>
+</html>

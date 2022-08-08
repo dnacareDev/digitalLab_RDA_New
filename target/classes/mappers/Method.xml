@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.MethodMapper">
+
+   <resultMap id="PlanMethodMap" type="PlanMethod">
+        <id property="plan_method_id" column="plan_method_id" />
+        <result property="plan_id" column="plan_id" />
+        <result property="method_cycle" column="method_cycle" />
+        <result property="method_comment" column="method_comment" />
+       <collection property="methodList" column="method_id" javaType="java.util.ArrayList" ofType="Method">
+            <id property="method_id" column="method_id" />
+            <result property="account" column="account" />
+            <result property="user_name" column="name" />
+            <result property="method_code" column="method_code" />
+            <result property="division_id" column="division_id" />
+       </collection>
+   </resultMap>
+   
+   	 <insert id="registMethod" parameterType="Method">
+        INSERT INTO method(
+            method_id,
+            account,
+            method_code,
+            method_contents,
+            method_theory,
+            method_calculation,
+            method_reference,
+            method_result,
+            method_stage,
+           	method_share,
+           	method_status,
+            division_id,
+            USEE_AT_CODE,
+            create_date
+        )
+        VALUES(
+            #{method_id},
+            #{account},
+            #{method_code},
+            #{method_contents , jdbcType=VARCHAR},
+            #{method_theory , jdbcType=VARCHAR},
+            #{method_calculation , jdbcType=VARCHAR},
+            #{method_reference , jdbcType=VARCHAR},
+            #{method_result},
+            #{method_stage},
+            #{method_share},
+            #{method_status},
+            #{division_id},
+            #{USEE_AT_CODE},
+            SYSDATE
+        )
+    </insert>
+   
+    <insert id="registMethodEasy" parameterType="Method">
+        INSERT INTO method(
+            method_id,
+            account,
+            method_code,
+            method_contents,
+            method_stage,
+            division_id,
+            USEE_AT_CODE,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            create_date,
+            method_share
+        )
+        VALUES(
+            #{method_id},
+            #{account},
+            #{method_code},
+            #{method_contents},
+            #{method_stage},
+            #{division_id},
+            #{USEE_AT_CODE},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            SYSDATE,
+            #{method_share}
+        )
+    </insert>
+    
+     <!-- 메서드 일반 수정 -->
+    <update id="updateMethod" parameterType="Method">
+    	UPDATE
+    	method
+    	SET
+        method_contents = #{method_contents , jdbcType=VARCHAR},
+        method_theory = #{method_theory , jdbcType=VARCHAR},
+        method_calculation = #{method_calculation , jdbcType=VARCHAR},
+        method_reference = #{method_reference , jdbcType=VARCHAR},
+        method_result = #{method_result , jdbcType=VARCHAR},
+        method_stage = #{method_stage},
+        method_status = #{method_status},
+        division_id = #{division_id},
+        method_share = #{method_share},
+    	modify_date = SYSDATE
+    	WHERE method_id = #{method_id}
+    </update>
+    
+    <!-- 메서드 간편 수정 -->
+    <update id="updateMethodEasy" parameterType="Method">
+    	UPDATE
+    	method
+    	SET
+    	method_contents = #{method_contents},
+    	method_stage = #{method_stage},
+    	division_id = #{division_id},
+    	<if test="ATCH_FILE_NM != null">
+			<if test="ATCH_FILE_NM != ''">
+    			ATCH_FILE_NM = #{ATCH_FILE_NM},
+    			ORIG_FILE_NM = #{ORIG_FILE_NM},
+    		</if>
+		</if>
+        method_share = #{method_share},
+        modify_date = SYSDATE
+    	WHERE method_id = #{method_id}
+    </update>
+    
+    <select id="selectMethodList" resultType="Method">
+    	SELECT TO_CHAR(m.create_date , 'YYYY-MM-DD hh24:mm') as create_date , m.* , u.name , d.division , (SELECT COUNT(*) FROM step WHERE method_id = m.method_id) as stepNo
+    	FROM method m LEFT OUTER JOIN users u
+    		ON m.account = u.account
+    		LEFT OUTER JOIN division d
+    		ON m.division_id = d.division_id
+    	<where>
+    		<if test="@com.digitalLab.Util.MybatisCheck@notEmpty(searchKeyword)">
+        	    AND m.method_name LIKE '%'||#{searchKeyword}||'%'
+       	 	</if>
+       	 		<if test="share_type == 1">
+       	 			AND m.method_share = 1
+       	 			<if test="authority != 'ADMIN'">
+       	 				<if test="authority != 'MANAGER' ">
+	       	 			AND m.method_code LIKE '%'||#{user_code}||'%'
+	       	 			</if>
+	       	 		</if>
+       	 		</if>
+       	 		
+       	 		<if test="share_type == 2">
+	       	 		AND m.method_share = 2
+       	 		    <if test="authority != 'ADMIN'">
+       	 		    	<if test="authority != 'MANAGER' ">
+    	   	 			AND m.account = #{account}
+    	   	 			</if>
+    	   	 		</if>
+       	 		</if>
+	       	 		
+       	 	<if test="type == 'analysis' ">
+       	 		AND USEE_AT_CODE = 0
+       	 		<if test="authority != 'ADMIN'">
+       	 			<if test="authority != 'MANAGER' ">
+	       	 		AND ((m.method_share = 1 AND m.method_code LIKE '%'||#{user_code}||'%')
+	       	 			OR (m.method_share = 2 AND m.account = #{account}))
+	       	 		</if>	
+       	 		</if>
+       	 	</if>
+       	 	
+       	 	AND status = 1
+       	 </where>
+       	 ORDER BY m.method_id DESC
+    </select>
+    
+    <select id="getSeqId" resultType="int">
+        SELECT method_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (
+                 SELECT method_code
+                 FROM method
+                 WHERE method_code LIKE '%'||#{group_code}||'%'
+                 ORDER BY method_id DESC
+             )
+        WHERE ROWNUM = 1
+    </select>
+    
+    <update id="deleteMethod" parameterType="int">
+    	UPDATE
+    	method
+    	SET
+    	status = -1
+    	WHERE method_id = #{method_id}
+    </update>
+
+    <select id="selectMethodByDivision" parameterType="int" resultType="Method">
+        SELECT * FROM METHOD
+        WHERE division_id = #{division_id}
+    </select>
+    
+    <select id="selectMethodById" parameterType="int" resultType="Method">
+        SELECT me.*,
+               (SELECT count(*) FROM method me
+                LEFT JOIN plan_method plme ON me.method_id = plme.method_id
+                WHERE me.method_id = #{method_id}) as method_join_count
+        FROM METHOD me
+        WHERE me.method_id = #{method_id}
+    </select>
+</mapper>

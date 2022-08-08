@@ -1,0 +1,42 @@
+<div class="quick_menu" style="z-index: 99999;">
+    <h2 class="quick_menu_title">QUICK LINK</h2>
+    <ul class="quick_list_box">
+        <li class="quick_List">
+            <a href="#" id="analysisNote">전자연구노트</a>
+        </li>
+        <li class="quick_List">
+            <a href="#" id="smapleData">연구데이터<br>리포지터리</a>
+        </li>
+    </ul>
+</div>
+
+<script>
+	
+	$('#analysisNote').on('click' , function(){
+		ariaEncoding("analysis");
+	})
+	
+	$('#smapleData').on('click' , function(){
+		ariaEncoding("sample");
+	})
+	
+	// 아리아 인코딩 후 이동
+	function ariaEncoding(type){
+		
+		$.ajax({
+			url : "api/ariaEncoding",
+			type : "GET",
+			success : function(data){
+				
+				if(type == "analysis"){
+					
+					location.href = `http://10.30.220.172/ssoLogin?u=${data}`;
+				}else if(type == "sample"){
+					
+					location.href = `http://10.30.220.189/narda/auth/ssoLogin?u=${data}`;
+				}
+				
+			}
+		})
+	}
+</script>

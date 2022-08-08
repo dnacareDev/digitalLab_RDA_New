@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.UserMapper">
+    
+    <!--  유저 리스트 -->
+	<select id="usersList" resultType="Users">
+		SELECT
+		TO_CHAR(u.createdat , 'YYYY-MM-DD hh:mm') as createdat , TO_CHAR(u.updateDat , 'YYYY-MM-DD hh:mm') as updateDat , NVL(u.position , '-') as position , u.*
+		FROM users u
+		<where>
+			<if test="authority != null and authority != ''">
+				<if test="authority != 'ADMIN'">
+					<if test="authority != 'MANAGER' ">
+					AND u.groupcode = #{groupCode}
+					</if>
+				</if>
+			</if>
+		</where>
+		ORDER BY u.createdat DESC
+	</select>
+	
+	<!-- 유저 상세보기 -->
+	<select id="getUser" resultType="Users">
+		SELECT *
+		FROM users
+		WHERE account = #{account}
+	</select>
+	
+	<!-- 유저 등록 -->
+	<insert id="addUser" parameterType="Users">
+		INSERT
+		INTO users
+		(account,
+		groupcode,
+		groupname,
+		name,
+		positioncode,
+		position,
+		email,
+		mobilephone,
+		title,
+		titlecode,
+		usertype,
+		digitalcode,
+		authority,
+		createdat
+		)
+		VALUES
+		(#{account},
+		#{groupCode , jdbcType=VARCHAR},
+		#{groupName , jdbcType=VARCHAR},
+		#{name , jdbcType=VARCHAR},
+		#{positionCode , jdbcType=VARCHAR},
+		#{position , jdbcType=VARCHAR},
+		#{email , jdbcType=VARCHAR},
+		#{mobilePhone , jdbcType=VARCHAR},
+		#{title , jdbcType=VARCHAR},
+		#{titleCode , jdbcType=VARCHAR},
+		#{userType , jdbcType=VARCHAR},
+		#{digitalCode , jdbcType=DATE},
+		'RESEARCHER',
+		SYSDATE
+		)
+	</insert>
+	
+	<!-- 유저 업데이트 -->
+	<update id="updateUser" parameterType="Users">
+		UPDATE
+		users
+		SET
+		groupcode = #{groupCode , jdbcType=VARCHAR},
+		groupname = #{groupName , jdbcType=VARCHAR},
+		name = #{name , jdbcType=VARCHAR},
+		positioncode = #{positionCode , jdbcType=VARCHAR},
+		email = #{email , jdbcType=VARCHAR},
+		mobilephone = #{mobilePhone , jdbcType=VARCHAR},
+		title = #{title , jdbcType=VARCHAR},
+		titlecode = #{titleCode , jdbcType=VARCHAR},
+		usertype = #{userType , jdbcType=VARCHAR},
+		digitalcode = #{digitalCode , jdbcType=DATE},
+		updatedat = SYSDATE
+		WHERE account = #{account}
+	</update>
+	
+	
+	<!-- 홈 상태창 변경 -->
+	<update id="updateHomeCheck" >
+		UPDATE
+		users
+		SET
+			<if test="type == 1 " >
+				analysis_check = #{user.analysis_check}
+			</if >
+			<if test="type == 2 " >
+				method_check = #{user.method_check}
+			</if >
+			<if test="type == 3 " >
+				storage_check = #{user.storage_check}
+			</if >
+			<if test="type == 4 " >
+				researcher_check = #{user.researcher_check}
+			</if >
+		WHERE account = #{user.account}
+	</update> 
+	
+	<!-- 유저 권한 변경 -->
+	<update id="authorityModify" parameterType="Users">
+		UPDATE
+		users
+		SET
+		authority = #{authority}
+		WHERE account = #{account}
+	</update>
+	
+	<!-- 유저 첫 로그인시 카운트 -->
+	<insert id="insertLoginCount" parameterType="UserConnect">
+		INSERT
+		INTO
+		user_connect
+		(
+		user_connect_id,
+		account,
+		connect_date,
+		connect_count
+		)
+		VALUES
+		(
+		#{user_connect_id},
+		#{account},
+		SYSDATE,
+		1
+		)
+	</insert>
+	
+	<!-- 유저 로그인 카운트 -->
+	<update id="updateLoginCount" parameterType="String">
+		UPDATE
+		user_connect
+		SET
+		connect_count = (SELECT 
+						connect_count + 1
+						FROM user_connect 
+						WHERE account = #{account}
+							AND TO_CHAR(connect_date, 'yyyy-mm-dd') = (SELECT 
+												TO_CHAR(SYSDATE , 'yyyy-mm-dd') 
+												FROM DUAL))	
+		WHERE account = #{account}
+			AND TO_CHAR(connect_date, 'yyyy-mm-dd') = (SELECT 
+								TO_CHAR(SYSDATE , 'yyyy-mm-dd') 
+								FROM DUAL)
+	</update>
+	
+	<!-- 유저 로그인 리스트 -->
+	<select id="userLoginList" resultType="UserConnect">
+		SELECT
+		TO_CHAR(usr_c.connect_date , 'yyyy-mm-dd') as connect_date , usr_c.* , u.name
+		FROM user_connect usr_c JOIN users u
+			ON usr_c.account = u.account
+		<where>  
+			<if test="user.authority != 'ADMIN'">
+				<if test="user.authority != 'MANAGER' ">
+				u.groupcode = #{user.groupCode}
+				</if>
+			</if>
+			AND TO_CHAR(connect_date, 'yyyy-mm-dd') = #{startDate}
+		</where>
+	</select>
+	
+	<select id="userAnalysisStatus" parameterType="Users" resultType="UserConnect">
+		SELECT u.account , u.name , 
+			(SELECT COUNT(*) FROM users u1 JOIN plan p1 ON u1.account = p1.account WHERE p1.plan_status = 1 AND u1.account = u.account) AS status1 ,
+			(SELECT COUNT(*) FROM users u2 JOIN plan p2 ON u2.account = p2.account WHERE p2.plan_status = 2 AND u2.account = u.account) AS status2 ,
+			(SELECT COUNT(*) FROM users u3 JOIN plan p3 ON u3.account = p3.account WHERE p3.plan_status = 3 AND u3.account = u.account) AS status3 ,
+			(SELECT COUNT(*) FROM users u4 JOIN plan p4 ON u4.account = p4.account WHERE p4.plan_status = 4 AND u4.account = u.account) AS status4
+		FROM USERS u
+		<where>
+			<if test="user.authority != 'ADMIN'">
+				<if test="user.authority != 'MANAGER' ">
+				AND u.groupcode = #{user.groupCode}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 로그인 유무 체크 -->
+	<select id="userLoginCheck" parameterType="String" resultType="UserConnect">
+		SELECT
+		*
+		FROM user_connect
+		WHERE account = #{account}
+			AND TO_CHAR(connect_date, 'yyyy-mm-dd') = (SELECT 
+								TO_CHAR(SYSDATE , 'yyyy-mm-dd') 
+								FROM DUAL) 
+	</select>
+	
+	<!-- 유저 로그인 시퀀스 -->
+	<select id="getLoginSeqId" resultType="int">
+		SELECT user_connect_seq_id.NEXTVAL FROM dual;
+	</select>
+	
+	<!-- 옹달샘 테스트 -->
+	<select id="selectUserByAccount" resultType="Users">
+		SELECT *
+		FROM rdauser_dic
+		WHERE account = #{account}
+	</select>
+	
+	<select id="totalCount" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM users
+		<where>
+			<if test="authority != null and authority != ''">
+				<if test="authority != 'ADMIN'">
+					<if test="authority != 'MANAGER' ">
+					AND groupcode = #{groupCode}
+					</if>
+				</if>
+			</if>
+		</where>
+		ORDER BY createdat DESC
+	</select>
+	
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.PlaceMapper">
+
+	<!-- 저장소 리스트 -->
+	<select id="getPlaceList" resultType="Place">
+		SELECT
+		TO_CHAR(p.create_date , 'YYYY-MM-DD hh24:mm' ) as create_date, p.*
+		FROM place p
+		WHERE status = 1
+			<if test="authority != 'ADMIN'">
+				<if test="authority != 'MANAGER' ">
+				AND place_code LIKE '%'||#{groupCode}||'%'
+				</if>
+			</if>
+		ORDER BY p.create_date DESC
+	</select>
+
+	<!-- 저장소 상세보기 -->
+	<select id="getPlace" resultType="Place">
+		SELECT pl.*,
+		       (SELECT count(*) FROM place pl
+			   	LEFT JOIN reagent r on pl.place_id = r.place_id
+			   	LEFT JOIN seed s on pl.place_id = s.place_id
+			  	WHERE pl.place_id = #{place_id}) as place_join_count
+		FROM place pl
+		WHERE place_id = #{place_id}
+	</select>
+
+	<!-- 저장소 등록 -->
+	<insert id="insertPlace" parameterType="Place">
+		INSERT
+		INTO place
+		(place_id , place_name , place_code , place_temp ,
+		place_humidty , create_date , account)
+		VALUES (#{place_id} , #{place_name}
+		, #{place_code} , #{place_temp} , #{place_humidty} , sysdate , #{account})
+	</insert>
+
+	<!-- 저장소 수정 -->
+	<update id="modifyPlace" parameterType="Place">
+		UPDATE
+		place
+		SET
+		place_name = #{place_name},
+		place_temp = #{place_temp},
+		place_humidty = #{place_humidty},
+		modify_date = SYSDATE
+		WHERE place_id = #{place_id}
+	</update> 
+	
+	<update id="deletePlace" parameterType="int">
+		UPDATE
+		place
+		SET
+		status = -1
+		WHERE place_id = #{place_id}
+	</update>
+
+	<!-- 저장소 아이디 -->
+	<select id="getSeqId" resultType="int">
+		SELECT place_seq_id.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<!-- 일련번호 가져오기 -->
+	<select id="getCode" resultType="String">
+		SELECT *	
+		FROM (SELECT place_code
+				FROM place
+				WHERE place_code LIKE '%'||#{group_code}||'%'
+					AND status = 1
+				ORDER BY create_date DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+</mapper>

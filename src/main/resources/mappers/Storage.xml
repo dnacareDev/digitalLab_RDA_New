@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.StorageMapper">
+
+	<!-- 저장고 온습도 등록-->
+	<insert id="insertStorage" parameterType="Storage">
+		INSERT INTO storage(
+		storage_id,
+		storage_code,
+		place_id,
+		storage_comments,
+		storage_file,
+		storage_original_file,
+		storage_use,
+		create_date)
+		VALUES (
+		#{storage_id} ,
+		#{storage_code},
+		#{place_id},
+		#{storage_comments},
+		#{storage_file},
+		#{storage_original_file},
+		#{storage_use},
+		SYSDATE)
+	</insert>
+	
+	<!-- 저장고 온습도 수정 -->
+	<update id="modifyStorage" parameterType="Storage">
+		UPDATE 
+		storage
+		SET
+		place_id = #{place_id},
+		storage_comments = #{storage_comments},
+		<if test="storage_file != null">
+			<if test="storage_file != ''">
+				storage_file = #{storage_file},
+				storage_original_file = #{storage_original_file},
+			</if>
+		</if>
+		storage_use = #{storage_use},
+		modify_date = SYSDATE
+		WHERE storage_id = #{storage_id}
+	</update>
+	
+	<delete id="deleteStorage" parameterType="int">  
+		UPDATE
+		storage
+		SET
+		status = -1
+		WHERE storage_id = #{storage_id}
+	</delete>
+	
+	<!-- 저장고 온습도 리스트 -->
+	<select id="selectStorageList" resultType="Storage">
+		SELECT
+		NVL(s.storage_comments , '-') as storage_comments , s.* , p.place_name
+		FROM storage s JOIN place p
+			ON s.place_id = p.place_id
+		WHERE s.status = 1
+			<if test="authority != 'ADMIN'">
+				<if test="authority != 'MANAGER' ">
+				AND s.storage_code LIKE '%'||#{groupCode}||'%'
+				</if>
+			</if>
+		ORDER BY storage_id DESC;
+	</select>
+	
+	<!-- 저장고 온습도 상세보기 -->
+	<select id="getStorageById" resultType="Storage">
+		SELECT
+		s.* , p.account
+		FROM storage s JOIN place p
+			ON s.place_id = p.place_id
+		WHERE s.storage_id = #{storage_id}
+	</select>
+
+	<!-- 저장고 온습도 아이디 -->
+	<select id="getSeqId" resultType="int">
+		SELECT storage_seq_id.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<!-- 일련번호 가져오기 -->
+	<select id="getCode" resultType="String">
+		SELECT *	
+		FROM (SELECT storage_code
+				FROM storage
+				WHERE storage_code LIKE '%'||#{group_code}||'%'
+				ORDER BY storage_id DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<select id="getStorageCodeByPlaceID" resultType="String">
+		SELECT STORAGE_CODE
+		FROM (SELECT * FROM STORAGE ORDER BY STORAGE_ID DESC)
+		WHERE PLACE_ID = #{place_id} AND ROWNUM = 1
+	</select>
+
+</mapper>

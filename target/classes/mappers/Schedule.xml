@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.ScheduleMapper">
+	<resultMap id="scheduleMap" type="Schedule">
+		<id property="sch_id" column="sch_id"/>
+		<result property="plan_id" column="plan_id" />
+		<result property="start_date" column="start_date" />
+		<result property="end_date" column="end_date" />
+		<result property="plan_type" column="plan_type" />
+		<result property="sch_contents" column="sch_contents"/>
+		<result property="plate_index" column="plate_index"/>
+		<collection property="managerList" column="schedule_manger_id" ofType="schedule_manager" javaType="java.util.ArrayList" >
+			<id property="schedule_manger_id" column="schedule_manger_id" />
+			<result property="account" column="account"/>
+			<result property="sch_id" column="sch_id"/>
+			<result property="user_name" column="name"/>
+			<result property="mgr_type" column="mgr_type" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="popupScheduleMap" type="Schedule">
+		<id property="sch_id" column="sch_id"/>
+		<result property="plan_id" column="plan_id" />
+		<result property="plan_code" column="plan_code" />
+		<result property="start_date" column="start_date" />
+		<result property="end_date" column="end_date" />
+		<result property="plan_type" column="plan_type" />
+		<result property="sch_type" column="sch_type" />
+		<result property="sch_contents" column="sch_contents"/>
+		<result property="sch_title" column="sch_title"/>
+		<result property="plate_index" column="plate_index"/>
+		<result property="division" column="division" />
+		<result property="division_parents" column="division_parents" />
+		<result property="easy_division" column="easy_division" />
+		<result property="easy_division_parents" column="easy_division_parents" />
+		<result property="name" column="name" />
+		<collection property="managerList" column="schedule_manger_id" ofType="schedule_manager" javaType="java.util.ArrayList" >
+			<id property="schedule_manger_id" column="schedule_manger_id" />
+			<result property="account" column="account"/>
+			<result property="sch_id" column="sch_id"/>
+			<result property="user_name" column="name"/>
+			<result property="mgr_type" column="mgr_type" />
+		</collection>
+		<collection property="seedList" column="seed_id" ofType="Seed" javaType="java.util.ArrayList" >
+            <id property="seed_id" column="seed_id" />
+            <result property="genetic_depth1" column="genetic_depth_1" />
+            <result property="genetic_depth2" column="genetic_depth_2" />
+            <result property="report_name" column="report_name"/>
+            <result property="user_report_id" column="seed_report_id"/>
+            <result property="report_code" column="seed_report_code" />
+            <result property="seed_amount" column="seed_amount" />
+            <result property="seed_code" column="seed_code" />
+            <result property="each" column="each" />
+            <result property="prj_dtl_no" column="prj_dtl_no" />
+            <result property="prj_nm" column="prj_nm" />
+        </collection>
+	</resultMap>
+
+	<resultMap id="analysisScheduleMap" type="AnalysisShedule">
+		<id property="plan_id" column="plan_id" />
+		<id property="plan_code" column="plan_code" />
+		<id property="start_date" column="start_date" />
+		<id property="end_date" column="end_date" />
+		<id property="analysis_item" column="analysis_item" />
+		<collection property="managerList" column="schedule_manger_id" ofType="schedule_manager" javaType="java.util.ArrayList" >
+			<id property="schedule_manger_id" column="schedule_manger_id" />
+			<result property="account" column="account"/>
+			<result property="sch_id" column="sch_id"/>
+			<result property="user_name" column="name"/>
+			<result property="mgr_type" column="mgr_type" />
+		</collection>
+	</resultMap>
+	
+	<select id="SelectScheduleId" resultType="int">
+		SELECT SCHEDULE_SEQ_ID.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="registMonthSchedule" parameterType="Schedule">
+		INSERT INTO
+			schedule
+		(
+			SCH_ID,
+			START_DATE,
+			END_DATE,
+			SCH_TITLE,
+			SCH_CONTENTS,
+			SCH_TYPE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			plan_supervisor
+		)
+		VALUES(
+				  #{sch_id},
+				  #{start_date},
+				  #{end_date},
+				  #{sch_title},
+				  #{sch_contents},
+				  1,
+				  SYSDATE,
+				  SYSDATE,
+				  #{plan_supervisor , jdbcType=VARCHAR}
+			  )
+	</insert>
+
+	<insert id="registScheduleManager" parameterType="schedule_manager">
+		INSERT INTO
+		schedule_manager
+		(
+		SCHEDULE_MANAGER_ID,
+		sch_id,
+		account,
+		mgr_type
+		)
+		VALUES
+		(
+		SCHEDULE_MANGER_SEQ_ID.nextval,
+		#{sch_id},
+		#{account},
+		#{mgr_type}
+		)
+	</insert>
+
+<!--	<insert id="InsertMonthSchedule" parameterType="Schedule">-->
+<!--		INSERT ALL-->
+<!--		INTO-->
+<!--		schedule-->
+<!--		(-->
+<!--		 SCH_ID,-->
+<!--		 START_DATE,-->
+<!--		 END_DATE,-->
+<!--		 SCH_TITLE,-->
+<!--		 SCH_CONTENTS,-->
+<!--		 SCH_TYPE,-->
+<!--		 CREATE_DATE,-->
+<!--		 MODIFY_DATE,-->
+<!--		 plan_supervisor-->
+<!--		)-->
+<!--		VALUES(-->
+<!--		 #{sch_id},-->
+<!--		 #{start_date},-->
+<!--		 #{end_date},-->
+<!--		 #{sch_title},-->
+<!--		 #{sch_contents},-->
+<!--		 3,-->
+<!--		 SYSDATE,-->
+<!--		 SYSDATE,-->
+<!--		 #{plan_supervisor , jdbcType=VARCHAR}-->
+<!--		)-->
+<!--		<foreach collection="managerList" item="sch_manager" index="index" open="" separator=" " close="">-->
+<!--		INTO-->
+<!--		schedule_manager-->
+<!--		(-->
+<!--		SCHEDULE_MANAGER_ID,-->
+<!--		sch_id,-->
+<!--		account,-->
+<!--		mgr_type-->
+<!--		)-->
+<!--		VALUES-->
+<!--		(-->
+<!--		get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--		#{sch_id},-->
+<!--		#{sch_manager.account},-->
+<!--		#{sch_manager.mgr_type}-->
+<!--		)-->
+<!--		</foreach>-->
+<!--		select 1 from dual-->
+<!--	</insert>-->
+	
+	<!-- 연구노트 추가 -->
+<!--	<insert id="InserSamplePlanSchedule" parameterType="Schedule">-->
+<!--		INSERT ALL-->
+<!--		INTO-->
+<!--		schedule-->
+<!--		(-->
+<!--		 SCH_ID,-->
+<!--		 plan_id,-->
+<!--		 plan_type,-->
+<!--		 plan_supervisor,-->
+<!--		 step_id,-->
+<!--		 plate_id,-->
+<!--		 START_DATE,-->
+<!--		 END_DATE,-->
+<!--		 SCH_TITLE,-->
+<!--		 SCH_CONTENTS,-->
+<!--		 SCH_TYPE,-->
+<!--		 CREATE_DATE,-->
+<!--		 MODIFY_DATE-->
+<!--		)-->
+<!--		VALUES(-->
+<!--		 #{sch_id},-->
+<!--		 #{plan_id},-->
+<!--		 #{paln_type},-->
+<!--		 #{plan_supervisor},-->
+<!--		 #{step_id},-->
+<!--		 #{plate_id},-->
+<!--		 SYSDATE,-->
+<!--		 SYSDATE,-->
+<!--		 #{sch_title},-->
+<!--		 #{sch_contents},-->
+<!--		 4,-->
+<!--		 SYSDATE,-->
+<!--		 SYSDATE-->
+<!--		)-->
+<!--		<foreach collection="managerList" item="sch_manager" index="index" open="" separator=" " close="">-->
+<!--		INTO-->
+<!--		schedule_manager-->
+<!--		(-->
+<!--		SCHEDULE_MANAGER_ID,-->
+<!--		sch_id,-->
+<!--		account,-->
+<!--		mgr_type-->
+<!--		)-->
+<!--		VALUES-->
+<!--		(-->
+<!--		get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--		#{sch_id},-->
+<!--		#{sch_manager.account},-->
+<!--		#{sch_manager.mgr_type}-->
+<!--		)-->
+<!--		</foreach>-->
+<!--		select 1 from dual-->
+<!--	</insert>-->
+	
+	<select id="selectScheduleById" parameterType="int" resultType="Schedule">
+		SELECT
+		TO_CHAR(sch.start_date , 'YYYY-MM-DD') as start_date , TO_CHAR(sch.end_date , 'YYYY-MM-DD') as end_date  , p.usee_at_code as plan_type , sch.*  
+		FROM schedule sch LEFT OUTER JOIN plan p ON sch.plan_id = p.plan_id
+		WHERE sch_id = #{sch_id}
+	</select>
+
+	<select id="selectMonthSchedule" resultMap="popupScheduleMap">
+		SELECT sch.plan_supervisor, sch.plan_manager, to_char(sch.start_date,'yyyy_mm_dd') as start_date, to_char(sch.end_date,'yyyy_mm_dd') as end_date,
+		sch.plan_comment, sch.step_id, sch.batch_id, sch.create_date, sch.modify_date, sch.sch_title, sch.plan_supervisor,
+		sch.sch_contents, sch.sch_share, sch.sch_type as sch_type, sch.sch_id , sch.plan_id , p.plan_code , d2.division as division , d1.division as division_parents, u.name as name,
+		easy_d2.DIVISION easy_division, easy_d1.DIVISION easy_division_parents, p.USEE_AT_CODE plan_type , s.* , r.prj_dtl_no , r.prj_nm
+		FROM schedule sch
+		LEFT OUTER JOIN schedule_manager sch_m ON sch.sch_id = sch_m.sch_id
+		LEFT OUTER JOIN plan p ON sch.plan_id = p.plan_id
+		LEFT OUTER JOIN plan_seed ps on p.plan_id = ps.plan_id
+        LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+        LEFT OUTER JOIN user_report ur on ur.user_report_id = s.user_report_id
+        LEFT OUTER JOIN report r on r.report_id = ur.report_id
+		LEFT OUTER JOIN plan_method pm ON pm.plan_id = p.plan_id
+		LEFT OUTER JOIN METHOD m ON pm.method_id = m.method_id
+		LEFT OUTER JOIN division d2 ON m.division_id = d2.division_id
+		LEFT OUTER JOIN division d1 ON d2.division_parents = d1.division_id
+		LEFT OUTER JOIN division easy_d2 on p.PLAN_DIVISION = easy_d2.DIVISION_ID
+		LEFT OUTER JOIN division easy_d1 on easy_d2.DIVISION_PARENTS = easy_d1.DIVISION_ID
+		LEFT OUTER JOIN users u ON sch.plan_supervisor = u.account
+		WHERE start_date IS NOT NULL AND end_date IS NOT NULL
+			<if test="type == 'month' ">
+				AND sch.sch_type != 3
+			</if>
+			<if test="type == 'sample' ">
+				AND sch.sch_type = 3
+			</if>
+			<if test="type == 'notice' ">
+				AND sch.sch_type != 3
+				AND start_date &lt;= SYSDATE
+				AND end_date &gt;= SYSDATE  
+			</if>
+			<if test="user.authority != 'ADMIN'">
+				<if test="user.authority != 'MANAGER' ">
+				AND (sch_m.account = #{user.account} or sch.plan_supervisor = #{user.account})
+				</if>
+			</if>
+	</select>
+
+	<select id="selectScheduleByPlan" parameterType="int" resultMap="scheduleMap">
+		SELECT TO_CHAR(s.start_date , 'YYYY-MM-DD') as start_date , TO_CHAR(s.end_date , 'YYYY-MM-DD') as end_date, s.*,p.plate_index,u.account,u.name,m.mgr_type
+		from schedule s left outer join plate p on s.plate_id = p.plate_id
+		LEFT OUTER JOIN schedule_manager m ON s. sch_id = m.sch_id
+		LEFT OUTER JOIN USERS u on m.account = u.account
+		WHERE s.plan_id = #{plan_id} and s.SCH_TYPE = 2
+	</select>
+
+<!--	<insert id="registScheduleList" parameterType="java.util.List">-->
+<!--	INSERT ALL-->
+<!--	<foreach collection="list" item="item" index="index" open=""  separator="" close="">-->
+<!--		INTO schedule(-->
+<!--		SCH_ID,-->
+<!--		plan_id,-->
+<!--		plan_type,-->
+<!--		plan_supervisor,-->
+<!--		start_date,-->
+<!--		end_date,-->
+<!--		sch_contents,-->
+<!--		step_id,-->
+<!--		plate_id,-->
+<!--		create_date-->
+<!--		)-->
+<!--		VALUES(-->
+<!--		#{item.sch_id},-->
+<!--		#{item.plan_id},-->
+<!--		#{item.plan_type},-->
+<!--		#{item.plan_supervisor},-->
+<!--		#{item.start_date},-->
+<!--		#{item.end_date},-->
+<!--		#{item.sch_contents, jdbcType=VARCHAR},-->
+<!--		#{item.step_id},-->
+<!--		#{item.plate_id},-->
+<!--		sysdate-->
+<!--		)-->
+<!--		<foreach collection="item.managerList" item="sch_manager" index="index" open="" separator=" " close="">-->
+<!--		INTO schedule_manager(-->
+<!--			SCHEDULE_MANAGER_ID,-->
+<!--			sch_id,-->
+<!--			account,-->
+<!--			mgr_type-->
+<!--			)-->
+<!--			VALUES(-->
+<!--			get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--			#{item.sch_id},-->
+<!--			#{sch_manager.account},-->
+<!--			#{sch_manager.mgr_type}-->
+<!--		)-->
+<!--	</foreach>-->
+<!--	</foreach>-->
+<!--	select 1 from dual-->
+<!--</insert>-->
+	<insert id="registScheduleByPlan" parameterType="Schedule">
+		INSERT INTO schedule(
+			SCH_ID,
+			plan_id,
+			plan_type,
+			plan_supervisor,
+			start_date,
+			end_date,
+			sch_contents,
+			step_id,
+			plate_id,
+			sch_type,
+			sch_data,
+			create_date
+			)
+			VALUES(
+		#{sch_id},
+		#{plan_id},
+		#{plan_type},
+		#{plan_supervisor, jdbcType=VARCHAR},
+		#{start_date},
+		#{end_date},
+		#{sch_contents, jdbcType=VARCHAR},
+		#{step_id},
+		#{plate_id},
+		2,
+		#{StepData, jdbcType=VARCHAR},
+		sysdate
+		)
+	</insert>
+<!--	<insert id="registScheduleByPlan" parameterType="Schedule">-->
+<!--		INSERT ALL-->
+
+<!--			INTO schedule(-->
+<!--			SCH_ID,-->
+<!--			plan_id,-->
+<!--			plan_type,-->
+<!--			plan_supervisor,-->
+<!--			start_date,-->
+<!--			end_date,-->
+<!--			sch_contents,-->
+<!--			step_id,-->
+<!--			plate_id,-->
+<!--			sch_type,-->
+<!--			sch_data,-->
+<!--			create_date-->
+<!--			)-->
+<!--			VALUES(-->
+<!--			#{sch_id},-->
+<!--			#{plan_id},-->
+<!--			#{plan_type},-->
+<!--			#{plan_supervisor, jdbcType=VARCHAR},-->
+<!--			#{start_date},-->
+<!--			#{end_date},-->
+<!--			#{sch_contents, jdbcType=VARCHAR},-->
+<!--			#{step_id},-->
+<!--			#{plate_id},-->
+<!--			2,-->
+<!--			#{StepData, jdbcType=VARCHAR},-->
+<!--			sysdate-->
+<!--			)-->
+<!--			<foreach collection="managerList" item="sch_manager" index="index" open="" separator=" " close="">-->
+<!--				INTO schedule_manager(-->
+<!--				SCHEDULE_MANAGER_ID,-->
+<!--				sch_id,-->
+<!--				account,-->
+<!--				mgr_type-->
+<!--				)-->
+<!--				VALUES(-->
+<!--				get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--				#{sch_id},-->
+<!--				#{sch_manager.account},-->
+<!--				#{sch_manager.mgr_type}-->
+<!--				)-->
+<!--			</foreach>-->
+
+<!--		select 1 from dual-->
+<!--	</insert>-->
+	<update id="modifyScheduleByPlan" parameterType="Schedule">
+		UPDATE SCHEDULE
+		SET plan_type = #{plan_type},
+		    start_date = #{start_date},
+		    end_date = #{end_date},
+		    sch_contents = #{sch_contents},
+		    plate_id = #{plate_id},
+		    sch_data = #{StepData}
+		WHERE sch_id = #{sch_id}
+	</update>
+
+<!--	<insert id="registScheduleManager" parameterType="list">-->
+<!--		INSERT ALL-->
+<!--		<foreach collection="list" item="item" index="index" open="" separator=" " close="">-->
+<!--		INTO schedule_manager(-->
+<!--		SCHEDULE_MANAGER_ID,-->
+<!--		sch_id,-->
+<!--		account,-->
+<!--		mgr_type-->
+<!--		)-->
+<!--		VALUES(-->
+<!--		get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--		#{item.sch_id},-->
+<!--		#{item.account},-->
+<!--		#{item.mgr_type}-->
+<!--		)-->
+<!--		</foreach>-->
+<!--		select 1 from dual-->
+<!--	</insert>-->
+
+	<delete id="deleteScheduleManager" parameterType="int">
+		DELETE FROM schedule_manager
+		WHERE sch_id = #{sch_id}
+	</delete>
+
+	<select id="getSeqId" resultType="int">
+		SELECT SCHEDULE_SEQ_ID.nextval from dual;
+	</select>
+
+<!--	<select id="getSeqFunction" resultType="int" parameterType="String" useCache="false">-->
+<!--		SELECT get_seq(#{seq_name})-->
+<!--		FROM DUAL-->
+<!--	</select>-->
+
+	<select id="dummySql" resultType="int">
+		SELECT 1 FROM DUAL;
+	</select>
+
+	<delete id="deleteScheduleList" parameterType="list">
+		DELETE FROM schedule
+		where sch_id in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="deleteScheduleManagerByPlan" parameterType="int">
+		DELETE FROM SCHEDULE_MANAGER
+		WHERE SCH_ID IN (
+		    SELECT SCH_ID FROM SCHEDULE WHERE PLAN_ID = #{plan_id}
+		    )
+	</delete>
+
+	<delete id="deleteScheduleByPlan" parameterType="int">
+		DELETE FROM SCHEDULE
+		WHERE plan_id = #{plan_id}
+	</delete>
+
+	<select id="selectNoteScheduleByPlan" parameterType="int" resultType="NoteSchedule">
+		SELECT *
+		FROM schedule
+		WHERE plan_id = #{plan_id} AND sch_type = 3 and TO_CHAR(create_date,'YYYYMMDD') = TO_CHAR(sysdate,'YYYYMMDD')
+	</select>
+
+	<insert id="registNoteSchedule" parameterType="NoteSchedule">
+		INSERT
+		INTO schedule(
+		SCH_ID,
+		plan_id,
+		start_date,
+		end_date,
+		sch_type,
+		create_date,
+		ATCH_FILE_NM,
+		PLAN_SUPERVISOR,
+		sch_contents
+		)
+		VALUES(
+		#{sch_id},
+		#{plan_id},
+		TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+		TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+		3,
+		sysdate,
+		#{ATCH_FILE_NM},
+		#{plan_supervisor},
+		#{sch_contents}
+		)
+	</insert>
+
+<!--	<insert id="registNoteSchedule" parameterType="NoteSchedule">-->
+<!--		INSERT ALL-->
+
+<!--		INTO schedule(-->
+<!--		SCH_ID,-->
+<!--		plan_id,-->
+<!--		start_date,-->
+<!--		end_date,-->
+<!--		sch_type,-->
+<!--		create_date,-->
+<!--		ATCH_FILE_NM,-->
+<!--		sch_contents-->
+<!--		)-->
+<!--		VALUES(-->
+<!--		#{sch_id},-->
+<!--		#{plan_id},-->
+<!--		TO_CHAR(SYSDATE,'YYYY-MM-DD'),-->
+<!--		TO_CHAR(SYSDATE,'YYYY-MM-DD'),-->
+<!--		4,-->
+<!--		sysdate,-->
+<!--		#{ATCH_FILE_NM},-->
+<!--		#{sch_contents}-->
+<!--		)-->
+<!--		<foreach collection="managerList" item="sch_manager" index="index" open="" separator=" " close="">-->
+<!--			INTO schedule_manager(-->
+<!--			SCHEDULE_MANAGER_ID,-->
+<!--			sch_id,-->
+<!--			account,-->
+<!--			mgr_type-->
+<!--			)-->
+<!--			VALUES(-->
+<!--			get_seq('SCHEDULE_MANGER_SEQ_ID'),-->
+<!--			#{sch_id},-->
+<!--			#{sch_manager.account},-->
+<!--			#{sch_manager.mgr_type}-->
+<!--			)-->
+<!--		</foreach>-->
+<!--		select 1 from dual-->
+<!--	</insert>-->
+
+	<select id="selectScheduleManagerByPlan" parameterType="int" resultType="schedule_manager">
+		SELECT sm.*
+		FROM schedule s
+			JOIN SCHEDULE_MANAGER sm on s.sch_id = sm.SCH_ID
+		WHERE s.PLAN_ID = #{plan_id}
+	</select>
+
+	<update id="modifyNoteSchedule" parameterType="NoteSchedule">
+		UPDATE SCHEDULE
+		SET ATCH_FILE_NM = #{ATCH_FILE_NM},
+		MODIFY_DATE = SYSDATE
+		WHERE SCH_ID = #{sch_id}
+	</update>
+	
+</mapper>

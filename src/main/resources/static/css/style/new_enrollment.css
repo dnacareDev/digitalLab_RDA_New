@@ -1,0 +1,321 @@
+@charset "utf-8";
+/* card */
+#wrap .new_enroll_sect {position: relative;  padding-bottom: 80px;}
+#wrap .new_enroll_sect .card {height: auto; padding-top: 40px;}
+
+.card_box .card_title_box .print_box > .common_btn1 {display: none;}
+.card_box .card_title_box .print_box.on > .common_btn1 {display: inline-block; margin-left: 40px; width: 150px; position: relative;}
+.card_box .card_title_box .print_box.on > .common_btn1:before {content: ''; position: absolute; left: -25px; top: 50%; transform: translateY(-50%); width: 1px; height: 25px; background-color: #E6E6E6;}
+
+
+/* form */
+.first_enroll_box {width: 100%; display: flex;}
+.new_enroll_form .first_enroll_box .form_box:nth-child(2) {width: 50%; padding-left: 10px; padding-right: 0px;}
+
+.new_enroll_form .form_box:nth-child(2) {width: 100%; padding-right: 10px; padding-left: 0px;}
+.new_enroll_form .form_box:nth-child(3) {padding-left: 0px; padding-right: 0px;}
+#wrap .explane_box {padding-right: 0; } 
+
+
+/* 파일 추가됐을때 */
+.new_enroll_form .has_file_box {display: block; width: 100%;}
+.new_enroll_form .has_file_box > .form_box {width: 100%; padding: 0;}
+
+.new_enroll_form .has_file_box > .form_box:nth-child(1) .editor_area_text {text-align: center; padding: 5px 0; background-color: #F7F7F8; line-height: 30px; border: 1px solid #D9D9D9; border-bottom: none; border-radius: 5px 5px 0 0; font-size: 1.4rem;}
+.new_enroll_form .has_file_box > .form_box:nth-child(1) > textarea {border-top: none; border-radius: 0 0 5px 5px; height: 270px;}
+
+.new_enroll_form .has_file_box > .form_box:nth-child(2) > textarea,
+.new_enroll_form .has_file_box > .form_box:nth-child(4) > textarea {height: 200px;}
+
+
+
+/***** step setting box *****/
+#wrap .has_file_card {display: block; padding-bottom: 60px;}
+
+.has_file_card .card_header .header_title {font-size: 1.8rem; font-weight: 500;}
+
+.has_file_card .step_setting_box {display: flex; height: 456px;}
+
+/**** setting box ****/
+.has_file_card .step_setting_box .setting_box {width: 40%; padding-right: 60px; position: relative;}
+
+
+/* add, remove btn */
+.has_file_card .step_setting_box .setting_box .set_add_remove {position: absolute; right: 12px; top:  50%; transform: translateY(-50%); width: 28px; height: 28px; text-indent: -99999px; }
+
+/* add */
+.has_file_card .step_setting_box .setting_box .set_add_btn {background: url('../../images/set_remove_add.png') no-repeat center center; background-size: 100%; transform: rotate(180deg); top: calc(50% - 30px);}
+
+/* remove */
+.has_file_card .step_setting_box .setting_box .set_remove_btn {background: url('../../images/set_remove_add.png') no-repeat center center; background-size: 100%; top: calc(50% + 30px);}
+
+
+
+
+
+
+/** setting bottom box **/
+.step_setting_box .setting_box .setting_bottom_box {height: calc(100% - 50px); padding-top: 4px;}
+.setting_box .setting_bottom_box .bottom_setting { height: 100%; display: none;}
+
+/* setting 공통 */
+.setting_bottom_box .bottom_setting .set_list_box {height: 400px; border: 1px solid #D9D9D9; overflow-x: hidden; overflow-y: auto; border-radius: 5px; align-items: center;}
+
+
+.setting_bottom_box .bottom_setting .sample_box .set_list {padding: 12px 20px; color: #7C8798; font-weight: 500; display: flex; align-items: center;}
+.setting_bottom_box .bottom_setting .sample_box .set_list:not(:last-child) {border-bottom: 1px solid #D9D9D9;}
+.setting_bottom_box .bottom_setting .sample_box .set_list .set_list_check {margin-right: 20px;}
+
+/* setting - search 공통 */
+.setting_bottom_box .bot_set_common .setting_search_box,
+.setting_bottom_box .bot_set_common .setting_search_box > label,
+.setting_bottom_box .bot_set_common .setting_search_box > label > .search_input {width: 100%; font-size: 1.4rem;}
+
+.setting_bottom_box .bot_set_common .setting_search_box {margin-bottom: 23px;}
+.setting_bottom_box .bot_set_common .setting_search_box > label > .search_input {box-shadow: none; border: 1px solid #D9D9D9; background-image: url('../../images/cont_search.png');}
+
+.setting_bottom_box .bot_set_common .set_list_box {height: 338px;}
+.setting_bottom_box .bot_set_common .set_list_box .set_list > .set_list_text {font-size: 1.4rem; }
+.set_list_text {cursor: default !important;}
+/* #sample */
+.setting_bottom_box #sample .sample_box .sample_list {line-height: 70px; padding: 0 20px;}
+
+/* #etc */
+.setting_bottom_box #etc .set_list_box > .set_list {padding: 12px 20px;}
+.setting_bottom_box #etc .set_list_box > .set_list .etc_set_input {border: 1px solid #D9D9D9; border-radius: 5px; width: 100%; height: 35px; padding: 0 10px;}
+
+/* 기본 선택 됨 */
+.setting_box .setting_bottom_box .bottom_setting:nth-child(1) {display: block;}
+
+
+
+/**** setting area box ****/
+.has_file_card .step_setting_box .setting_area_box {width: 60%; padding-left: 10px; position: relative;}
+.has_file_card .setting_area_box .setting_area_list_box {height: 100%; background-color: #F7F7F8; border-radius: 5px; overflow-y: auto; overflow-x: hidden; padding: 5px; border: 3px solid #F7F7F8;}
+
+/* setting area list */
+.has_file_card .setting_area_list_box .setting_area_list {background-color: #fff;  margin-bottom: 5px; border-radius: 5px; padding: 5px; height: 64px; transition: 0.3s all;}
+
+/* setting area list - on */
+.has_file_card .setting_area_list_box .setting_area_list.on {background-color: #fff;  margin-bottom: 5px; border-radius: 5px; padding: 5px; height: 200px;}
+
+.has_file_card .setting_area_list .set_area_inner {border: 1px solid #E4E4E4; border-radius: 5px; display: flex; flex-direction: column; height: 100%;}
+
+/* top_set_area */
+.has_file_card .setting_area_list .set_area_inner .top_set_area { display: flex; align-items: center; line-height: 40px; padding: 0px 0 0px 60px; color: #7C8798; font-weight: 700; background: url('../../images/move.png') no-repeat left 15px top 9px; align-items: center; justify-content: space-between; height: 100%; max-height: 50px;}
+.has_file_card .set_area_inner .top_set_area .set_step {margin-right: 20px;}
+.has_file_card .set_area_inner .top_set_area .top_set_title {font-size: 1.4rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; flex-grow: 1;}
+.has_file_card .top_set_area .top_set_input {margin-left: 20px; display: flex; align-items: center; padding-right: 60px; position: relative; width: 380px; justify-content: end;}
+
+/* top_set_input */
+.has_file_card  .top_set_area .top_set_input > label > input[type="text"] {width: 320px; height: 40px; border: 1px solid #D9D9D9; border-radius: 5px;}
+
+.has_file_card .top_set_area .top_set_input > .step_add_box {display: none; justify-content: right; align-items: center;}
+
+.has_file_card .top_set_area .step_add_box .step_num_input {display: inline-block; overflow: hidden; border: 1px solid #D9D9D9; margin-right: 15px; border-radius: 5px; margin-top: 2px;}
+.has_file_card .top_set_area .step_add_box .step_num_input > input[type="number"] {display: block; line-height: 28px; width: 70px; text-align: center;}
+.has_file_card .top_set_area .step_add_box .new_tab_add {font-size: 1.4rem; font-weight: 400; color: #768BF5; text-decoration: underline; cursor: pointer;}
+
+/* top_set_input - on */
+.has_file_card .setting_area_list.on .top_set_input > label > input[type="text"] {display: none;}
+.has_file_card .setting_area_list.on .top_set_input > .step_add_box {display: flex;}
+
+/* arrow */
+.has_file_card .top_set_area .top_set_input:before {content: ''; position: absolute; right: 25px; top: calc(50% + 3px); transform: translateY(-50%); width: 12px; height: 7px; background: url('../../images/Y_arrow.png') no-repeat; background-size: 100%;}
+
+/* arrow - on */
+.has_file_card .setting_area_list.on .top_set_area .top_set_input:before {transform: rotate(180deg); top: calc(50% - 2px);}
+
+
+
+/* bottom_set_area */
+.setting_area_list .bottom_set_area {height: 0%; overflow: hidden; opacity: 0;}
+
+.setting_area_list.on .bottom_set_area {display: flex; flex-direction: column; padding: 0 50px 0 150px; height: 100%; opacity: 1;}
+.setting_area_list.on .bottom_set_area .bottom_set_select {display: flex; align-items: center; width: 100%; flex-wrap: wrap;}
+.setting_area_list.on .bottom_set_area .bottom_set_select .set_select_box {width: calc(20% - 5px); margin-right: 5px;}
+
+
+.bottom_set_area .set_select_box > span {display: block; height: 15px; line-height: 15px; margin-bottom: 5px; font-size: 1.3rem; padding-left: 2px; color: darkgray;}
+
+/* select, input */
+.bottom_set_area .set_select_box .set_area_wrap {display: flex; position: relative;}
+.bottom_set_area .set_select_box .set_area_wrap .common_select { border-radius: 0 5px 5px 0; border-left: none; padding-left: 0; padding-right: 10px; flex: 1; width: 100%; padding: 5px 20px; background-position: right 10px center; height: 35px;}
+.bottom_set_area .set_select_box .set_area_wrap > input[type="text"] {flex: 2; display: inline-block; border: 1px solid #D9D9D9; width: 90px; border-right: none; position: absolute; left: 0; top: 0; height: 100%; border-radius: 5px; padding: 5px 10px 5px 20px;}
+
+/* select, input - off */
+#wrap .bottom_set_area .bottom_set_select.off {display: none;}
+
+/* textarea */
+.bottom_set_area .set_textarea_box {min-height: 74px; padding: 5px 5px 10px 0; transition: 0.2s all; height: 100%;}
+.bottom_set_area .set_textarea_box > label {display: block; height: 100%;}
+.bottom_set_area .set_textarea_box > label > textarea {height: 100%; width: 100%; padding: 5px 20px; border: 1px solid #D9D9D9; border-radius: 5px;}
+
+/* select, input - off시, textarea */
+.bottom_set_area .bottom_set_select.off + .set_textarea_box {padding: 20px 5px 10px 0; height: 100%;}
+
+
+/* list가 없을때 */
+.has_file_card .setting_area_box.off .setting_area_list_box {background-color: #D9D9D9;}
+.setting_area_box .none_has {display: none; position: absolute; top: 50%; left: calc(50% + 10px); transform: translate(-50%, -50%); font-size: 1.4rem;}
+.setting_area_box .none_has.on {display: block;}
+
+
+
+/* card footer btn */
+#wrap .new_enroll_sect .card_footer {display: flex; justify-content: space-between; position: absolute; padding: 0 18px 0 3px; width: 100%; bottom: 10px;}
+#wrap .new_enroll_sect .card_footer > .common_btn1 {width: 150px; display: inline-block;}
+#wrap .new_enroll_sect .card_footer > .list_btn {background-color: #7C8798;}
+
+#wrap .new_enroll_sect .card_footer.off .appl_regist_btn {display: none;}
+
+
+/* error */
+.card_cont_box {position: relative;}
+.card_cont_box .error_text {display: none; color: #FF4141; position: absolute; right: 0; top: -20px; font-size: 1.4rem; padding-left: 23px;background: url('../../images/error.png') no-repeat left 0px top 2px;}
+.card_cont_box.error .error_text {display: block; }
+
+
+/* modal - lookup */
+.lookup_form .form_box.off {display: none;}
+
+/* modal - reagent */
+#main.modal_on .modal.reagent_add_modal.on > .modal_box {max-width: 800px;}
+.reagent_form .modal_input_box > .modal_form_title > span {color: #FF6464;}
+
+.reagent_form .modal_input_box > .modal_inner_box {width: 100%;}
+#wrap .reagent_add_modal.on .reagent_form .modal_input_box > .modal_inner_box > input[type="text"],
+.reagent_form .modal_input_box > .modal_inner_box > select {width: 50%; display: inline-block;}
+
+.reagent_form .modal_input_box > .modal_inner_box > select {margin-left: 10px; }
+
+.modal.on .modal_form > .modal_input_box > textarea {height: 100px;}
+
+
+
+
+.setting_top_add_btn {display: none;}
+.setting_top_add_btn.on {display: block;}
+
+.modal_box {display: none;}
+.modal_box.on {display: block;}
+
+
+#new_item_div {margin-bottom: 50px;}
+.modal_re_form .card_cont_box .explane_box {margin-bottom: 70px;}
+.modal_re_form .card_cont_box .first_enroll_box,
+.modal_re_form .card_cont_box .explane_box,
+.modal_re_form .card_cont_box .has_file_box {flex-direction: column;}
+
+.modal_re_form .card_cont_box .first_enroll_box > .form_box,
+.modal_re_form .card_cont_box .explane_box,
+.modal_re_form .card_cont_box .has_file_box > .form_box { width: 100%; padding: 0; flex-direction: row;}
+
+.modal_re_form .card_cont_box .first_enroll_box > .form_box input[type='text'],
+.modal_re_form .card_cont_box .explane_box input[type='text'],
+.modal_re_form .card_cont_box .has_file_box > .form_box input[type='text'] {width: 100%;}
+
+.modal_re_form .card_cont_box .first_enroll_box > .form_box .file_title,
+.modal_re_form .card_cont_box .explane_box .file_title,
+.modal_re_form .card_cont_box .has_file_box > .form_box .file_title {font-size: 1.4rem; width: 120px;
+    margin-right: 20px;}
+.modal_re_form .card_cont_box .has_file_box .mid_title {font-size: 1.8rem; margin-bottom: 40px;}
+
+#wrap .modal_re_form .card_cont_box #list_lookup {width: 100%; max-width: 100%;}
+#wrap .modal_re_form .card_cont_box .lookup_input {width: 100%;}
+
+.modal_re_form .card_cont_box .has_file_box > .form_box .editor_area_text {line-height: 40px;}
+
+.modal_re_form #list_lookup {border-radius: 5px;}
+
+.lookup_form .select_box.off {
+    display: none;
+}
+
+.lookup_form .select_box {
+    display: flex;
+}
+
+
+
+
+.common_form .look_m_box > .form_inner_box > input[type="text"] {
+    width: calc(80% - 3px);
+}
+
+
+.common_form .explane_m_box {
+    width: calc(50% - 13px);
+}
+
+
+
+
+
+
+
+
+
+
+.common_form .file_re_box {
+    width: calc(50% + 500px);
+}
+
+.common_form .file_re_box .form_inner_box > input[type="text"] {
+    width: calc(80% - 385px);
+}
+
+.common_form .file_re_box .form_inner_box > .form_btn {
+    width: calc(20% - 95px);
+}
+
+.file_re_box .form_inner_box {
+    display: flex;
+    align-items: center;
+}
+
+.common_form .file_re_box .before_file {
+    display: flex;
+    width: 500px;
+    font-size: 1.4rem;
+    margin-left: 10px;
+}
+
+.common_form .file_re_box .before_file > a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #6875E9;
+    text-decoration: underline;
+}
+
+
+
+.method_sharing {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+	padding: 20px 0 0 5px;
+}
+
+
+
+
+
+
+
+.card_cont_box .new_enroll_form .file_re_box {
+    width: 50%;
+    padding-right: 0;
+    position: relative;
+}
+
+.new_enroll_form .file_re_box .form_inner_box > input[type="text"] {
+    width: calc(100% - 137px);
+}
+
+.new_enroll_form .file_re_box .form_inner_box > .form_btn {
+    width: 137px;
+}
+
+
+

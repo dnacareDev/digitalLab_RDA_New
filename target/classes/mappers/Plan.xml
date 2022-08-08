@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.PlanMapper">
+    <resultMap id="PlanMap" type="Plan">
+        <id property="plan_id" column="plan_id" />
+        <result property="plan_code" column="plan_code" />
+        <result property="plan_method" column="plan_method" />
+        <result property="plan_seed" column="plan_seed" />
+        <result property="plan_status" column="plan_status" />
+        <result property="plan_well" column="plan_well" />
+        <result property="plan_batch" column="plan_batch" />
+        <result property="plan_aspect" column="plan_aspect" />
+        <result property="plan_standard" column="plan_standard" />
+        <result property="plan_control" column="plan_control" />
+        <result property="plan_blank" column="plan_blank" />
+        <result property="plan_cycle" column="plan_cycle"/>
+        <result property="plan_sample" column="plan_sample" />
+        <result property="plan_approve_date" column="plan_approve_date"/>
+        <result property="USEE_AT_CODE" column="USEE_AT_CODE"/>
+        <result property="division_depth_3" column="division_depth_3" />
+        <result property="division_depth_4" column="division_depth_4" />
+        <result property="create_date" column="create_date" />
+        <result property="method_stage" column="method_stage" />
+        <result property="method_id" column="method_id" />
+        <result property="method_cycle" column="method_cycle" />
+        <result property="method_result" column="method_result" />
+        <result property="division_id" column="plan_division" />
+        <result property="report_name" column="report_name" />
+        <result property="report_code" column="report_code" />
+        <result property="prj_dtl_no" column="prj_dtl_no" />
+        <result property="prj_nm" column="prj_nm" />
+        <result property="report_id" column="report_id" />
+        <result property="genetic_depth_2" column="genetic_depth2" />
+        <result property="genetic_depth_1" column="genetic_depth1" />
+        <result property="genetic_depth_2_id" column="genetic_parents" />
+        <result property="genetic_id" column="genetic_id" />
+        <result property="genetic_type" column="genetic_type" />
+        <result property="plan_plate" column="plan_plate" />
+        <result property="plan_step" column="plan_step" />
+        <result property="plan_contents" column="plan_contents" />
+        <result property="plan_contents" column="plan_contents" />
+        <result property="account" column="account"/>
+        <collection property="seedList" column="seed_id" ofType="Seed" javaType="java.util.ArrayList" >
+            <id property="seed_id" column="seed_id" />
+            <result property="genetic_depth1" column="genetic_depth_1" />
+            <result property="genetic_depth2" column="genetic_depth_2" />
+            <result property="report_name" column="report_name"/>
+            <result property="user_report_id" column="seed_report_id"/>
+            <result property="report_code" column="seed_report_code" />
+            <result property="seed_amount" column="seed_amount" />
+            <result property="seed_code" column="seed_code" />
+            <result property="each" column="each" />
+            <result property="prj_dtl_no" column="prj_dtl_no" />
+            <result property="prj_nm" column="prj_nm" />
+        </collection>
+        <collection property="planMethodList" column="plan_method_id" javaType="java.util.ArrayList" ofType="PlanMEthod">
+            <id property="plan_method_id" column="plan_method_id"/>
+            <result property="method_cycle" column="method_cycle"/>
+            <result property="method_stage" column="method_stage" />
+            <result property="method_comment" column="method_comment"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="PlanListMap" type="Plan">
+        <id property="plan_id" column="plan_id" />
+        <result property="plan_code" column="plan_code" />
+        <result property="plan_method" column="plan_method" />
+        <result property="plan_seed" column="plan_seed" />
+        <result property="plan_status" column="plan_status" />
+        <result property="plan_well" column="plan_well" />
+        <result property="plan_batch" column="plan_batch" />
+        <result property="plan_aspect" column="plan_aspect" />
+        <result property="plan_standard" column="plan_standard" />
+        <result property="plan_blank" column="plan_blank" />
+        <result property="plan_control" column="plan_control" />
+        <result property="plan_cycle" column="plan_cycle"/>
+        <result property="plan_sample" column="plan_sample" />
+        <result property="plan_approve_date" column="plan_approve_date"/>
+        <result property="USEE_AT_CODE" column="USEE_AT_CODE"/>
+        <result property="division_depth_3" column="division_depth_3" />
+        <result property="division_depth_4" column="division_depth_4" />
+        <result property="create_date" column="create_date" />
+        <result property="method_stage" column="method_stage" />
+        <result property="method_id" column="method_id" />
+        <result property="method_cycle" column="method_cycle" />
+        <result property="method_result" column="method_result" />
+        <result property="division_id" column="plan_division" />
+        <result property="report_name" column="report_name" />
+        <result property="report_code" column="report_code" />
+        <result property="prj_dtl_no" column="prj_dtl_no" />
+        <result property="report_id" column="report_id" />
+        <result property="genetic_depth_2" column="genetic_depth2" />
+        <result property="genetic_depth_1" column="genetic_depth1" />
+        <result property="genetic_depth_2_id" column="genetic_parents" />
+        <result property="genetic_id" column="genetic_id" />
+        <result property="genetic_type" column="genetic_type" />
+        <result property="plan_plate" column="plan_plate" />
+        <result property="plan_step" column="plan_step" />
+        <result property="plan_contents" column="plan_contents" />
+        <result property="account" column="account"/>
+        <result property="easy_division_depth_3" column="easy_division_depth_3" />
+        <result property="easy_report_code" column="easy_report_code" />
+        <result property="easy_report_name" column="easy_report_name" />
+        <result property="easy_genetic_depth_1" column="easy_genetic_depth_1" />
+        <result property="easy_genetic_depth_2" column="easy_genetic_depth_2" />
+        <collection property="seedList" column="seed_id" ofType="Seed" javaType="java.util.ArrayList" >
+            <id property="seed_id" column="seed_id" />
+            <result property="genetic_depth1" column="genetic_depth_1" />
+            <result property="genetic_depth2" column="genetic_depth_2" />
+            <result property="report_name" column="report_name"/>
+            <result property="user_report_id" column="seed_report_id"/>
+            <result property="report_code" column="seed_report_code" />
+            <result property="seed_amount" column="seed_amount" />
+            <result property="seed_code" column="seed_code" />
+        </collection>
+        <collection property="planMethodList" column="plan_method_id" javaType="java.util.ArrayList" ofType="PlanMEthod">
+            <id property="plan_method_id" column="plan_method_id"/>
+            <result property="method_cycle" column="method_cycle"/>
+            <result property="method_stage" column="method_stage" />
+        </collection>
+    </resultMap>
+    
+    <resultMap id="planResultMap" type="PlanResult">
+        <id property="plan_id" column="plan_id" />
+        <result property="plan_code" column="plan_code" />
+        <result property="method_result" column="method_result" />
+        <collection property="crop_list" column="crop_list" ofType="String" javaType="java.util.ArrayList">
+            <id property="crop_list" column="crop_list" />
+        </collection>
+        <collection property="kind_list" column="kind_list" ofType="String" javaType="java.util.ArrayList">
+            <id property="kind_list" column="kind_list" />
+        </collection>
+    </resultMap>
+
+    <resultMap id="planApiMap" type="PlanApiDetailParam">
+        <id property="plan_id" column="plan_id" />
+        <collection property="batch_list" column="batch_id" ofType="PlateApiParam" javaType="java.util.ArrayList">
+            <id property="batch_id" column="batch_id" />
+            <result property="batch_index" column="batch_index" />
+            <result property="sch_contents" column="sch_contents" />
+            <result property="start_date" column="start_date" />
+            <result property="end_date" column="end_data" />
+        </collection>
+        <collection property="step_list" column="step_id" ofType="Step" javaType="java.util.ArrayList">
+            <id property="step_id" column="step_id" />
+            <result property="step_index" column="step_index" />
+            <result property="step_comment" column="step_comment" />
+            <result property="step_name" column="step_name" />
+        </collection>
+    </resultMap>
+
+    <insert id="registPlanEasy" parameterType="PlanEasyParam">
+        INSERT INTO plan(
+            plan_id,
+            plan_code,
+            plan_division,
+            genetic_id,
+            USEE_AT_CODE,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            create_date,
+            report_id,
+            plan_status,
+            account
+        )
+        VALUES(
+            #{plan_id},
+            #{plan_code},
+            #{division_id},
+            #{genetic_id},
+            #{USEE_AT_CODE},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            sysdate,
+            #{report_id},
+            1,
+            #{account}
+        )
+    </insert>
+    
+    <!-- 분석계획 템플릿 등록 -->
+    <insert id="registPlanTemplate" parameterType="Plan">
+    	INSERT
+    	INTO
+    	plan
+    	(
+    	 	plan_id,
+            plan_code,
+            plan_division,
+            genetic_id,
+            USEE_AT_CODE,
+            create_date,
+            report_id,
+            account,
+    	    PLAN_STATUS
+    	)
+    	VALUES
+    	(
+            #{plan_id},
+            #{plan_code},
+            #{division_id},
+            #{genetic_id},
+            2,
+            SYSDATE,
+            #{report_id},
+            #{account},
+    	    1
+    	)
+    </insert>
+
+    <update id="updatePlanTemplate">
+        UPDATE plan SET
+            plan_division = #{division_id},
+            genetic_id = #{genetic_id}
+        WHERE plan_id = #{plan_id}
+    </update>
+
+     <!-- 분석계획 템플릿 수정 -->
+   <!--  <insert id="modifyPlanTemplate" parameterType="Plan">
+    	INSERT
+    	INTO
+    	plan
+    	(
+    	 	plan_id,
+            plan_code,
+            plan_division,
+            genetic_id,
+            USEE_AT_CODE,
+            create_date,
+            report_id
+    	)
+    	VALUES
+    	(
+    		 #{plan_id},
+            #{plan_code},
+            #{division_id},
+            #{genetic_id},
+            2,
+            SYSDATE,
+            #{report_id}
+    	)
+    </insert> -->
+
+    <select id="getSeqId" resultType="int">
+        SELECT plan_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (
+                 SELECT plan_code
+                 FROM plan
+                 WHERE plan_code LIKE '%'||#{group_code}||'%'
+                 ORDER BY plan_id DESC
+             )
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="selectPlanList" parameterType="PlanSearchParam" resultMap="PlanListMap">
+        SELECT TO_CHAR(p.create_date,'YYYY-MM-DD') create_date,TO_CHAR(p.modify_date,'YYYY-MM-DD') modify_date,
+               p.*, ur.report_id seed_report_id, r.prj_nm, g1.genetic genetic_depth_1,
+               g2.genetic genetic_depth_2, s.seed_amount, m.method_stage,r.prj_dtl_no,
+               s.seed_amount,
+               d3.division division_depth_3, pm.plan_method_id, pm.method_cycle , r.PRJ_DTL_NO AS report_code, r.PRJ_NM AS report_name,
+              s.seed_code,easy_d4.DIVISION easy_division_depth_3,easy_g1.GENETIC easy_genetic_depth_1, easy_g2.GENETIC easy_genetic_depth_2,
+               easy_r.PRJ_DTL_NO easy_report_code, easy_r.PRJ_DTL_NM easy_report_name
+        FROM plan p
+                 LEFT OUTER JOIN plan_method pm on pm.plan_id = p.plan_id
+                 LEFT OUTER JOIN method m on pm.method_id = m.method_id
+                 LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+                 LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+                 LEFT OUTER JOIN USER_REPORT ur on ur.user_report_id = s.user_report_id
+                 LEFT OUTER JOIN report r on r.report_id = ur.report_id
+                 LEFT OUTER JOIN genetic g2 on g2.genetic_id = s.genetic_id
+                 LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+                 LEFT OUTER JOIN division d4 on m.division_id = d4.division_id
+                 LEFT OUTER JOIN division d3 on d4.division_parents = d3.division_id
+                 LEFT OUTER JOIN division easy_d4 on p.PLAN_DIVISION = easy_d4.division_id
+                 LEFT OUTER JOIN division easy_d3 on easy_d4.DIVISION_PARENTS = easy_d3.DIVISION_ID
+                 LEFT OUTER JOIN genetic easy_g2 on easy_g2.GENETIC_ID = p.GENETIC_ID
+                 LEFT OUTER JOIN genetic easy_g1 on easy_g2.GENETIC_PARENTS = easy_g1.GENETIC_ID
+                 LEFT OUTER JOIN report easy_r on p.REPORT_ID = easy_r.REPORT_ID
+        WHERE p.plan_id != -1
+        <if test="param.plan_status != -1">
+            AND p.plan_status &gt;= #{param.plan_status}
+            <if test="param.plan_status == 3">
+            	AND p.usee_at_code = 0
+            </if>
+        </if>
+        <if test="user.authority != 'ADMIN'">
+        	<if test="user.authority != 'MANAGER' ">
+	        AND p.plan_code LIKE '%'||#{user.groupCode}||'%'
+	        </if>
+        </if>
+        ORDER BY p.create_date DESC
+    </select>
+
+    <select id="selectPlanBySchedule" parameterType="int" resultMap="PlanMap">
+        SELECT p.*, r.report_id, r.prj_nm, g1.genetic genetic_depth_1,
+               g2.genetic genetic_depth_2, s.seed_amount, m.method_stage,pm.plan_method_id,pm.method_cycle,
+               pm.plan_id,pm.method_id,
+               s.seed_code, e.each, r.prj_dtl_no , r.prj_nm,
+               d3.division division_depth_3, r.prj_no seed_report_code,d4.division division_depth_4
+        FROM plan p
+                 LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+                 LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+                 LEFT OUTER JOIN user_report usr_r on s.user_report_id = usr_r.user_report_id
+                 LEFT OUTER JOIN report r on r.report_id = usr_r.report_id
+                 LEFT OUTER JOIN genetic g2 on g2.genetic_id = s.genetic_id
+                 LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+                 LEFT OUTER JOIN plan_method pm ON pm.plan_id = p.plan_id
+                 LEFT OUTER JOIN method m on pm.method_id = m.method_id
+                 LEFT OUTER JOIN division d4 on m.division_id = d4.division_id
+                 LEFT OUTER JOIN division d3 on d4.division_parents = d3.division_id
+                 LEFT OUTER JOIN schedule sch on sch.plan_id = p.plan_id
+                 LEFT OUTER JOIN each e on s.each_id = e.each_id
+        WHERE sch.sch_id = #{sch_id}
+    </select>
+
+    <select id="selectPlanById" parameterType="int" resultMap="PlanMap">
+        SELECT p.*, r.prj_nm,g2.genetic as genetic_depth2, g1.genetic as genetic_depth1  , g1.genetic_id as genetic_parents , g2.genetic_type as genetic_type
+               , s.seed_amount, m.method_stage , m.method_contents as method_comment , pm.plan_method_id , pm.method_cycle ,
+               pm.plan_id,pm.method_id,m.method_result, s.seed_code, r.prj_dtl_no, r.prj_nm ,d3.division division_depth_3, r.prj_no seed_report_code,d4.division division_depth_4
+        FROM plan p
+                 LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+                 LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+                 LEFT OUTER JOIN user_report ur on ur.user_report_id = s.user_report_id
+                 LEFT OUTER JOIN report r on r.report_id = ur.report_id
+                 LEFT OUTER JOIN genetic g2 on s.genetic_id = g2.genetic_id 
+                 LEFT OUTER JOIN genetic g1 on g2.genetic_parents = g1.genetic_id
+                 LEFT OUTER JOIN plan_method pm ON pm.plan_id = p.plan_id
+                 LEFT OUTER JOIN method m on pm.method_id = m.method_id
+                 LEFT OUTER JOIN division d4 on m.division_id = d4.division_id
+                 LEFT OUTER JOIN division d3 on d4.division_parents = d3.division_id
+                 LEFT OUTER JOIN schedule sch on sch.plan_id = p.plan_id and sch.SCH_TYPE = 2
+        WHERE p.plan_id = #{plan_id}
+    </select>
+
+    <select id="selectPlanByBatch" parameterType="int" resultType="PlanBatchResult">
+        SELECT DISTINCT p.PLAN_ID, d3.DIVISION, p.PLAN_CODE
+        FROM plan p
+                 JOIN plan_method pm ON pm.plan_id = p.plan_id
+                 JOIN method m on pm.method_id = m.method_id
+                 JOIN division d4 on m.division_id = d4.division_id
+                 JOIN division d3 on d4.division_parents = d3.division_id
+                 JOIN plate pl on p.PLAN_ID = pl.PLAN_ID
+                 JOIN BATCH B on B.PLATE_ID = pl.PLATE_ID
+        WHERE b.BATCH_ID = #{batch_id}
+    </select>
+
+    <select id="selectPlanTemplateById" parameterType="int" resultMap="PlanMap">
+        SELECT p.*, r.prj_nm,g2.genetic as genetic_depth2, g1.genetic as genetic_depth1  , g1.genetic_id as genetic_parents , g2.genetic_type as genetic_type
+              , d3.division division_depth_3, r.prj_no seed_report_code,d4.division division_depth_4
+        FROM plan p
+                 LEFT OUTER JOIN report r on r.report_id = p.report_id
+                 LEFT OUTER JOIN genetic g2 on p.genetic_id = g2.genetic_id
+                 LEFT OUTER JOIN genetic g1 on g2.genetic_parents = g1.genetic_id
+                 LEFT OUTER JOIN division d4 on p.PLAN_DIVISION = d4.division_id
+                 LEFT OUTER JOIN division d3 on d4.division_parents = d3.division_id
+                 LEFT OUTER JOIN schedule sch on sch.plan_id = p.plan_id
+        WHERE p.plan_id = #{plan_id}
+    </select>
+
+    <select id="selectPlanByCode" parameterType="String" resultMap="PlanMap">
+        SELECT p.*, r.report_id, r.prj_nm, g1.genetic genetic_depth_1,
+               g2.genetic genetic_depth_2, s.seed_amount, m.method_stage,pm.plan_method_id,pm.method_cycle,
+               pm.plan_id,pm.method_id,m.method_result,
+               s.seed_amount, s.seed_code,
+               d3.division division_depth_3, r.prj_no seed_report_code,d4.division division_depth_4
+        FROM plan p
+                 LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+                 LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+                 LEFT OUTER JOIN user_report ur on ur.user_report_id = s.user_report_id
+                 LEFT OUTER JOIN report r on r.report_id = ur.report_id
+                 LEFT OUTER JOIN genetic g2 on s.genetic_id = g2.genetic_id
+                 LEFT OUTER JOIN genetic g1 on g2.genetic_parents = g1.genetic_id
+                 LEFT OUTER JOIN plan_method pm ON pm.plan_id = p.plan_id
+                 LEFT OUTER JOIN method m on pm.method_id = m.method_id
+                 LEFT OUTER JOIN division d4 on m.division_id = d4.division_id
+                 LEFT OUTER JOIN division d3 on d4.division_parents = d3.division_id
+                 LEFT OUTER JOIN schedule sch on sch.plan_id = p.plan_id
+        WHERE p.plan_code = #{plan_code}
+    </select>
+
+    <select id="selectPlanEasyById" parameterType="int" resultType="Plan">
+        SELECT p.*, r.report_id, r.prj_nm, g1.genetic genetic_depth_1, g2.genetic genetic_depth_2,
+            g1.genetic_id genetic_depth_2_id, g2.genetic_type as genetic_type,
+            d1.division division_depth_1,
+            d2.division division_depth_2,
+            d3.division division_depth_3,
+            d4.division division_depth_4, d4.division_id,
+            PF.ATCH_FILE_NM as plan_atch_file_nm, PF.ORIG_FILE_NM as plan_orig_file_nm
+        FROM plan p
+            LEFT OUTER JOIN report r on r.report_id = p.report_id
+            LEFT OUTER JOIN genetic g2 on g2.genetic_id = p.genetic_id
+            LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+            LEFT OUTER JOIN division d4 on d4.division_id = p.plan_division
+            LEFT OUTER JOIN division d3 on d3.division_id = d4.division_parents
+            LEFT OUTER JOIN division d2 on d2.division_id = d3.division_parents
+            LEFT OUTER JOIN division d1 on d1.division_id = d2.division_parents
+            LEFT OUTER JOIN (SELECT * FROM PLAN_FILE subPF WHERE subPF.PLAN_TYPE = 3) PF on p.PLAN_ID = PF.PLAN_ID
+        WHERE p.plan_id = #{plan_id}
+    </select>
+
+    <insert id="registPlan" parameterType="Plan">
+        insert into plan(
+            plan_id,
+            plan_code,
+            USEE_AT_CODE,
+            plan_status,
+            create_date,
+			account            
+        )
+        VALUES(
+            #{plan_id},
+            #{plan_code},
+            #{USEE_AT_CODE},
+            1,
+            SYSDATE,
+            #{account}
+        )
+    </insert>
+
+    <update id="modifyPlan" parameterType="Plan">
+        update plan
+        set 
+        modify_date = sysdate,
+        plan_status = 1
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <update id="registPlanSeedList" parameterType="java.util.Map">
+        INSERT ALL
+        <foreach collection="list" item="item" index="index" separator=" ">
+            into plan_seed(
+            plan_seed_id,
+            plan_id,
+            seed_id
+            )
+            values
+            (
+                plan_seed_seq_id.nextval,
+                #{plan_id},
+                #{item}
+            )
+        </foreach>
+        select 1 from dual
+    </update>
+
+    <update id="modifyPlanSet" parameterType="PlanSetParam">
+        UPDATE plan
+        SET plan_well = #{plan_well},
+            plan_batch = #{plan_batch},
+            plan_sample = #{plan_sample},
+            plan_aspect = #{plan_aspect},
+            plan_blank = #{plan_blank},
+            plan_standard = #{plan_standard},
+            plan_control = #{plan_control},
+            plan_status = 2,
+            plan_contents = #{plan_contents},
+            modify_date = sysdate
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <insert id="registPlanSeed" parameterType="int">
+        INSERT INTO plan_seed(
+            plan_seed_id,
+            plan_id,
+            seed_id
+        )
+        VALUES(
+            get_seq('plan_seed_seq_id'),
+            #{plan_id},
+            #{seed_id}
+        )
+    </insert>
+
+    <insert id="registPlanMethod" parameterType="PlanMethod">
+        INSERT INTO plan_method(
+            plan_method_id,
+            plan_id,
+            method_id,
+            method_cycle,
+            method_comment
+        )
+        VALUES(
+            plan_method_seq_id.nextval,
+            #{plan_id},
+            #{method_id},
+            #{method_cycle},
+            #{method_comment}
+        )
+    </insert>
+
+    <select id="selectPlanMethod" parameterType="int" resultType="PlanMethod">
+        SELECT pm.plan_method_id , pm.plan_id , pm.method_id , pm.method_cycle , m.method_contents as method_comment 
+        FROM plan_method pm JOIN method m
+        	ON pm.method_id = m.method_id
+        WHERE plan_id = #{plan_id};
+    </select>
+
+    <select id="selectPlanSeedPk" parameterType="int" resultType="int">
+        SELECT seed_id
+        FROM plan_seed
+        WHERE plan_id = #{plan_id}
+    </select>
+
+    <update id="modifyPlanEasy" parameterType="Plan">
+        UPDATE plan
+        SET
+            genetic_id = #{genetic_id}
+            ,plan_division = #{division_id}
+            ,modify_date = sysdate
+        <if test="ATCH_FILE_NM != null">
+            <if test="ATCH_FILE_NM != ''">
+                ,ATCH_FILE_NM = #{ATCH_FILE_NM}
+                ,ORIG_FILE_NM = #{ORIG_FILE_NM}
+            </if>
+        </if>
+        where plan_id = #{plan_id}
+    </update>
+
+    <delete id="deletePlanMethodByPlan" parameterType="int">
+        DELETE FROM plan_method
+        WHERE plan_id = #{plan_id}
+    </delete>
+    
+    <delete id="deletePlanSeedByPlan" parameterType="int">
+        DELETE FROM plan_seed
+        WHERE plan_id = #{plan_id}
+    </delete>
+
+    <select id="selectPlanByMethod" parameterType="int" resultMap="planResultMap">
+        SELECT p.plan_id, p.plan_code, g1.genetic crop_list, g2.genetic kind_list, m.method_result
+        FROM plan p
+        LEFT OUTER JOIN plan_method pm on pm.plan_id = p.plan_id
+        LEFT OUTER JOIN method m on pm.method_id = m.method_id
+        LEFT OUTER JOIN DIVISION d4 on d4.division_id = m.DIVISION_ID
+        LEFT OUTER JOIN division d3 on d3.division_id = D4.DIVISION_PARENTS
+        LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+        LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+        LEFT OUTER JOIN genetic g2 on g2.genetic_id = s.genetic_id
+        LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+        WHERE p.plan_id != -1
+            AND p.plan_status >= 4
+            AND d3.division_id = #{method_id}
+        ORDER BY p.create_date DESC
+    </select>
+
+    <select id="selectPlanByApi" parameterType="String" resultType="PlanApiParam">
+        SELECT p.account id, p.plan_code, d3.division analysis_item,
+               (SELECT min(start_date) from schedule sch where sch.PLAN_ID = p.PLAN_ID) start_date,
+               (SELECT max(end_date) from SCHEDULE sch where sch.PLAN_ID = p.PLAN_ID) end_date
+        FROM plan p
+            LEFT OUTER JOIN PLAN_METHOD pm on pm.PLAN_ID = p.PLAN_ID
+            LEFT OUTER JOIN method m on m.METHOD_ID = pm.METHOD_ID
+            LEFT OUTER JOIN division d4 on m.DIVISION_ID = m.DIVISION_ID
+            LEFT OUTER JOIN DIVISION d3 on d3.DIVISION_ID = d4.DIVISION_PARENTS
+    </select>
+
+    <update id="modifyPlanState" parameterType="map">
+        UPDATE PLAN SET PLAN_STATUS = #{plan_state}
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <select id="selectPlanByApiDetail" parameterType="int" resultType="PlanApiDetailParam">
+        SELECT p.plan_id, PLATE.PLATE_ID batch_id, PLATE_INDEX batch_index,
+               SCHEDULE.SCH_CONTENTS, SCHEDULE.START_DATE, END_DATE,
+               s.STEP_ID, s.STEP_INDEX, s.STEP_COMMENT, s.STEP_NAME
+        FROM plan p
+            LEFT OUTER JOIN PLATE on plate.PLAN_ID = p.PLAN_ID
+            LEFT OUTER JOIN SCHEDULE on SCHEDULE.PLATE_ID = PLATE.PLATE_ID
+            LEFT OUTER JOIN PLAN_METHOD pm on pm.PLAN_ID = p.PLAN_ID
+            LEFT OUTER JOIN method m on m.METHOD_ID = pm.METHOD_ID
+            LEFT OUTER JOIN step s on s.METHOD_ID = m.METHOD_ID
+        WHERE plan_id = #{plan_id}
+    </select>
+
+    <update id="updateLatestPlanData" parameterType="map">
+        UPDATE PLAN
+        SET PLAN_PLATE = #{plan_plate},
+            PLAN_STEP = #{plan_step}
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <update id="updatePlanSetEasy" parameterType="PlanSetEasyParam">
+        UPDATE PLAN
+        SET PLAN_STATUS = 1,
+            PLAN_CONTENTS = #{comment}
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <update id="updatePlanSetTemplate">
+        UPDATE PLAN
+        SET PLAN_CONTENTS = #{comment}, PLAN_STATUS = 1
+        WHERE plan_id = #{plan_id}
+    </update>
+
+    <insert id="registPlanFile" parameterType="PlanFile">
+        INSERT INTO PLAN_FILE(
+            PLAN_FILE_ID,
+            PLAN_ID,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            PLAN_TYPE
+        )
+        VALUES (
+            plan_file_seq_id.nextval,
+            #{plan_id},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            #{plan_type}
+        )
+    </insert>
+
+    <select id="selectPlanFile" parameterType="PlanFile" resultType="PlanFile">
+        SELECT * FROM PLAN_FILE
+        WHERE PLAN_ID = #{plan_id} AND plan_type = #{plan_type}
+    </select>
+
+    <update id="modifyPlanFile" parameterType="PlanFile">
+        UPDATE PLAN_FILE SET ATCH_FILE_NM = #{ATCH_FILE_NM} , ORIG_FILE_NM = #{ORIG_FILE_NM} WHERE plan_file_id = #{plan_file_id}
+    </update>
+
+    <select id="selectPlanFileByPlan" parameterType="int" resultType="PlanFile">
+        SELECT * FROM PLAN_FILE WHERE PLAN_ID = #{plan_id}
+    </select>
+</mapper>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 장비 정보</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet"
+	href="../css/style/reagent_information2_normal.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<style>
+/* form */
+.new_user_form .user_data_box .user_form_box {
+	margin-bottom: 30px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:not(:first-child),
+	.new_user_form .user_data_box .adress_form_box .user_info_box {
+	width: calc(33.333333% - 14px);
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:first-child
+	{
+	margin-right: 20px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:nth-child(2)
+	{
+	margin-right: 20px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:last-child
+	{
+	margin-right: 0;
+}
+
+.new_user_form .user_data_box .bpttom_form_box .user_info_box:last-child
+	{
+	margin-bottom: 5px;
+}
+
+.new_user_form .user_data_box .bpttom_form_box .user_info_box:last-child>span
+	{
+	font-size: 1.4rem;
+	color: lightgray;
+	display: block;
+	padding-top: 5px;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box new_user_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">장비 정보</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">장비 정보 -</li>
+						<li class="card_inner_list">고급 등록</li>
+					</ul>
+				</div>
+				<div class="card">
+					<div class="card_cont_box">
+						<form id="equipmentForm" action=""
+							class="new_user_form common_form">
+							<div class="user_data_box">
+								<div class="top_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"><span class="star">*</span>
+											한글장비명</label> <input type="text" id="equipment_name" name="equipment_name">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"> 모델명</label> <input
+											type="text" id="equipment_model" name="equipment_model">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">취득일자</label> <input
+											type="date" id="equipment_date" name="equipment_date">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">취득금액</label> <input
+											type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g	,'');" id="equipment_price" name="equipment_price">
+									</div>
+								</div>
+								<div class="adress_form_box user_form_box">
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">활용범위</label> <select
+											name="equipment_range" id="" class=" common_select">
+											<option value="-1" hidden>활용범위 선택</option>
+											<option value="1">공동활용허용 가능</option>
+											<option value="2">단독활용만 가능</option>
+										</select>
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">공동활용 허용범위</label> <select
+											name="equipment_public" id="" class=" common_select">
+											<option value="-1" hidden>공동활용 허용범위 선택</option>
+											<option value="1">기관 내부 활용</option>
+											<option value="2">기관 외부 활용</option>
+										</select>
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">장비용도</label> <select
+											name="equipment_purpose" id="" class=" common_select">
+											<option value="-1" hidden>장비용도 선택</option>
+											<option value="1">계측</option>
+											<option value="2">시험</option>
+											<option value="3">분석</option>
+											<option value="4">기타</option>
+										</select>
+									</div>
+								</div>
+								<div class="bpttom_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">설치장소</label> <input
+											type="text" id="equipment_place" name="equipment_place">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">등록번호</label> <input
+											type="text" id="equipment_regist" name="equipment_regist">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">고정자산관리번호</label> <input
+											type="text" id="equipment_manage" name="equipment_manage">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">메소드 스텝 개수</label> <input
+											type="number" id="equipment_method" value="1"
+											name="equipment_method"> <span>(Method의 서브 스텝이
+											자동으로 생성됩니다.)</span>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<button type="button" class="appl_regist_btn common_btn1" onclick="onClickRegist();">등록</button>
+				</div>
+			</section>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script>
+		
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+			if (!validateFunction('equipment_name', '한글장비명을')) {
+				return false;
+			}
+
+			let equipment_price = $('#equipment_price').val();
+
+			if (equipment_price == '') {
+				$('#equipment_price').val(0);
+			}
+			return true;
+		}
+
+		function onClickRegist() {
+
+			if (!checkForm()) {
+				return;
+			}
+
+			let equipmentForm = $('#equipmentForm')[0];
+			let formData = new FormData(equipmentForm);
+
+			$.ajax({
+				url : "/equipment/equipment_add",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("장비가 등록되었습니다");
+						location.href = "/equipment/equipment_list";
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 결과 등록</title>
+    <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script src="/js/harvesting_after.js"></script>
+
+
+ <!-- <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script src="/js/harvesting_after.js"></script> -->
+    <style>
+        #main .explane_box {width: 100%; padding-left: 0; margin-bottom: 30px;}
+
+        .regi_file {padding-top: 10px; padding-left: 5px;}
+        .regi_file > a,
+        .regi_file > span {font-size: 1.4rem;}
+        .regi_file > span {margin-right: 5px;}
+        .regi_file > a {color: #6875E9; font-weight: 700;}
+        .regi_file > a:hover {text-decoration: underline;}
+
+        #main .harvesting_sect .card {padding-bottom: 30px;}
+
+        .harvesting_add_box .card_header {display: flex; align-items: center;}
+        .harvesting_add_box .card_header > h2 {margin-right: 10px;}
+        .harvesting_add_box .card_header > .common_btn1 {height: 30px; line-height: 30px; width: 70px; font-size: 1.4rem;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+       <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box harvesting_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">결과 등록</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">결과 등록 - </li>
+                        <li class="card_inner_list">간편 등록</li>
+                    </ul>
+                    <div class="print_box">
+                        <button class="common_btn1">변경 이력</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_cont_box harvesting_add_box"> 
+                       <form action="" class="harvesting_form common_form">
+                            <div class="form_box task_box select_box">
+                                <label for="" class="file_title">과제 정보</label>
+                                <select name="" id="" class="task_select common_select">
+                                    <option value="none" hidden>과제 정보 선택</option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="form_box task_box select_box">
+                                <label for="" class="file_title">분석 종류</label>
+                                <input type="text" name="" id="" value="물성(TPA법)" disabled>
+                            </div>
+                            <div class="form_box task_box select_box">
+                                <label for="" class="file_title">품종/유전자원정보</label>
+                                <input type="text" name="" id="" value="옥수수(단옥3호), 옥수수(고당옥), 옥수수(수원단85호)" disabled>
+                            </div>
+                            <div class="form_box explane_box">
+                                <label for="" class="file_title"></label>
+                               <textarea name="" id="" class=""></textarea>
+                               <div class="regi_file">
+                                   <span>등록 파일 : </span><a href="#">옥수수_물성실험.pdf</a>
+                               </div>
+                            </div>
+                            <div class="card_header">
+                                <h2 class="header_title">Step1. 일정 및 담당자 지정</h2> <button class="common_btn1">설정</button>
+                            </div>
+                            <table class="card3_cont_table">
+                                <thead>
+                                    <tr>
+                                        <th>담당자(정)</th>
+                                        <th>담당자(부)</th>
+                                        <th>시작일</th>
+                                        <th>종료일</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span>홍길동</span></td>
+                                        <td><span>홍길동</span></td>
+                                        <td><span>2021-08-10</span></td>
+                                        <td><span>2021-08-10</span></td>
+                                    </tr>
+                                </tbody>
+                           </table>
+                       </form>
+
+                    </div>
+                </div>
+                <div class="card_footer">
+                    <button class="list_btn common_btn1">목록</button>
+                    <button class="save_btn common_btn1">저장</button>
+                </div>
+            </section>
+            <div class="modal harvesting_modal" id="kindSelect">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">분석 항목 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form action="" class="modal_form common_form lookup_form">
+                        <div class="select_box modal_input_box">
+                            <p for="" class="modal_form_title">품종/유전정보</p>
+                            <div class="raido_box_wrap">
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_kind"> 
+                                    <label for="_kind"></label>
+                                </div>
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_genetic">
+                                    <label for="_genetic"></label>
+                                </div>
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_etc"> 
+                                    <label for="_etc"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">용도</label>
+                            <select class="common_select" id="">
+                                <option value="" hidden>용도 선택</option>
+                                <option value="">기능성</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">분류</label>
+                            <select class="common_select" id="">
+                                <option value="" hidden>용도 선택</option>
+                                <option value="">기능성 관련 성분</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                            </select>
+                        </div>
+                        <div class="form_box modal_input_box off">
+                            <label for="" class="modal_form_title">신규 세부 항목</label>
+                            <input type="text" id="" class="">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn off">사용</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- 공통 구조 - main end -->
+    </div>
+
+</body>
+</html>

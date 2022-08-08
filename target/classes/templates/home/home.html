@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - home</title>
+<link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+<link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+<link type="text/css" rel="stylesheet" href="/css/common/common.css">
+<link type="text/css" rel="stylesheet" href="/css/style/home.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/vendor/chartjs/Chart.min.js"></script>
+
+<!--    <link type="text/css" rel="stylesheet" href="../../static/css/common/reset.css">-->
+<!--    <link type="text/css" rel="stylesheet" href="../../static/css/common/ui.css">-->
+<!--    <link type="text/css" rel="stylesheet" href="../../static/css/common/common.css">-->
+<!--    <link type="text/css" rel="stylesheet" href="../../static/css/style/home.css">-->
+
+<!--    <script src="../../static/js/common/jquery-3.6.0.js"></script>-->
+<!--    <script src="../../static/js/common/loadHeader.js"></script>-->
+<!--    <script src="../../static/js/common/common.js"></script>-->
+<!--    <script src="../../static/vendor/chartjs/Chart.min.js"></script>-->
+<style>
+.raido_box_wrap {
+	width: 100%;
+	margin-bottom: 10px;
+	padding-left: 2px;
+}
+
+.raido_box_wrap .radio_box {
+	margin-right: 15px;
+}
+
+.raido_box_wrap .radio_box>.radi_text {
+	font-size: 1.4rem;
+	color: darkgrey;
+	display: inline-block;
+	margin-bottom: 2px;
+	padding-left: 3px;
+	transition: 0.2s all;
+	bordi877er: none;
+	width: auto;
+	cursor: pointer;
+	border: none;
+	background-color: none;
+}
+
+.check_box_wrap {
+	display: flex;
+	justify-content: left;
+	width: 100%;
+}
+
+.raido_box_wrap .radio_box>input[type="checkbox"] {
+	display: none;
+}
+
+.raido_box_wrap .radio_box>input[type="checkbox"]:checked+label+.radi_text
+	{
+	color: #666666;
+}
+
+.radio_box>label {
+	background: none;
+}
+
+#main .card {
+	display: none;
+}
+
+#main .card.on {
+	display: block;
+}
+</style>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const radiCheckWrap = document.querySelector('.raido_box_wrap');
+            const radicheck = radiCheckWrap.querySelectorAll('.radio_box');
+            const card = document.querySelectorAll('.card');
+
+            radicheck.forEach(item => {
+                let radi = item.getElementsByTagName('input')[0];
+
+                radi.addEventListener('click', () => {
+                    if(radi.checked) {
+                        let id = radi.getAttribute('data-cart');
+
+                        // card.forEach(i => {i.classList.remove('on')});
+                        card.forEach(i => {
+                            let has = i.classList.contains(id);
+
+                            if(has) {i.classList.add('on')};
+                        });
+                    } else {
+                        let id = radi.getAttribute('data-cart');
+
+                        card.forEach(i => {
+                            let has = i.classList.contains(id);
+
+                            if(has) {i.classList.remove('on')};
+                        });
+                    };
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<main id="main">
+
+			<th:block th:include="/../header/main_header.html"></th:block>
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+
+			<section class="card_box">
+				<h2 style="display: none;">home</h2>
+				<div class="raido_box_wrap">
+					<div class="radio_box">
+						<input type="checkbox" id="analysis1" data-cart='analysis_Card'
+							value="1" th:checked="${user.analysis_check} == 1"
+							onclick="onCheckHomeMenu(event);"> <label for="analysis1"></label>
+						<label for="analysis1" class="radi_text">분석항목별현황</label>
+					</div>
+					<div class="radio_box">
+						<input type="checkbox" id="method1" data-cart='method_Card'
+							value="2" th:checked="${user.method_check} == 1"
+							onclick="onCheckHomeMenu(event);"> <label for="method1"></label>
+						<label for="method1" class="radi_text">시료별분석현황</label>
+					</div>
+					<div class="radio_box">
+						<input type="checkbox" id="storage1" data-cart='storage_Card'
+							value="3" th:checked="${user.storage_check} == 1"
+							onclick="onCheckHomeMenu(event);"> <label for="storage1"></label>
+						<label for="storage1" class="radi_text">저장고상황</label>
+					</div>
+
+					<div class="radio_box"
+						th:if="${session.LOGIN_MEMBER.authority == 'MANAGER' || session.LOGIN_MEMBER.authority == 'ADMIN'}">
+						<input type="checkbox" id="researcher1" data-cart='research_Card'
+							value="4" th:checked="${user.researcher_check} == 1"
+							onclick="onCheckHomeMenu(event);"> <label
+							for="researcher1"></label> <label for="researcher1"
+							class="radi_text">연구자별상황</label>
+					</div>
+					<!--  <div class="radio_box">
+                        <input type="radio" name="status3" id="data1" data-cart='data_Card'>
+                        <label for="data1"></label>
+                        <label for="data1" class="radi_text">데이터상황</label>
+                    </div> -->
+				</div>
+
+				<div class="card analysis_Card"
+					th:classappend="${user.analysis_check} == 1 ? 'on' : '' ">
+					<div class="card_header">
+						<div class="card_btn_wrap">
+							<div class="home_cheack_box">
+								<input type="radio" id="StatusByItem" checked
+									class="cart_check_box" name="ItemStatus" value="Item">
+								<label for="StatusByItem" class="status_label">분석 항목별 현황</label>
+							</div>
+							<!--                            <div class="home_cheack_box">-->
+							<!--                                <input type="radio" id="StatusSample" class="cart_check_box" name="ItemStatus" value="Sample">-->
+							<!--                                <label for="StatusSample" class="status_label">시료별 분석 현황</label>-->
+							<!--                            </div>-->
+						</div>
+						<div class="card_info_box">
+							<div class="date_box">
+								<label for="dateSelect3"> <input type="date"
+									id="dateSelect3" class="date_select">
+								</label>
+							</div>
+							<!--  <button class="download"></button> -->
+						</div>
+					</div>
+					<div class="card_cont">
+						<div class="canvas_chart" id="divisionCanvasDiv"
+							style="width: 100%; height: 400px;">
+							<canvas id="divisionCanvas" style="width: 100%; height: 100%;"></canvas>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card method_Card"
+					th:classappend="${user.method_check} == 1 ? 'on' : '' ">
+					<div class="card_header">
+						<div class="card_btn_wrap">
+							<!--                            <div class="home_cheack_box">-->
+							<!--                                <input type="radio" id="method_1" checked class="cart_check_box" name="methodStatus" value="">-->
+							<!--                                <label for="method_1" class="status_label">메소드 현황1</label>-->
+							<!--                            </div>-->
+							<!--                            <div class="home_cheack_box">-->
+							<!--                                <input type="radio" id="method_2" class="cart_check_box" name="methodStatus" value="">-->
+							<!--                                <label for="method_2" class="status_label">메소드 현황2</label>-->
+							<!--                            </div>-->
+							<div class="home_cheack_box">
+								<input type="radio" id="StatusSample" class="cart_check_box"
+									name="geneticStatus" value="Sample" checked> <label
+									for="StatusSample" class="status_label">시료별 분석 현황</label>
+							</div>
+						</div>
+						<div class="card_info_box">
+							<div class="date_box">
+								<label for="dateSelect4"> <input type="date"
+									id="dateSelect4" class="date_select">
+								</label>
+							</div>
+							<!-- <button class="download"></button> -->
+						</div>
+					</div>
+					<div class="card_cont">
+						<div class="canvas_chart" id="geneticCanvasDiv"
+							style="width: 100%; height: 400px;">
+							<canvas id="geneticCanvas" style="width: 100%; height: 100%;"></canvas>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card storage_Card"
+					th:classappend="${user.storage_check} == 1 ? 'on' : '' ">
+					<div class="card_header">
+						<div class="card_btn_wrap">
+							<div class="home_cheack_box">
+								<input type="radio" id="Tempe" checked class="cart_check_box"
+									name="storage" value="temperature"> <label for="Tempe"
+									class="status_label">저장고 온도</label>
+							</div>
+							<div class="home_cheack_box">
+								<input type="radio" id="_humidity" class="cart_check_box"
+									name="storage" value="humidity"> <label for="_humidity"
+									class="status_label">저장고 습도</label>
+							</div>
+						</div>
+						<div class="card_info_box">
+							<div class="card_select_box select_box">
+								<label for="storage_select">저장고 위치</label> <select
+									class="common_select home_select" id="storage_select">
+									<th:block th:each=" place : ${placeList}">
+										<option th:value="${place.place_id}"
+											th:text="${place.place_name}"></option>
+									</th:block>
+								</select>
+							</div>
+							<!--                            <div class="date_box">-->
+							<!--                                <label for="dateSlect2">-->
+							<!--                                    <input type="date" id="dateSlect2" class="date_select">-->
+							<!--                                </label>-->
+							<!--                            </div>-->
+						</div>
+					</div>
+					<div class="card_cont">
+						<div class="canvas_chart" id="storageCanvasDiv"
+							style="width: 100%; height: 400px;">
+							<canvas id="storageCanvas" style="width: 100%; height: 100%;"></canvas>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${user.authority == 'MANAGER' || user.authority == 'ADMIN'}"
+					class="card first_card research_Card"
+					th:classappend="${user.researcher_check} == 1 ? 'on' : '' ">
+					<div class="card_header">
+						<div class="card_btn_wrap">
+							<div class="home_cheack_box">
+								<input type="radio" id="connectStatus1" checked
+									class="cart_check_box" name="status" value="connect"> <label
+									for="connectStatus1" class="status_label">연구자별 접속 현황</label>
+							</div>
+							<div class="home_cheack_box">
+								<input type="radio" id="_progress" class="cart_check_box"
+									name="status" value="progress"> <label for="_progress"
+									class="status_label">연구자별 진행 상황</label>
+							</div>
+						</div>
+						<div class="card_info_box">
+							<!-- <div class="card_switch_box">
+                                <span>연구직</span>
+                                <div class="card_switch">
+                                    <input type="checkbox" class="switch_check" id="job_check">
+                                    <label for="job_check"></label>
+                                </div>
+                                <span>공무직</span>
+                            </div> -->
+							<div class="date_box">
+								<label for="dateSelect1"> <input type="date"
+									id="dateSelect1" class="date_select">
+								</label>
+							</div>
+							<!-- <button class="download"></button> -->
+						</div>
+					</div>
+					<div class="card_cont">
+						<div class="canvas_chart" id="userCanvasDiv"
+							style="width: 100%; height: 400px;">
+							<canvas id="userCanvas" style="width: 100%; height: 100%;"></canvas>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="card data_Card">
+					<div class="card_header">
+						<div class="card_btn_wrap">
+							<div class="home_cheack_box">
+								<input type="radio" id="data_1" checked class="cart_check_box"
+									name="dataStatus" value=""> <label for="data_1"
+									class="status_label">데이터 현황1</label>
+							</div>
+							<div class="home_cheack_box">
+								<input type="radio" id="data_2" class="cart_check_box"
+									name="dataStatus" value=""> <label for="data_2"
+									class="status_label">데이터 현황2</label>
+							</div>
+						</div>
+						<div class="card_info_box">
+							<div class="date_box">
+								<label for="dateSlect5"> <input type="date"
+									id="dateSlect5" class="date_select">
+								</label>
+							</div>
+							<!-- <button class="download"></button> -->
+						</div>
+					</div>
+					<div class="card_cont"></div>
+				</div>
+			</section>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+
+</body>
+<!-- <script type="text/javascript">
+</script>
+</html>          </div>
+                        <div class="card_info_box">
+                            <div class="date_box">
+                                <label for="dateSlect">
+                                    <input type="date" id="dateSlect3" class="date_select">
+                                </label>
+                            </div>
+                            <button class="download"></button>
+                        </div>
+                    </div>
+                    <div class="card_cont">
+                        
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+<script type="text/javascript">
+</script> -->
+
+<script th:inline="javascript" type="text/javascript">
+	let user = [[${user}]];
+    let storageData = [];
+    let userData = [];
+    let divisionData = [];
+    let geneticData = [];
+    
+</script>
+<script>
+
+	function onCheckHomeMenu(event){
+
+		let value = 0;
+		let type = event.target.value;
+
+		if(event.target.checked){
+			value = 1;
+		}
+
+		 $.ajax({
+			url : `/api/userHomeCheck?type=${type}&checkValue=${value}`,
+			contentType: 'application/json; charset=utf-8',
+			type : "POST",
+			success : function(data){
+				
+			}
+		})
+	}
+
+    $('#analysis1').on('click');
+    
+    $('#analysis1').attr('checked', true);
+    
+    $('.analysis_Card').addClass('on');
+    
+    onDivisionStatus();
+    onGeneticStatus();
+    onStorageStatus()
+    if(user.authority == 'MANAGER' || user.authority == 'ADMIN' ){
+    	userDataWriteChart();
+    }
+    
+    
+    $("#analysis1").change(function(){
+        if($("#analysis1").is(":checked")){
+            onDivisionStatus();
+        }
+    });
+
+    $("#method1").change(function(){
+        if($("#method1").is(":checked")){
+            onGeneticStatus();
+        }
+    });
+
+    $("#storage1").change(function(){
+        if($("#storage1").is(":checked")){
+        	onStorageStatus()
+        }
+    });
+
+    $("#researcher1").change(function(){
+        if($("#researcher1").is(":checked")){
+            onUserStatus();
+        }
+    });
+
+    //저장고상황 저장고 변경
+    $("#storage_select").change(function (){
+        onStorageStatus();
+    });
+
+    //저장고 온도/습도 라디오버튼
+    $('input[name="storage"]').change(function(){
+        if("temperature" == $(this).val()){
+            drawLineChartStorage(1);
+        }else{
+            drawLineChartStorage(2);
+        }
+    });
+
+    
+    function onStorageStatus(){
+    	
+    	let place_id = $('#storage_select > option:selected').val();
+	
+    	if(place_id == undefined){
+    		
+    		return;
+    	}
+    	
+        storageData = []
+
+        $.ajax({
+            type : "POST",
+            url : "/api/storage_json_data",
+            data : {
+                'place_id' : place_id
+            },
+            dataType:"json",
+            success : function(data) {
+                if(Object.keys(data).length === 0){
+                    drawLineChartStorage(-1);
+                    return;
+                }
+                storageData = data.body;
+                if("temperature" == $("input[name='storage']:checked").val()){
+                    drawLineChartStorage(1);
+                }else{
+                    drawLineChartStorage(2);
+                }
+            },
+            error : function(err) {
+                alert("저장소 데이터 조회에 실패했습니다. 관리자에게 문의해주세요.");
+            }
+        });
+    }
+    
+    // 저장고 라인차트
+    function drawLineChartStorage(type) {
+        $('#storageCanvas').remove();
+        $('#storageCanvasDiv').append(' <canvas id="storageCanvas" style="width: 100%; height: 100%;"></canvas>');
+
+        if (type == -1 || storageData.length == 0) {
+
+            return;
+        }
+
+        let jsonArray = JSON.parse(storageData);
+
+        let chartRow = [];
+        let chartData1 = [];
+        let chartData2 = [];
+
+        let label1 = "장기";
+        let label2 = "단기";
+
+        jsonArray.map(item => {
+            chartRow.push(item.DateTime);
+
+            if (type == 1) {
+                chartData1.push(item.temp1);
+                chartData2.push(item.temp2);
+            } else if (type == 2) {
+                chartData1.push(item.humidity1);
+                chartData2.push(item.humidity2);
+            }
+        })
+
+        new Chart(document.getElementById("storageCanvas"),
+            {
+                type: 'line',
+                data: {
+                    labels: chartRow,
+                    datasets: [
+                        {
+                            label: label1,
+                            data: chartData1,
+                            borderColor: "#F75320",
+                            backgroundColor: "#F75320",
+                            fill: false,
+                            lineTension: 0
+                        },
+                        {
+                            label: label2,
+                            data: chartData2,
+                            borderColor: "#45BBE0",
+                            backgroundColor: "#45BBE0",
+                            fill: false,
+                            lineTension: 0
+                        },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    title: {display: false},
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Month'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                suggestedMin: 0,
+                            },
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Amount'
+                            }
+                        }]
+                    }
+                }
+            });
+    }
+
+
+    //연구자별상황
+    function onUserStatus(){
+
+        if ("connect" == $("input[name='status']:checked").val()) {
+            userDataWriteChart();
+        } else {
+        	userAnalysisStatusChart();
+        }
+    }
+
+    $('input[name="status"]').change(function(){
+        onUserStatus();
+    });
+
+    $(document).on('change', '#dateSelect1', function () {
+        onUserStatus();
+    });
+
+    function userDataWriteChart(){
+    	
+        let startDate = $("#dateSelect1").val();
+        
+        if(startDate == ''){
+        	
+        	let today = new Date();   
+        	let year = today.getFullYear(); // 년도
+        	let month = String(today.getMonth() + 1);  // 월
+        	let date = String(today.getDate());  // 날짜
+
+        	if(month.length == 1){
+        		month = String(0)+month;
+        	}
+        	
+        	if(date.length == 1){
+        		date = String(0)+date;
+        	}
+			
+        	startDate = year + '-' + month + '-' + date
+        }
+        
+        console.log(startDate , "startDate")
+        userData = [];
+
+        $.ajax({
+            type : "POST",
+            url : "/api/userLogin_list",
+            data : {
+                'startDate' : startDate,
+                'endDate' : startDate
+            },
+            dataType:"json",
+            success : function(data) {
+                if(Object.keys(data).length === 0){
+                    drawStackChartUser(-1);
+                    return;
+                }
+                userData = data;
+                drawStackChartUser(1);
+            },
+            error : function(err) {
+                alert("유저 데이터 조회에 실패했습니다. 관리자에게 문의해주세요.");
+            }
+        });
+    }
+    
+	 function userAnalysisStatusChart(){
+	    	
+	        let startDate = $("#dateSelect1").val();
+	        
+	        if(startDate == ''){
+	        	
+	        	let today = new Date();   
+	        	let year = today.getFullYear(); // 년도
+	        	let month = String(today.getMonth() + 1);  // 월
+	        	let date = String(today.getDate());  // 날짜
+	
+	        	if(month.length == 1){
+	        		month = String(0)+month;
+	        	}
+	        	
+	        	if(date.length == 1){
+	        		date = String(0)+date;
+	        	}
+				
+	        	startDate = year + '-' + month + '-' + date
+	        }
+	        
+	        console.log(startDate , "startDate")
+	        userData = [];
+	
+	        $.ajax({
+	            type : "POST",
+	            url : "/api/userAnalysisList",
+	            data : {
+	                'startDate' : startDate,
+	                'endDate' : startDate
+	            },
+	            dataType:"json",
+	            success : function(data) {
+	            	
+	            	console.log(data , "data")
+	            	
+	                if(Object.keys(data).length === 0){
+	                	drawStackChartAnalysisStatus(-1);
+	                    return;
+	                }
+	                userData = data;
+	                drawStackChartAnalysisStatus(1);
+	            },
+	            error : function(err) {
+	                alert("유저 데이터 조회에 실패했습니다. 관리자에게 문의해주세요.");
+	            }
+	        });
+	    }
+
+    //연구자별 상황 막대차트
+    function drawStackChartUser(type){
+
+        $('#userCanvas').remove();
+        $('#userCanvasDiv').append(' <canvas id="userCanvas" style="width: 100%; height: 100%;"></canvas>');
+
+        if (type == -1 || userData.length == 0) {
+        	/*
+            let ctx = document.getElementById("userCanvas").getContext('2d');
+
+            ctx.font = "bold 14px Arial, sans-serif";
+            ctx.fillText("데이터가 없습니다", 10, 60);
+            */
+
+            return;
+        }
+
+        let chartRow = [];
+        let chartData = [];
+
+        let jsonArray = userData;
+
+        jsonArray.map(item => {
+            chartRow.push(item.name);
+            chartData.push(item.connect_count);
+        })
+
+        new Chart(document.getElementById("userCanvas"),
+            {
+            type: 'bar',
+            data: {
+                labels: chartRow,
+                datasets: [{
+                    backgroundColor: "#26d683",
+                    data: chartData,
+                }],
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    displayColors: true,
+                    callbacks:{
+                        mode: 'x',
+                    },
+                },
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        type: 'linear',
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {display: false},
+            }
+        });
+    }
+    
+    //연구자별 상황 막대차트
+    function drawStackChartAnalysisStatus(type){
+
+        $('#userCanvas').remove();
+        $('#userCanvasDiv').append(' <canvas id="userCanvas" style="width: 100%; height: 100%;"></canvas>');
+
+        if (type == -1 || userData.length == 0) {
+        	/*
+            let ctx = document.getElementById("userCanvas").getContext('2d');
+
+            ctx.font = "bold 14px Arial, sans-serif";
+            ctx.fillText("데이터가 없습니다", 10, 60);
+            */
+
+            return;
+        }
+
+        let chartRow = [];
+        let chartData1 = [];
+        let chartData2 = [];
+        let chartData3 = [];
+        let chartData4 = [];
+
+        let jsonArray = userData;
+        
+        console.log(userData , "userData");
+
+        jsonArray.map(item => {
+            chartRow.push(item.name);
+            if(item.status1 == ''){
+            	chartData1.push(0);       	
+            }else{
+	            chartData1.push(item.status1);
+            }
+            
+            if(item.status2 == ''){
+            	chartData2.push(0);       	
+            }else{
+	            chartData2.push(item.status2);
+            }
+            
+            if(item.status3 == ''){
+            	chartData3.push(0);       	
+            }else{
+	            chartData3.push(item.status3);
+            }
+            
+            if(item.status4 == ''){
+            	chartData4.push(0);       	
+            }else{
+	            chartData4.push(item.status4);
+            }
+            
+        })
+		
+        new Chart(document.getElementById("userCanvas"),
+            {
+            type: 'bar',
+            data: {
+                labels: chartRow,
+                datasets: [{
+                    label: '전체',
+                    data: chartData1,
+                    borderColor: "#55EE94",
+                    backgroundColor: "#55EE94",
+                    fill: false,
+                },
+                {
+                    label: '분석중',
+                    data: chartData2,
+                    borderColor: "#e8ae51",
+                    backgroundColor: "#e8ae51",
+                    fill: false,
+                },
+                {
+                    label: '대기중',
+                    data: chartData3,
+                    borderColor: "#d6f7b7",
+                    backgroundColor: "#d6f7b7",
+                    fill: false,
+                },
+                {
+                    label: '분석완료',
+                    data: chartData4,
+                    borderColor: "#ff9f8c",
+                    backgroundColor: "#ff9f8c",
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    displayColors: true,
+                    callbacks:{
+                        mode: 'x',
+                    },
+                },
+                title: {
+                    display: false,
+                },
+                legend: {
+                    display: true,
+                },
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+
+    //division상황
+    function onDivisionStatus(){
+        divisionWriteChart();
+    }
+
+    $(document).on('change', '#dateSelect3', function () {
+        onDivisionStatus();
+    });
+
+
+    //genetic상황
+    function onGeneticStatus(){
+        geneticWriteChart();
+    }
+
+    $(document).on('change', '#dateSelect4', function () {
+        onGeneticStatus();
+    });
+
+
+    function divisionWriteChart(){
+        let startDate = $("#dateSelect3").val();
+        divisionData = [];
+
+        $.ajax({
+            type : "POST",
+            url : "/api/division_list",
+            data : {
+                'startDate' : startDate,
+                'endDate' : startDate
+            },
+            dataType:"json",
+            success : function(data) {
+                if(Object.keys(data).length === 0){
+                    drawStackChartDivisionGenetic(-1);
+                    return;
+                }
+                divisionData = data;
+                drawStackChartDivisionGenetic(1);
+            },
+            error : function(err) {
+                alert("분석 데이터 조회에 실패했습니다. 관리자에게 문의해주세요.");
+            }
+        });
+    }
+
+    function geneticWriteChart(){
+        let startDate = $("#dateSelect4").val();
+        geneticData = [];
+
+        $.ajax({
+            type : "POST",
+            url : "/api/genetic_list",
+            data : {
+                'startDate' : startDate,
+                'endDate' : startDate
+            },
+            dataType:"json",
+            success : function(data) {
+                if(Object.keys(data).length === 0){
+                    drawStackChartDivisionGenetic(-1);
+                    return;
+                }
+                geneticData = data;
+                drawStackChartDivisionGenetic(2);
+            },
+            error : function(err) {
+                alert("시료 데이터 조회에 실패했습니다. 관리자에게 문의해주세요.");
+            }
+        });
+    }
+    
+    //연구자별 상황 막대차트
+    function drawStackChartDivisionGenetic(type){
+        if(type == 1){
+            $('#divisionCanvas').remove();
+            $('#divisionCanvasDiv').append(' <canvas id="divisionCanvas" style="width: 100%; height: 100%;"></canvas>');
+            if (type == -1 || divisionData.length == 0) {
+                /*
+                let ctx = document.getElementById("divisionCanvas").getContext('2d');
+
+                ctx.font = "bold 14px Arial, sans-serif";
+                ctx.fillText("데이터가 없습니다", 10, 60);
+                */
+                return;
+            }
+        }else if(type == 2){
+            $('#geneticCanvas').remove();
+            $('#geneticCanvasDiv').append(' <canvas id="geneticCanvas" style="width: 100%; height: 100%;"></canvas>');
+            if (type == -1 || geneticData.length == 0) {
+                /*
+                let ctx = document.getElementById("divisionCanvas").getContext('2d');
+
+                ctx.font = "bold 14px Arial, sans-serif";
+                ctx.fillText("데이터가 없습니다", 10, 60);
+                */
+                return;
+            }
+        }
+
+        let allMap = new Map();
+        let useMap = new Map();
+        let keyMap = new Map();
+
+        if(type == 1){
+            divisionData.map(item => {
+                console.log("item : ");
+                console.log(item);
+                if(item.plan_status == 4){
+                    useMap.set(item.division, item.division_count);
+                }
+
+                if(allMap.has(item.division)){
+                    allMap.set(item.division, allMap.get(item.division) + item.division_count);
+                }else{
+                    allMap.set(item.division, item.division_count);
+                }
+
+                keyMap.set(item.division, 1);
+            });
+        }else if(type == 2){
+            geneticData.map(item => {
+                if(item.plan_status == 4){
+                    useMap.set(item.genetic, item.genetic_count);
+                }
+
+                if(allMap.has(item.genetic)){
+                    allMap.set(item.genetic, allMap.get(item.genetic) + item.genetic_count);
+                }else{
+                    allMap.set(item.genetic, item.genetic_count);
+                }
+
+                keyMap.set(item.genetic, 1);
+            });
+        }
+
+        let chartRow = [];
+        let chartAllData = [];
+        let chartUseData = [];
+
+        Array.from(keyMap.keys()).map(key => {
+            chartRow.push(key);
+
+            if(allMap.has(key)) {
+                chartAllData.push(allMap.get(key));
+            }else{
+                chartAllData.push(0);
+            }
+
+            if(useMap.has(key)) {
+                chartUseData.push(useMap.get(key));
+            }else{
+                chartUseData.push(0);
+            }
+        });
+
+        let canvasElement;
+        if(type == 1){
+            canvasElement = document.getElementById("divisionCanvas");
+        }else if(type == 2){
+            canvasElement = document.getElementById("geneticCanvas");
+        }
+
+        new Chart(canvasElement, {
+            type: 'horizontalBar',
+            data: {
+                labels: chartRow,
+                datasets: [{
+                    label: '전체',
+                    data: chartAllData,
+                    borderColor: "#55EE94",
+                    backgroundColor: "#55EE94",
+                    fill: false,
+                },
+                {
+                    label: '분석중',
+                    data: chartUseData,
+                    borderColor: "#bfd42c",
+                    backgroundColor: "#bfd42c",
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: false,
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                        },
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            autoSkip: false,
+                        },
+                        scaleLabel: {
+                            display: true,
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+</script>
+
+</html>

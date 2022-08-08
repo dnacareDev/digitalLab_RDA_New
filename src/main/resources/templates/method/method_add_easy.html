@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 파비콘 -->
+	<link rel="icon" href="/favicon.ico">
+	<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+	<title>Digital Lab - 실험 방법</title>
+	<link rel="stylesheet" href="/css/common/reset.css">
+	<link rel="stylesheet" href="/css/common/common.css">
+	<link rel="stylesheet" href="/css/common/ui.css">
+	<link rel="stylesheet" href="/css/style/new_enrollment.css">
+
+	<script src="/js/common/jquery-3.6.0.js"></script>
+	<script src="/js/common/loadHeader.js"></script>
+	<script src="/js/common/common.js"></script>
+
+	<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/new_enrollment.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+</head>
+
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+			<!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box new_enroll_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">실험 방법</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">실험 방법 -</li>
+						<li class="card_inner_list">일반 등록</li>
+					</ul>
+					<div class="print_box">
+						<!-- <button class="print_btn">인쇄</button> -->
+						<button class="common_btn1">변경 이력</button>
+					</div>
+				</div>
+				<div class="method_sharing">
+					<select id="share_select_box" class="work_step_select common_select">
+						<option value="1" selected>그룹공유</option>
+						<option value="2">공유안함</option>
+					</select>
+				</div>
+				<div class="card">
+					<div class="card_cont_box">
+						<span class="error_text">사용중인 메소드로 인해 삭제가 불가합니다.</span>
+						<form action="" class="new_enroll_form common_form" id="regist_form">
+							<div class="first_enroll_box">
+								<div class="form_box lookup_box">
+									<label for="list_lookup" class="file_title">분석 항목</label>
+									<div class="lookup_input form_inner_box">
+										<input type="text" id="list_lookup" readonly="readonly"><button type="button"
+											class=" form_btn list_lookup_btn modal_on_btn common_btn1"
+											data-modal="_lookup">항목 조회</button>
+									</div>
+								</div>
+								<div class="form_box lookup_box select_box">
+									<label for="work_step" class="file_title">작업 단계</label> <select name="method_stage"
+										id="work_step" class="work_step_select common_select">
+										<option value="-1" hidden>작업 단계 선택</option>
+										<option value="1">전처리</option>
+										<option value="2">시료분석</option>
+									</select>
+								</div>
+							</div>
+							<div class="form_box explane_box">
+								<label for="method_explane" class="file_title">실험방법 설명</label>
+								<textarea name="method_contents" id="method_explane"
+									class="method_explane_box"></textarea>
+							</div>
+
+							<input type="hidden" name="method_share" value="1" />
+
+							<input type="hidden" name="division_depth_id_1" id="division_depth_id_1">
+							<input type="hidden" name="division_depth_id_2" id="division_depth_id_2">
+							<input type="hidden" name="division_parents" id="division_parents">
+							<input type="hidden" name="division_id" id="division_id">
+
+							<input type="hidden" name="division_1" id="division_1">
+							<input type="hidden" name="division_2" id="division_2">
+							<input type="hidden" name="division_3" id="division_3">
+							<input type="hidden" name="division" id="division">
+						</form>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card_cont_box">
+						<span class="error_text">사용중인 메소드로 인해 삭제가 불가합니다.</span>
+						<form action="" class="new_enroll_form common_form">
+
+							<div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input type="file" name=""
+										id="file_select1" class="file_select_input" data-none="false"
+										accept=".xlsx , .xls , .pdf , .hwp"><label for="file_select1"
+										class="form_btn common_btn1">파일 선택</label>
+								</div>
+								<span class="ex_text"><span class="star">* </span> 엑셀,
+									pdf, hwp 파일만 등록 가능합니다</span>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button class="list_btn common_btn1" onclick="location.href='/method/method_list'">목록</button>
+					<button class="appl_regist_btn common_btn1" onclick="onClickRegist()">등록</button>
+				</div>
+			</section>
+
+			<!-- 분석 항목 모달 -->
+			<div class="modal lookup_modal" id="_lookup">
+				<div class="modal_box on">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form lookup_form">
+
+						<!-- depth_1 -->
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">용도</label> <select class="common_select"
+								id="modal_division_1" onchange="onChangeDivisionDepth1()">
+								<option value="-1" hidden>용도 선택</option>
+								<th:block th:each="list : ${result.list}">
+									<option th:value="${list.division_id}" th:text="${list.division}"></option>
+								</th:block>
+								<option value="-2">신규등록</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box off" id="new_item_div_1">
+							<label for="" class="modal_form_title">신규 세부 항목</label><input type="text"
+								id="new_item_input_1" class="">
+						</div>
+
+						<!-- depth_2 -->
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분류</label> <select class="common_select"
+								id="modal_division_2" onchange="onChangeDivisionDepth2()">
+								<option value="-1" hidden>분류 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box off" id="new_item_div_2">
+							<label for="" class="modal_form_title">신규 세부 항목</label><input type="text"
+								id="new_item_input_2" class="">
+						</div>
+
+						<!-- depth_3 -->
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분석 항목</label> <select class="common_select"
+								id="modal_division_parent" onchange="onChangeDivisionDepth3()">
+								<option value="-1" hidden>분석 항목 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box off" id="new_item_div_3">
+							<label for="" class="modal_form_title">신규 세부 항목</label><input type="text"
+								id="new_item_input_3" class="">
+						</div>
+
+						<!-- depth_4 -->
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">세부 항목</label> <select class="common_select"
+								id="detail_select" onchange="onChangeDetailSelect()">
+								<option value="-1" hidden>세부 항목 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box off" id="new_item_div_4">
+							<label for="" class="modal_form_title">신규 세부 항목</label><input type="text"
+								id="new_item_input_4" onkeyup="onKeyupNewItemInput()" class="">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn off" id="_lookup_btn" onclick="onClickModalUse()"
+							data-dismiss="_lookup">사용</button>
+					</div>
+				</div>
+			</div>
+
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script>
+		
+		// 분석항목 등록
+		function onClickModalUse() {
+
+			let divisionDepth1 = $('#modal_division_1').val();
+			let divisionDepth2 = $('#modal_division_2').val();
+			let divisionParent = $('#modal_division_parent').val();
+			let division_id = $('#detail_select').val();
+
+			let division_1 = $('#new_item_input_1').val();
+			let division_2 = $('#new_item_input_2').val();
+			let division_3 = $('#new_item_input_3').val();
+			let division_4 = $('#new_item_input_4').val();
+
+			if (divisionDepth1 == -2 && division_1 == '') {
+				alert('신규 세부 항목을 입력해주세요');
+				return;
+			}
+			if (divisionDepth2 == -2 && division_2 == '') {
+				alert('신규 세부 항목을 입력해주세요');
+				return;
+			}
+			if (divisionParent == -2 && division_3 == '') {
+				alert('신규 세부 항목을 입력해주세요');
+				return;
+			}
+			if (division_id == -2 && division_4 == '') {
+				alert('신규 세부 항목을 입력해주세요');
+				return;
+			}
+			
+			if(division_id == -1 || division_id == ''){
+				alert("분석 항목을 입력해주세요")
+				return;
+			}
+
+			// 신규 아이디 값
+			$('#division_depth_id_1').val(divisionDepth1);
+			$('#division_depth_id_2').val(divisionDepth2);
+			$('#division_parents').val(divisionParent);
+			$('#division_id').val(division_id);
+
+			// 신규 텍스트
+			$('#division_1').val(division_1);
+			$('#division_2').val(division_2);
+			$('#division_3').val(division_3);
+			$('#division').val(division_4);
+
+			let depth_text_1 = '';
+			let depth_text_2 = '';
+			let depth_text_3 = '';
+			let depth_text_4 = '';
+
+			if (divisionDepth1 == -2) {
+				depth_text_1 = division_1;
+			} else {
+				depth_text_1 = $('#modal_division_1 option:selected').text();
+			}
+
+			if (divisionDepth2 == -2) {
+				depth_text_2 = division_2;
+			} else {
+				depth_text_2 = $('#modal_division_2 option:selected').text();
+			}
+
+			if (divisionParent == -2) {
+				depth_text_3 = division_3;
+			} else {
+				depth_text_3 = $('#modal_division_parent option:selected').text();
+			}
+
+			depth_text_4 = division_4;
+
+			let text = depth_text_1 + " > " + depth_text_2 + " > " + depth_text_3 + " > " + depth_text_4;
+			$('#list_lookup').val(text);
+			$('#_lookup').removeClass('on');
+			$('#main').removeClass('modal_on');
+		}
+
+		// 파일 등록 확장자 체크
+		$('#file_select1').on('change', function () {
+
+			if ($("#file_select1").val() != "") {
+				let ext = $('#file_select1').val().split('.').pop().toLowerCase();
+				if ($.inArray(ext, ['pdf', 'xls', 'xlsx', 'hwp']) == -1) {
+					alert('다른 형식의 파일입니다. 엑셀, pdf, hwp 형식만 업로드 가능 합니다');
+					$("#file_select1").val(""); // input file 파일명을 다시 지워준다.
+					return;
+				}
+			}
+		})
+
+		$('#share_select_box').on('change', function (e) {
+			
+			$('input[name="method_share"]').val(e.target.value);
+		})
+
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+			if (!validateFunction('division_id', '분석항목을')) {
+				return false;
+			}
+			let selectedValue = $('#work_step').val();
+			if (selectedValue == -1) {
+				alert("작업단계를 선택해주세요");
+				$('#work_step').focus();
+				return false;
+			}
+			if (!validateFunction('method_explane', 'Method 설명을')) {
+				return false;
+			}
+			if (!validateFunction('file_select1', '파일을')) {
+				return false;
+			}
+			return true;
+		}
+
+		function onClickRegist() {
+			let registForm = $('#regist_form')[0];
+			let formData = new FormData(registForm);
+			
+			
+			if (!checkForm()) {
+				return;
+			}
+
+			let file = $('#file_select1')[0].files[0];
+			formData.append('file', file);
+
+			$.ajax({
+				url: "/method/method_easy_add",
+				type: "POST",
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function (data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					}
+					else {
+						alert("실험방법이 등록되었습니다");
+						location.href = "/method/method_list";
+					}
+				},
+				error: function (xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url: "/err-message",
+				type: "GET",
+				data: {
+					err_msg_id: err_msg_id
+				},
+				success: function (data) {
+					alert(data.msg);
+				}
+			})
+		}
+
+		function initSelect(id, text, isDetail) {
+			$('#' + id).empty();
+			let defaultOption = `<option value="-1" hidden>${text}</option>`
+			$('#' + id).append(defaultOption);
+			$('#' + id).val(-1).prop("selected", "true");
+
+			if (isDetail) {
+				let newItem = `<option value="-2">신규 등록</option>`
+				$('#' + id).append(newItem);
+				//onChangeDetailSelect();
+			}
+		}
+
+		function initDivisionSelect(depth) {
+			switch (depth) {
+				case 1: initSelect('modal_division_2', '분류 선택', false);
+				case 2: initSelect('modal_division_parent', '분석항목 선택', false);
+				case 3: initSelect('detail_select', '세부 항목 선택', false);
+			}
+		}
+
+		function onChangeDivisionDepth1() {
+			
+			let selectedValue = $('#modal_division_1').val();
+	
+			initDivisionSelect(1);
+			
+			if (selectedValue == -2) {
+				newInputOpen(1);
+			} else {
+				newInputClose(1);
+				newInputClose(2);
+				newInputClose(3);
+				newInputClose(4);
+			}
+
+			searchDivision(selectedValue, 2, "modal_division_2");
+		}
+
+		function onChangeDivisionDepth2() {
+			
+			let selectedValue = $('#modal_division_2').val();
+
+			initDivisionSelect(2);
+			
+			if (selectedValue == -2) {
+				newInputOpen(2);
+			} else {
+				newInputClose(2);
+				newInputClose(3);
+				newInputClose(4);
+			}
+
+			searchDivision(selectedValue, 3, "modal_division_parent");
+		}
+
+		function onChangeDivisionDepth3() {
+			let selectedValue = $('#modal_division_parent').val();
+
+			initDivisionSelect(3);
+			if (selectedValue == -2) {
+				newInputOpen(3);
+			} else {
+				newInputClose(3);
+				newInputClose(4);
+			}
+
+			searchDivision(selectedValue, 4, "detail_select");
+		}
+
+		function onChangeDetailSelect() {
+			
+			let selectedValue = $('#detail_select').val();
+			
+			if (selectedValue == -2) {
+				
+				newInputOpen(4);
+				onKeyupNewItemInput();
+			}
+			else {
+				if (selectedValue != -1) {
+					$('#_lookup_btn').removeClass("off").addClass('on');
+				}
+				else {
+					$('#_lookup_btn').removeClass("on").addClass('off');
+				}
+				
+				newInputClose(4);
+			}
+		}
+
+		// 인풋박스 추가
+		function newInputOpen(depth) {
+
+			$("#new_item_div_" + depth).val('');
+			$("#new_item_div_" + depth).removeClass("off").addClass("on");
+		}
+
+		// 인풋박스 삭제
+		function newInputClose(depth) {
+			$("#new_item_div_" + depth).val('');
+			$("#new_item_div_" + depth).removeClass("on").addClass("off");
+		}
+
+		function onKeyupNewItemInput() {
+			let text = $('#new_item_input_4').val();
+			if (text != '') {
+				$('#_lookup_btn').removeClass("off").addClass('on');
+				$('#_lookup_btn').attr('disabled', false);
+			}
+			else {
+				$('#_lookup_btn').removeClass("on").addClass('off');
+				$('#_lookup_btn').attr('disabled', true);
+			}
+		}
+
+		function searchDivision(division_id, division_depth, select_id) {
+
+			if (division_id == -2) {
+				let option = `<option value="-2">신규등록</option>`
+				$('#' + select_id).append(option);
+				return;
+			}
+
+			$.ajax({
+				url: '/search-division',
+				method: "GET",
+				dataType: "JSON",
+				data: {
+					"division_id": division_id,
+					"division_depth": division_depth,
+					"USEE_AT_CODE": 1
+				},
+				success: function (result) {
+					if (result.state < 0) {
+						getErrorMessage(result.state);
+					}
+					else {
+						const list = result.list;
+						
+						if(division_depth != 4){
+							list.forEach(e => {
+								let option = `<option value="${e.division_id}">${e.division}</option>`
+								$('#' + select_id).append(option);
+							})
+						}
+						
+						let option = `<option value="-2">신규등록</option>`
+						$('#' + select_id).append(option);
+					}
+				}
+			})
+		}
+
+		initDivisionSelect(1);
+	</script>
+</body>
+
+</html>

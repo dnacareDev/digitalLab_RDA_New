@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.VerificationMapper">
+    <resultMap id="VerificationResultMap" type="VerificationDto">
+        <id property="verification_id" column="verification_id" />
+        <result property="report_id" column="report_id" />
+        <result property="prj_dtl_no" column="prj_dtl_no" />
+        <result property="prj_dtl_nm" column="prj_dtl_nm" />
+        <result property="division_id" column="division_id" />
+        <result property="division" column="division" />
+        <result property="plan_id" column="plan_id" />
+        <result property="plan_code" column="plan_code" />
+        <result property="method_result" column="method_result" />
+        <result property="result_number" column="result_number" />
+        <result property="result_blank" column="result_blank"/>
+        <result property="result_standard" column="result_standard" />
+        <result property="result_control" column="result_control" />
+        <result property="result_min" column="result_min" />
+        <result property="result_max" column="result_max" />
+        <result property="create_date" column="create_date" />
+        <result property="sample_data" column="sample_data" />
+        <collection property="crop_list" column="crop_list" ofType="String" javaType="java.util.ArrayList">
+            <id property="crop_list" column="crop_list" />
+        </collection>
+        <collection property="kind_list" column="kind_list" ofType="String" javaType="java.util.ArrayList">
+            <id property="kind_list" column="kind_list" />
+        </collection>
+    </resultMap>
+    <insert id="registVerification" parameterType="Verification">
+        <selectKey keyProperty="verification_id" resultType="int" order="BEFORE">
+            SELECT VERIFICATION_SEQ_ID.NEXTVAL FROM DUAL;
+        </selectKey>
+        INSERT INTO VERIFICATION(
+            VERIFICATION_ID,
+            REPORT_ID,
+            DIVISION_ID,
+            PLAN_ID,
+            SAMPLE_DATA,
+            RESULT_NUMBER,
+            RESULT_BLANK,
+            RESULT_STANDARD,
+            RESULT_CONTROL,
+            RESULT_MIN,
+            RESULT_MAX,
+
+            create_date
+        )
+        VALUES(
+            #{verification_id},
+            #{report_id},
+            #{division_id},
+            #{plan_id},
+            #{sample_data},
+            #{result_number},
+            #{result_blank},
+            #{result_standard},
+            #{result_control},
+            #{result_min},
+            #{result_max},
+            sysdate
+        )
+    </insert>
+
+    <insert id="modifyVerification" parameterType="Verification">
+        UPDATE VERIFICATION SET
+            REPORT_ID = #{report_id},
+            DIVISION_ID = #{division_id},
+            PLAN_ID = #{plan_id},
+            SAMPLE_DATA = #{sample_data},
+            RESULT_NUMBER = #{result_number},
+            RESULT_BLANK = #{result_blank},
+            RESULT_STANDARD = #{result_standard},
+            RESULT_CONTROL = #{result_control},
+            RESULT_MIN = #{result_min},
+            RESULT_MAX = #{result_max},
+            MODIFY_DATE = sysdate
+        WHERE
+            VERIFICATION_ID = #{verification_id}
+    </insert>
+
+    <select id="selectVerificationList" resultMap="VerificationResultMap" parameterType="Users" >
+        SELECT TO_CHAR(v.create_date , 'YYYY-MM-DD hh24:mm') as create_date , v.*, r.prj_dtl_no, r.prj_dtl_nm, d.division, p.plan_code, g1.genetic crop_list, g2.genetic kind_list, m.method_result
+        FROM verification v
+            LEFT OUTER JOIN report r on r.report_id = v.report_id
+            LEFT OUTER JOIN division d on v.division_id = d.division_id
+            LEFT OUTER JOIN plan p on p.plan_id = v.plan_id
+            LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+            LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+            LEFT OUTER JOIN genetic g2 on g2.genetic_id = s.genetic_id
+            LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+            LEFT OUTER JOIN plan_method pm on pm.plan_id = p.plan_id
+            LEFT OUTER JOIN method m on pm.method_id = m.method_id
+        <where>
+            <if test="authority != 'ADMIN'">
+            	<if test="authority != 'MANAGER' ">
+                AND prtcp_mp_dic_code_list LIKE '%'||#{digitalCode}||'%'
+                </if>
+            </if>
+        </where>
+        ORDER BY v.create_date desc;
+    </select>
+
+
+    <select id="selectVerificationById" resultMap="VerificationResultMap" parameterType="int" >
+        SELECT v.*,r.prj_dtl_no, r.prj_dtl_nm, d.division, p.plan_code, g1.genetic crop_list, g2.genetic kind_list, m.method_result
+        FROM verification v
+        LEFT OUTER JOIN report r on r.report_id = v.report_id
+        LEFT OUTER JOIN division d on v.division_id = d.division_id
+        LEFT OUTER JOIN plan p on p.plan_id = v.plan_id
+        LEFT OUTER JOIN plan_seed ps on ps.plan_id = p.plan_id
+        LEFT OUTER JOIN seed s on ps.seed_id = s.seed_id
+        LEFT OUTER JOIN genetic g2 on g2.genetic_id = s.genetic_id
+        LEFT OUTER JOIN genetic g1 on g1.genetic_id = g2.genetic_parents
+        LEFT OUTER JOIN plan_method pm on pm.plan_id = p.plan_id
+        LEFT OUTER JOIN method m on pm.method_id = m.method_id
+        <where>
+            AND v.VERIFICATION_ID = #{verification_id}
+        </where>
+    </select>
+</mapper>

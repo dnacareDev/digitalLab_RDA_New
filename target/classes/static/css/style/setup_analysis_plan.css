@@ -1,0 +1,79 @@
+@charset "utf-8";
+/********* card title box *********/
+.card_box .card_title_box {display: flex; padding: 10px 0 20px 1px; align-items: center;}
+
+.card_box .card_title_box .card_title {font-size: 2rem; font-weight: 700; margin-right: 30px;}
+
+.card_box .card_title_box .card_list_text {display: flex;}
+.card_box .card_title_box .card_list_text > li {color: #666666; margin-right: 5px;}
+
+/********* card  *********/
+#main .card_box .card {padding: 40px 30px; height: auto;}
+
+/***** card - header *****/
+#main .card_box .card .card_header .col_select_box {display: flex; align-items: center;}
+
+/* col select box - text */
+#main .card_box .card .card_header .col_select_box > span {font-size: 1.8rem; font-weight: 500; color: #7C8798; margin-right: 10px;} 
+#main .card_box .card .card_header .col_select_box > span:last-child {margin-right: 0; margin-left: 10px;}
+
+/* col select box - select */
+#main .card_box .card .card_header .col_select_box .col_select {width: 80px; height: 35px; padding: 5px 10px; background-position: right 15px center; font-size: 1.4rem;}
+
+/* col select box - right head box */
+#main .card_box .card .card_header .right_head_box {display: flex; align-items: center;}
+
+.cont_search_box {margin-right: 10px;}
+
+/* col select box - right head box - sec select */
+#main .right_head_box .sec_select_box {margin-right: 10px;}
+#main .right_head_box .sec_select_box .sec_select {width: 238px;}
+
+/* col select box - right head box - btn */
+#main .right_head_box .CSV_btn {padding: 0 20px 0 0; background: #6875E9 url("../../images/light_dawnload.png") no-repeat right 17px center;}
+#main .right_head_box .CSV_btn:active:focus {background: #525ec7 url("../../images/light_dawnload.png") no-repeat right 17px center -4px;}
+
+
+/***** card - table *****/
+ #main .analysis_plan_sect .card .card_cont_box {overflow-y: hidden; overflow-x: scroll; padding-bottom: 0px; position: relative; margin-bottom: 50px;}
+#main .card_cont_box .plan_table {margin-bottom: 0px;}
+.card_cont_box .plan_table th {padding: 0 10px;}
+.card_cont_box .plan_table th:before {content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: url('../../images/sort.png') no-repeat;}
+.card_cont_box .plan_table td {padding: 0 10px;}
+.card_cont_box .plan_table td > span {display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.analysis_plan_sect .card .cont_footer_box {justify-content:center; position: fixed; left: 50%; bottom: 170px;}
+
+.card_cont_box .plan_table > tbody > tr {display: flex;}
+
+.card_cont_box .plan_table > tbody {display: block; max-height: 400px; overflow-y: auto; overflow-x: hidden;}
+#main .cont_footer_btnbox .add_btn_box {margin-left: 380px;}
+
+
+#wrap .card_cont_box .card_table th,
+#wrap .card_cont_box .card_table tr > td {flex: none !important; display: inline-block; width: auto;}
+#wrap .card_cont_box .plan_table th:nth-child(1),
+#wrap .card_cont_box .plan_table td:nth-child(1),
+#wrap .card_cont_box .plan_table th:nth-child(2),
+#wrap .card_cont_box .plan_table td:nth-child(2),
+#wrap .card_cont_box .plan_table th:nth-child(5),
+#wrap .card_cont_box .plan_table td:nth-child(5),
+#wrap .card_cont_box .plan_table th:nth-child(10),
+#wrap .card_cont_box .plan_table td:nth-child(10),
+#wrap .card_cont_box .plan_table th:nth-child(12),
+#wrap .card_cont_box .plan_table td:nth-child(12) {width: 170px;}
+
+#wrap .card_cont_box .plan_table th:nth-child(3),
+#wrap .card_cont_box .plan_table td:nth-child(3),
+#wrap .card_cont_box .plan_table th:nth-child(9),
+#wrap .card_cont_box .plan_table td:nth-child(9) {width: 210px;}
+
+#wrap .card_cont_box .plan_table th:nth-child(4),
+#wrap .card_cont_box .plan_table td:nth-child(4),
+#wrap .card_cont_box .plan_table th:nth-child(6),
+#wrap .card_cont_box .plan_table td:nth-child(6),
+#wrap .card_cont_box .plan_table th:nth-child(7),
+#wrap .card_cont_box .plan_table td:nth-child(7),
+#wrap .card_cont_box .plan_table th:nth-child(8),
+#wrap .card_cont_box .plan_table td:nth-child(8),
+#wrap .card_cont_box .plan_table th:nth-child(11),
+#wrap .card_cont_box .plan_table td:nth-child(11) {width: 110px;}

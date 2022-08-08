@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:include="./fragments/header.html"></th:block>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 연구 노트</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/user_management.css">
+<link rel="stylesheet" href="/css/style/month_schedule.css">
+<link rel="stylesheet" href="/css/style/month_modal.css">
+<link rel="stylesheet" href="/css/style/study_notes.css">
+<!--  <link rel="stylesheet" href="/css/style/study_note_modal.css"> -->
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/js/study_notes.js"></script>
+<script type="text/javascript" th:inline="javascript">
+        const data = [[${scheduleList}]];
+        console.log(data, "로드 데이터");
+</script>
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/user_management.css">
+    <link rel="stylesheet" href="../../static/css/style/month_schedule.css">
+    <link rel="stylesheet" href="../../static/css/style/month_modal.css">
+    <link rel="stylesheet" href="../../static/css/style/study_notes.css">
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script>
+    <script src="../../static/js/study_notes.js"></script> -->
+<style>
+.data_enroll_btn {
+	position: absolute;
+	right: -540px;
+}
+
+#main .cont_footer_box.card_table_footer {
+	bottom: 20px;
+}
+
+#wrap #main .card {
+	padding-bottom: 20px;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+			<!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box user_analysis_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">연구 노트</h2>
+					<ul class="card_list_text">
+						<li class="card_inner_list">일정관리 -</li>
+						<li class="card_inner_list">연구 노트</li>
+					</ul>
+					<!-- <div class="date_task modal_on_btn day" data-sch_id="" data-modal="_taskTable2"><p title="test" style="background-color: lightpink;">test</p></div> -->
+				</div>
+				<div class="card">
+					<div class="card_header">
+						<!-- <div class="col_select_box select_box date_box">
+                        <span>과제정보</span>
+                        <select class="col_select common_select">
+                            <option value="1" selected>전체과제</option>
+                            <option value="2">1</option>
+                            <option value="3">2</option>
+                        </select>
+                    </div> -->
+					</div>
+					<div class="card_cont_box">
+						<table id="calendar">
+							<thead>
+								<tr>
+									<td>
+										<button class="before_btn month_btn" type="button"
+											value="&lt;"></button>
+									</td>
+									<th colspan="5" class="ym">year - month</th>
+									<td>
+										<button class="after_btn month_btn" type="button" value="&gt;"></button>
+									</td>
+								</tr>
+							</thead>
+							<tbody class="table_body">
+								<tr>
+									<th>일</th>
+									<th>월</th>
+									<th>화</th>
+									<th>수</th>
+									<th>목</th>
+									<th>금</th>
+									<th>토</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			<!-- 연구노트 모달 -->
+			<!-- <div class="modal harvesting_modal study_modal on" id="_taskTable2">
+            <div class="modal_box">
+                <div class="modal_header">
+                    <h2 class="modal_title">연구 노트</h2>
+                    <button class="modal_close">닫기</button>
+                </div>
+                <section class="card_box sample_analysis_sect">
+                    <div class="card first_card">
+                        <div class="card_header">
+                            <h2 class="header_title">분석 결과 등록</h2>
+							<div class="print_box on">
+		                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal" onclick="SelectNoteLog()">전송 이력</button>
+		                    </div>
+                        </div>
+                        <div class="card_cont_box">
+                            <div class="place_date_box">
+                                <p class="place_date_text">배치별 입력 가능 일자</p>
+
+                                <ul class="place_date_list_box">
+                                </ul>
+
+                            </div>
+                            <ul class="step_list_box">
+                            </ul>
+                            <div class="method_comment_box common_form">
+                                <div class="form_box">
+                                    <label for="" class="file_title">메소드 step - Comment</label>
+                                    <textarea name="" id="" class="" placeholder=""
+                                              disabled>메소드 step - Comment</textarea>
+                                </div>
+                            </div>
+                            <div class="sample_analysis_table_box">
+
+                                <div class="setting_top_box">
+                                    <ul class="setting_top_list_box" id="plate_list">
+                                    </ul>
+                                </div>
+
+                                <div id="plate_list2">
+                                </div>
+
+                                <div id="excelGrid" style="display: none"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card step_1_card">
+                        <div class="card_header">
+                            <h2 class="header_title">분석 계획 정보</h2>
+                        </div>
+                        <div class="card_cont_box">
+                            <form action="" class="sample_analysis_form common_form">
+                                <div class="analysis_box">
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">분석 번호</label>
+                                        <input type="text" name="" id="plan_note_number" value="" disabled>
+                                    </div>
+                                    <div class="form_box disabled_box task_info_box">
+                                        <label for="" class="file_title">과제 정보</label>
+                                        <input type="text" name="" id="plan_note_code" value="" disabled>
+                                    </div>
+                                </div>
+                                
+                                <div class="analysis_table_box" style="flex-grow: 1 ">
+                                    <div class="analysis_data_box">
+                                    <p class="analysis_name">분석정보</p>
+                                    <div id="note_info_list" class="analysis_data_wrap first_data_wrap">
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="analysis_box">
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">분석 항목</label>
+                                        <input type="text" name="" id="plan_note_item" value="" disabled>
+                                    </div>
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">작업 단계</label>
+                                        <input type="text" name="" id="plan_note_method" value="" disabled>
+                                    </div>
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">시료수</label>
+                                        <input type="text" name="" id="plan_note_seed_count" value="" disabled>
+                                    </div>
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">반복수</label>
+                                        <input type="text" name="" id="plan_note_cycle" value="" disabled>
+                                    </div>
+                                    <div class="form_box disabled_box">
+                                        <label for="" class="file_title">생성일</label>
+                                        <input type="text" name="" id="plan_note_date" value="" disabled>
+                                    </div>
+                                    <div class="bottom_form_box">
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">User 96Well</label>
+                                            <input type="text" name="" id="plan_note_isWell" value="" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">Batch No</label>
+                                            <input type="text" name="" id="plan_note_batchCount" value="" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">Sample No / Batch</label>
+                                            <input type="text" name="" id="plan_note_sampleCount" value="" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">Blanck No</label>
+                                            <input type="text" name="" id="plan_note_blank" value="" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">Standard No</label>
+                                            <input type="text" name="" id="plan_note_standard" value="" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label for="" class="file_title">Control No</label>
+                                            <input type="text" name="" id="plan_note_control" value="" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card step_3_card on">
+                        <div class="card_header">
+                            <h2 class="header_title">Comment</h2>
+                        </div>
+                        <div class="card_cont_box">
+                            <form action="" class="common_form">
+                                <div class="form_box">
+                                    <label for="" class="file_title"></label>
+                                    <textarea name="" id="plan_comment" class="" placeholder="Comment"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+                <div class="modal_file_box common_form">
+                    <div class="form_box">
+                        <span class="file_title"></span>
+                        <div class="file_input form_inner_box">
+                            <input type="text" class="file_name" readonly><input type="file" name="" id="noteFile" class="file_select_input"><label for="noteFile" class="form_btn common_btn1" style="margin-bottom: 0;">파일 선택</label>
+                        </div>
+                    </div>
+                    <div class="add_btn_box">
+                        <button class="common_btn1 method_btn enroll_btn send_pdf_btn">전송</button>
+                        <ul class="add_list_box">
+                            <li class="add_list">
+                                <button onclick="SendNote();">연구노트</button>
+                            </li>
+                            <li class="add_list">
+                                <button onclick="SendRepository();">리포지터리</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal_footer">
+                    <button type="button" id="excelDownload" class="common_btn1" style="width:120px">내려받기</button>
+                    <button type="button" class="common_btn1 modal_btn">닫기</button>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+
+			<div class="modal harvesting_modal study_modal" id="_taskTable2">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">연구 노트</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<section class="modal_data_sect">
+						<div class="analysis_head_box">
+							<h2 class="data_date_text">2022년 1월 21일</h2>
+							<p class="analysis_plan_title analysis_head_text">
+								<span class="star">*</span> 분석계획 : <span class="analysis_id"
+									id="plan_note_number"></span>
+							</p>
+						</div>
+						<div class="analysis_info_box analysis_box">
+							<p
+								class="analysis_plan_text analysis_head_text analysis_inner_text">
+								<span class="star">*</span> 분석정보
+							</p>
+							<div id="note_info_list"></div>
+							<!-- <ul class="analysis_box_list">
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">분석항목</span>
+                                <span class="an_list_text an_list_td">맥아수율</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료ID</span>
+                                <span class="an_list_text an_list_td">si-o-001-00201-R</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료량</span>
+                                <span class="an_list_text an_list_td">10g</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">작목명</span>
+                                <span class="an_list_text an_list_td">들깨(들깨)</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">품종명/유전자원명</span>
+                                <span class="an_list_text an_list_td">소담</span>
+                            </li>
+                        </ul>
+                        <ul class="analysis_box_list">
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">분석항목</span>
+                                <span class="an_list_text an_list_td">맥아수율</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료ID</span>
+                                <span class="an_list_text an_list_td">si-o-001-00201-R</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료량</span>
+                                <span class="an_list_text an_list_td">10g</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">작목명</span>
+                                <span class="an_list_text an_list_td">들깨(들깨)</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">품종명/유전자원명</span>
+                                <span class="an_list_text an_list_td">소담</span>
+                            </li>
+                        </ul>
+                        <ul class="analysis_box_list">
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">분석항목</span>
+                                <span class="an_list_text an_list_td">맥아수율</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료ID</span>
+                                <span class="an_list_text an_list_td">si-o-001-00201-R</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">시료량</span>
+                                <span class="an_list_text an_list_td">10g</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">작목명</span>
+                                <span class="an_list_text an_list_td">들깨(들깨)</span>
+                            </li>
+                            <li class="analysis_list">
+                                <span class="an_list_text an_list_th">품종명/유전자원명</span>
+                                <span class="an_list_text an_list_td">소담</span>
+                            </li>
+                        </ul> -->
+						</div>
+						<div class="analysis_plan_box analysis_box">
+							<p
+								class="analysis_plan_text analysis_head_text analysis_inner_text">
+								<span class="star">*</span> 분석계획설정
+							</p>
+							<ul class="analysis_box_list">
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">batch No.</span> <span
+									class="an_list_text an_list_td" id="plan_note_batchCount"></span>
+								</li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">sampleno/batch</span> <span
+									class="an_list_text an_list_td" id="plan_note_sampleCount"></span>
+								</li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">Well Order</span> <span
+									class="an_list_text an_list_td">Vertical</span></li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">blank cnt</span> <span
+									class="an_list_text an_list_td" id="plan_note_blank"></span></li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">standard cnt</span> <span
+									class="an_list_text an_list_td" id="plan_note_standard"></span>
+								</li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">control cnt</span> <span
+									class="an_list_text an_list_td" id="plan_note_control"></span>
+								</li>
+								<li class="analysis_list"><span
+									class="an_list_text an_list_th">comment</span> <span
+									class="an_list_text an_list_td" id="plan_comment"></span></li>
+							</ul>
+						</div>
+						<div class="analysis_plan_box analysis_box">
+							<p
+								class="analysis_plan_text analysis_head_text analysis_inner_text">
+								<span class="star">*</span> 시료분석
+							</p>
+
+							<div class="sample_analysis_table_box">
+
+								<div class="setting_top_box">
+									<ul class="setting_top_list_box" id="plate_list">
+									</ul>
+								</div>
+
+								<div id="plate_list2"></div>
+
+								<div id="excelGrid" style="display: none"></div>
+
+							</div>
+							<!-- <table class="modal_analysis_table">
+                            <thead>
+                                <tr>
+                                    <th>Batch No</th>
+                                    <th>작목</th>
+                                    <th>품종/유전자원</th>
+                                    <th>Sample ID</th>
+                                    <th>Test ID</th>
+                                    <th>Well No</th>
+                                    <th>분석저울()</th>
+                                    <th>제맥</th>
+                                    <th>분석저울()</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>논벼</td>
+                                    <td>(B)블랜딩6</td>
+                                    <td>1-1</td>
+                                    <td>b1-01</td>
+                                    <td>A01</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+
+						</div>
+					</section>
+					<div class="modal_file_box common_form" style="width: 200px;">
+						<div class="form_box">
+							<span class="file_title"></span>
+							<div class="file_input form_inner_box">
+								<!-- <a href="javascript:void(0);" id="excelDownload">다운로드</a> -->
+								<!-- <input type="text" class="file_name" readonly><input type="file" name="" id="noteFile" class="file_select_input"><label for="noteFile" class="form_btn common_btn1" style="margin-bottom: 0;">파일 선택</label> -->
+							</div>
+						</div>
+						<div class="add_btn_box">
+							<button class="common_btn1 method_btn enroll_btn send_pdf_btn">전송</button>
+							<ul class="add_list_box">
+								<li class="add_list">
+									<!-- <button onclick="SendNote();">연구노트</button> -->
+									<button onclick="exportExcel(true);">연구노트</button>
+								</li>
+								<li class="add_list">
+									<!-- <button onclick="SendRepository();">리포지터리</button> -->
+									<button onclick="exportExcel(false);">리포지터리</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="modal_footer">
+						<button type="button" id="excelDownload" class="common_btn1"
+							style="width: 120px">다운로드</button>
+						<button type="button" class="common_btn1 modal_btn">닫기</button>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<!-- 엑셀 저장을 위한 div -->
+			<div id="xlsxTable" style="display: none;">
+				<table cellSpacing=0 id="tableData"
+					style="border-collapse: collapse">
+					<tbody class="xlsxTbody">
+					</tbody>
+				</table>
+			</div>
+
+
+			<!-- 변경 이력 -->
+			<div class="modal harvesting_modal" id="logModal">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">전송 이력 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<div class="card sec_card">
+						<div class="card_cont_box">
+							<ul class="change_list_box" id="log_list">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<th:block th:include="./fragments/commonjs.html"></th:block>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script src="/vendor/js/xlsx.js"></script>
+	<script src="/vendor/js/xlsxSaver.js"></script>
+</body>
+
+<script>
+	
+    let planData = null;
+    let plateData = null;
+    let plate_well = null;
+   	let plan_well = null;
+    let frozenCount = null;
+    let sampleArr = [];
+    const excelDownload = document.querySelector('#excelDownload');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        excelDownload.addEventListener('click', makeTable);
+    });
+
+    function getToday() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ("0" + (1 + date.getMonth())).slice(-2);
+        var day = ("0" + date.getDate()).slice(-2);
+
+        return year + "-" + month + "-" + day;
+    }
+
+    function makeTable( check = true) {
+        const date = getToday(); // 날짜
+        const planId = "ai-o-001-00118"; // 분석계획
+        const dataArr = []; // 분석정보 Arr
+
+        for (let i of planData.plan.seedList) {
+            let seed = {
+                kind: planData.plan.division_depth_4,
+                id: i.seed_code,
+                amount: i.seed_amount,
+                name: i.genetic_depth1,
+                gene: i.genetic_depth2,
+                each: i.each
+            }
+            dataArr.push(seed);
+        }
+
+        const setPlan = { // 분석계획설정
+            batch: planData.plan.plan_batch,
+            sample: planData.plan.plan_sample,
+            order: "Vertical",
+            blank: planData.plan.plan_blank,
+            standard: planData.plan.plan_standard,
+            control: planData.plan.plan_control,
+            comment: planData.plan.plan_contents == null ? '' : planData.plan.plan_contents,
+        }
+
+        let setPlate = (i) => {
+            createGrid("plateGrid_" + i);
+        }
+
+        for (let i = 1; i <= plateData.plate.length; i++) {
+            setPlate(i);
+        }
+
+        // 날짜, 분석계획
+        let htmlData = `
+        <tr style="border-bottom: 2px solid #000"><td>${date}</td></tr>
+        <tr><td></td><td></td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>* 분석계획 : </td>    <td>${planId}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>* 분석정보</td></tr>
+   		 `;
+
+        // 분석정보
+        dataArr.map(item => {
+            htmlData += `
+            <tr style="border-bottom: 1px solid #000"><td>분석항목</td>             <td>${item.kind}</td></tr>
+            <tr style="border-bottom: 1px solid #000"><td>시료 ID</td>              <td>${item.id}</td></tr>
+            <tr style="border-bottom: 1px solid #000"><td>시료량</td>               <td>${item.amount} ${item.each}</td></tr>
+            <tr style="border-bottom: 1px solid #000"><td>작품명</td>               <td>${item.name}</td></tr>
+            <tr style="border-bottom: 1px solid #000"><td>품종명/유전자원명</td>     <td>${item.gene}</td></tr>
+            <tr><td></td><td></td></tr>
+        `
+        })
+
+        // 분석계획설정, 시료분석(머리)
+        htmlData += `
+        <tr style="border-bottom: 1px solid #000"><td>* 분석계획설정</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>batch No.</td>           <td>${setPlan.batch}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>sampleno/batch</td>      <td>${setPlan.sample}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>Well Order</td>          <td>${setPlan.order}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>blank cnt</td>           <td>${setPlan.blank}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>standard cnt</td>        <td>${setPlan.standard}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>control cnt</td>         <td>${setPlan.control}</td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>comment</td>             <td>${setPlan.comment}</td></tr>
+
+        <tr><td></td><td></td></tr>
+        <tr style="border-bottom: 1px solid #000"><td>* 시료분석</td></tr>
+        <tr>
+		<td style="border: 1px solid #000">Batch No</td>
+        <td style="border: 1px solid #000">작목</td>
+        <td style="border: 1px solid #000">품종/유전자원</td>
+        <td style="border: 1px solid #000">Sample ID</td>
+        `
+        if(plate_well){
+        htmlData +=`
+        <td style="border: 1px solid #000">Test ID</td>
+        <td style="border: 1px solid #000">Well NO</td>
+        `
+        }
+        
+        // 스탭 리스트
+        for (let i = 0; i < result_step.length; i++) {
+            htmlData += `<td style="border: 1px solid #000">${result_step[i].step_name}</td>`
+        }
+
+        htmlData += `</tr>></tr>`
+
+        let batch_index = 1;
+        let num = 1;
+        // 시료분석 (몸통)
+        for (const i of sampleArr) {
+
+            for (const j of i) {
+
+                console.log(j, "sampleArr");
+
+                let batchArr = JSON.parse(j.batch_data);
+
+                htmlData += `<tr>
+    					<td style="border: 1px solid #000">No.${num}</td>
+    			 		<td style="border: 1px solid #000">${j.genetic_depth_1 == null ? '' : j.genetic_depth_1}</td>
+               			<td style="border: 1px solid #000">${j.genetic_depth_2 == null ? '' : j.genetic_depth_2}</td>
+                		<td style="border: 1px solid #000">${j.batch_sample == null ? '' : j.batch_sample}</td>
+    					`
+    			if(plate_well){
+       	       		htmlData += `<td style="border: 1px solid #000">${j.batch_test == null ? '' : j.batch_test}</td>
+                				<td style="border: 1px solid #000">${j.batch_well == null ? '' : j.batch_well}</td>`
+    			}
+    					
+                num++;
+                let stepNum = 0;
+                
+                for (let k in batchArr) {
+
+                    let key = "";
+                    if (stepNum == result_step.length) {
+                        key = "result" + batch_index
+                    } else {
+                        key = result_step[stepNum]["step_id"];
+                    }
+
+                    htmlData += `
+            				<td style="border: 1px solid #000">${batchArr[`${key}`]}</td>
+    						`
+                    stepNum++;
+                }
+                htmlData += `</tr>`
+            }
+            batch_index++;
+        }
+
+        document.querySelector(".xlsxTbody").innerHTML = htmlData;
+
+		if(check){
+	        const _data = 'data:application/vnd.ms-excel,' + encodeURIComponent(document.querySelector("#xlsxTable").innerHTML);
+	        window.open(_data);
+			
+		}
+
+        return;
+        //exportExcel();
+        //downloadExcel();
+    }
+
+	function SendNote(file)
+	{
+		var formData = new FormData();
+
+        const plan_id = document.querySelector('#_taskTable2').dataset.plan_id;
+        formData.append('plan_id', plan_id);
+		//formData.append("file", $("#noteFile")[0].files[0]);
+		formData.append("file", file);
+        
+		$.ajax(
+		{
+			url : "sendNote",
+			type : "POST",
+			data : formData,
+			enctype: 'multipart/form-data',
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(result)
+			{
+				if(result == 1)
+				{
+	                alert("전송에 성공하였습니다.");
+	                
+	                location.reload();
+				}
+				else
+				{
+	                alert("전송에 실패하였습니다.");
+				}
+			},
+			error : function(e)
+			{
+				console.log(e);
+                alert("전송에 실패하였습니다.");
+			}
+		});
+	}
+	
+	function SendRepository(file)
+	{
+		var formData = new FormData();
+        const plan_id = document.querySelector('#_taskTable2').dataset.plan_id;
+        formData.append('plan_id', plan_id);
+		//formData.append("file", $("#noteFile")[0].files[0]);
+	   	formData.append("file", file);
+		
+		$.ajax(
+		{
+			url : "sendRepository",
+			type : "POST",
+			data : formData,
+		 	enctype: 'multipart/form-data',
+		 	cache : false,
+		 	contentType : false,
+		 	processData : false,
+		 	success : function(result)
+		 	{
+		 		// location.href = "http://49.247.35.103:10000/narda/data/submit?/" + result;
+		 		location.href = "http://10.30.220.189/narda/data/submit/?" + result;
+		 	},
+		 	error : function(e)
+		 	{
+		 		console.log(e);
+			}
+		});
+	}
+	
+	function SelectNoteLog()
+	{
+		const plan_id = document.querySelector('#_taskTable2').dataset.plan_id;
+		
+		$.ajax(
+		{
+			url : `/selectNoteLog/${plan_id}`,
+			type : "GET",
+		 	success : function(result)
+		 	{
+		 		var log_list = $("#log_list");
+		 		var add_list = "";
+		 		
+		 		console.log(result , "result")
+		 		
+		 		for(var i = 0; i < result.length; i++)
+		 		{
+			 		add_list += '<li class="change_list">';
+			 		add_list += '<span class="change_check"></span>';
+			 		add_list += '<div class="chang_text_box">';
+			 		add_list += '<p class="change_text">';
+			 		
+			 		if(result[i].action_type == 7 || result[i].action_type == 8)
+			 		{
+				 		add_list += '<span>연구노트 전송 </span>';
+			 		}
+			 		else
+			 		{
+				 		add_list += '<span>리포지터리 전송 </span>';
+			 		}
+			 		
+			 		if(result[i].action_type == 8)
+			 		{
+				 		add_list += '<span>실패</span>';
+			 		}
+			 		else
+			 		{
+				 		add_list += '<span>성공</span>';
+			 		}
+			 		
+			 		add_list += '</p>';
+			 		add_list += '<span class="change_date" >' + result[i].log_date + '</span>';
+/* 			 		add_list += '<span class="change_date" >' + result[i].log_date.slice(0, -2) + '</span>'; */
+			 		add_list += '</div>';
+			 		add_list += '</li>';
+			 		
+			 		//console.log(result[i].create_date.split("\\."))
+		 		}
+		 		
+		 		log_list.empty();
+		 		log_list.append(add_list);
+		 	},
+		 	error : function(e)
+		 	{
+		 		console.log(e);
+			}
+		});
+	}
+	
+	function downloadExcel(){ 
+        // step 1. workbook 생성
+        var wb = XLSX.utils.book_new();
+
+        // step 2. 시트 만들기 
+        var newWorksheet = excelHandler.getWorksheet();
+
+        // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
+        XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+        // step 4. 엑셀 파일 만들기 
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'});
+	
+        	
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.querySelector("#xlsxTable").innerHTML));
+
+        
+        // step 5. 엑셀 파일 내보내기 
+        saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), excelHandler.getExcelFileName());
+    }
+
+    function exportExcel(isSend) {
+    	
+        makeTable(false);
+        
+        // step 1. workbook 생성
+        var wb = XLSX.utils.book_new();
+
+        // step 2. 시트 만들기 
+        var newWorksheet = excelHandler.getWorksheet();
+
+        // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
+        XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+        // step 4. 엑셀 파일 만들기 
+        var wbout = XLSX.write(wb, {bookType: 'xls', type: 'binary'});
+        
+        const _data = 'data:application/vnd.ms-excel,' + encodeURIComponent(document.querySelector("#xlsxTable").innerHTML);
+
+        const file = new File([s2ab(_data)], "study_note.xlsx", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        if (isSend) {
+            SendNote(file);
+        } else {
+            /* saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName()); */
+            SendRepository(file);
+        }
+
+        // step 5. 엑셀 파일 내보내기 
+    }
+
+    var excelHandler = {
+        getExcelFileName: function () {
+            return 'research_note.xlsx';	//파일명
+        },
+        getSheetName: function () {
+            return '연구노트';	//시트명
+        },
+        getExcelData: function () {
+            return document.getElementById('tableData'); 	//TABLE id
+        },
+        getWorksheet: function () {
+            return XLSX.utils.table_to_sheet(this.getExcelData());
+        }
+    }
+
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+        var view = new Uint8Array(buf);  //create uint8array as viewer
+        for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+        return buf;
+    }
+
+</script>
+<script>
+
+    let gridMap = new Object();
+    let excelGrd = null;
+    let result_step = [];
+    let gridElement = null;
+
+    let ansyncFlag = true;
+
+    function createGrid(grid_id) {
+		
+    	console.log(grid_id , "grid_id")
+    	
+        gridElement = document.getElementById(grid_id);
+        let plate_id = gridElement.dataset.plate;
+        const batchList = [];
+        
+        if(batchData != null){
+        	
+	        batchData.forEach(e => {
+	            const obj = JSON.parse(e.batch_data);
+	            if (e.plate_id == plate_id) {
+	                for (key in obj) {
+	                    e[key] = obj[key];
+	                }
+	                batchList.push(e);
+	            }
+	        })
+        }
+        
+        if (!gridMap[grid_id]) {
+
+            sampleArr.push(batchList);
+			
+            frozenCount = plan_well ? 5 : 3;
+            
+            gridMap[grid_id] = new tui.Grid({
+                el: gridElement,
+                scrollY: true,
+                scrollX: true,
+                data: batchList,
+                rowHeaders: ['rowNum'],
+                editingEvent: 'click',
+                columns: [],
+                columnOptions: {
+                    frozenCount: frozenCount,
+                    frozenBorderWidth: 2,
+                    minWidth: 100
+                },
+	            bodyHeight: 500,
+	            pageOptions: {
+	                useClient: true,
+	                type: 'scroll',
+	                perPage: 20
+	            },
+            });
+
+            let headerArr = createHeaderList();
+            gridMap[grid_id].setColumns(headerArr);
+            gridMap[grid_id].resetData(batchList);
+
+            gridMap[grid_id].on('click', (ev) => {
+                if (ev.targetType == 'columnHeader') {
+                    const stepList = result_step;
+                    let step_id = -1;
+                    stepList.forEach(step => {
+                        if (ev.columnName == step.step_name) {
+                            step_id = step.step_id;
+                        }
+                    })
+                    if (step_id != -1) {
+                        getStepImage(step_id);
+                    }
+                }
+            })
+
+            gridMap[grid_id].on('editingStart', (ev) => {
+                const key = getSelectedPlateId();
+                const bach_id = gridMap[key].getRow(ev.rowKey).batch_id;
+                const step_data = getSelectedStepData();
+                $.ajax({
+                    url: "/check/batch",
+                    async: false,
+                    method: "GET",
+                    dataType: "JSON",
+                    data: {
+                        "batch_id": bach_id,
+                        "step_id": step_data.step,
+                    },
+                    success: function (result) {
+                        if (!result)
+                            ev.stop();
+                    }
+                })
+
+                return false;
+            })
+            gridMap[grid_id].on('beforeExport', async ev => {
+                await exportExcel(ev, headerArr);
+            });
+        }
+
+    }
+
+    function createHeader1(header, name) {
+        let headerData = {"header": header, "name": name, "width": "auto"};
+        
+        return headerData;
+    }
+    
+    function createHeader2(header, name, check = false, step_id = -1) {
+    	let headerData = {"header" : header == null ? name : header, "name" : step_id, "width" : "200", "step_id" : step_id};
+    	
+        return headerData;
+    }
+
+    function addStepEventListner() {
+        const step = document.querySelectorAll('#step_list .step_list');
+        step.forEach(item => {
+            item.addEventListener('click', (e) => {
+                onClickStep(e);
+            })
+        })
+    }
+
+    function onClickStep(e) {
+        $('#step_list .step_list').removeClass('done');
+        const step = e.currentTarget;
+        step.classList.add('done');
+
+        const step_id = step.dataset.step;
+
+        const plate_id = getSelectedPlateId();
+        const plate = document.getElementById(plate_id);
+        let scrollDiv = plate.querySelectorAll('.tui-grid-body-area')[1];
+        const name = step.dataset.name;
+        const column = plate.querySelector(`th[data-column-name="${name}"]`);
+
+        setTimeout(() => {
+            scrollDiv.scrollLeft = column.offsetLeft;
+        }, 10)
+
+        setEditStep(step_id);
+    }
+
+    function setEditStep(step_id) {
+        const headerList = createHeaderList(step_id);
+        const grid_id = getSelectedPlateId();
+        gridMap[grid_id].setColumns(headerList);
+
+    }
+
+    function createHeaderList(step_id = -1) {
+        let headerList = [];
+        headerList.push(createHeader1("작목 명", "genetic_depth_1"));
+        headerList.push(createHeader1("품정 유전자원 명", "genetic_depth_2"));
+        headerList.push(createHeader1("Sample ID", "batch_sample"));
+        if(plate_well){
+	        headerList.push(createHeader1("Test ID", "batch_test"));
+	        headerList.push(createHeader1("Well No", "batch_well"));
+        }
+        const stepList = result_step;
+        stepList.forEach(step => {
+            let flag = step_id == step.step_id;
+            headerList.push(createHeader2(step.step_nickName, step.step_name, flag, step.step_id));
+        })
+
+        console.log(headerList);
+
+        return headerList;
+    }
+
+    function onClickBatchTabBtn(event) {
+        let target = event.currentTarget;
+        console.log(target);
+        let grid_id = target.dataset.grid;
+        let batch_id = target.dataset.setting;
+        createGrid(grid_id);
+
+        $('#plate_list2 > div').css('display', 'none');
+        $('#' + batch_id).css('display', 'block');
+        $('.active').removeClass('active');
+        $(target).addClass('active');
+    }
+
+    // 분석 계획 정보 렌더
+    function getAnalysisPlan() {
+        // const document.querySelector("analysis_plan_info")
+    }
+
+    $(document).ready(function () {
+        addStepEventListner();
+    });
+
+    function saveStepData() {
+        const plate_id = getSelectedPlateId();
+        const data = gridMap[plate_id].getData();
+
+        const stepData = getSelectedStepData();
+        if (stepData == null)
+            return;
+        const step_name = stepData.name;
+        let modifyedData = gridMap[plate_id].getModifiedRows().updatedRows;
+        let batchList = [];
+        modifyedData.forEach(row => {
+            let object = new Object();
+            if (row.batch_data)
+                object = JSON.parse(row.batch_data);
+            object[step_name] = row[step_name];
+            row.batch_data = JSON.stringify(object);
+            gridMap[plate_id].setValue(row.rowKey, 'batch_data', row.batch_data);
+
+            let batch_data = new Object();
+            batch_data.batch_id = row.batch_id;
+            batch_data.batch_data = JSON.stringify(object);
+            batchList.push(batch_data);
+        })
+        callModifyBatchFunc(batchList);
+    }
+
+    function saveBatchData() {
+        console.log("test");
+        const plate_id = getSelectedPlateId();
+        const data = gridMap[plate_id].getData();
+        let batchList = [];
+        loadBatchData(plate_id, batchList);
+        callModifyBatchFunc(batchList);
+    }
+
+    function loadBatchData(plate_id, batchList) {
+        console.log("-------------------");
+        console.log(gridMap);
+        console.log(plate_id);
+        console.log(batchList);
+        let modifyedData = gridMap[plate_id].getModifiedRows().updatedRows;
+        const stepData = result_step;
+        let flag = false;
+        modifyedData.forEach(row => {
+            let object = new Object();
+            if (row.batch_data) {
+                object = JSON.parse(row.batch_data);
+            }
+            stepData.forEach(step => {
+                if (row[step.step_name]) {
+                    object[step.step_name] = row[step.step_name];
+                }
+            })
+
+            row.batch_data = JSON.stringify(object);
+            gridMap[plate_id].setValue(row.rowKey, 'batch_data', row.batch_data);
+
+            let batch_data = new Object();
+            batch_data.batch_id = row.batch_id;
+            batch_data.batch_data = JSON.stringify(object);
+            batchList.push(batch_data);
+        })
+        return flag;
+    }
+
+    function checkAllState() {
+        const dataList = document.querySelectorAll('.tui-grid-rside-area .tui-grid-cell-content');
+        for (let i = 0; i < dataList.length; i++) {
+            if (dataList[i].innerText == '') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function saveAllData() {
+        let batchList = [];
+        let plateList = [];
+        const plateEl = document.querySelectorAll('#plate_list .setting_top_list');
+        plateEl.forEach(plate => {
+            const grid_id = plate.dataset.grid;
+            plateList.push(grid_id);
+            createGrid(grid_id);
+            loadBatchData(grid_id, batchList);
+        })
+        callModifyBatchFunc(batchList);
+    }
+
+
+    function getSelectedStepData() {
+        const selectedStep = document.querySelector('#step_list > .step_list.done');
+        console.log(selectedStep);
+        if (selectedStep) {
+            const step_data = Object.assign({}, selectedStep.dataset)
+            console.log(step_data);
+            return step_data;
+        }
+        return null;
+    }
+
+    function getSelectedPlateId() {
+        const selectedPlate = document.querySelector('#plate_list > .setting_top_list.active');
+        const grid_id = selectedPlate.dataset.grid;
+        return grid_id;
+    }
+
+    $('.modal_btn').on('click', function () {
+        $('#main').removeClass('modal_on');
+        $('#_taskTable2').removeClass('off');
+    })
+
+</script>
+</html>

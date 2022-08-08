@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+
+    <title>Digital Lab - 월간 일정</title>
+    <link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/user_management.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/month_schedule.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/month_modal.css">
+
+    <script src="/vendor/js/xlsx.js"></script>
+    <script src="/vendor/js/xlsxSaver.js"></script>
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const data = [[${scheduleList}]];
+
+        console.log(data , "monthDate")
+    </script>
+    <script src="/js/month_schedule.js"></script>
+    
+
+    <!-- <link type="text/css" rel="stylesheet" href="../../static/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/style/user_management.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/style/month_schedule.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/style/month_modal.css">
+
+    <script src="../../static/vendor/js/xlsx.js"></script>
+    <script src="../../static/vendor/js/xlsxSaver.js"></script>
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../static/css/style/month_schedule.css"> -->
+    <style>
+        .data_enroll_btn {position: absolute; right: -540px;}
+        #main .cont_footer_box.card_table_footer {bottom: 20px;}
+        #wrap #main .card {padding-bottom: 20px;}
+        #_taskTable2 .analysis_box .info_list_wrap .info_list {
+            border: none;
+        }
+        #_taskTable2 .analysis_box .info_list_wrap .info_list > div {
+            border-left: 1px solid #D9D9D9;
+            border-top: 1px solid #D9D9D9;
+            border-right: 1px solid #D9D9D9;
+        }
+        #_taskTable2 .analysis_box .info_list_wrap .info_list > div:last-child {
+            border-bottom: 1px solid #D9D9D9;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box user_analysis_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">월간 일정</h2>
+                    <ul class="card_list_text">
+                        <li class="card_inner_list">일정관리 - </li>
+                        <li class="card_inner_list">월간 일정</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <div class="month_btn_box">
+                            <button type="button" class="common_btn1 shared_btn" onclick="ScheduleModalOpen();">+ 공유일정 추가</button>
+<!--                             <button class="common_btn1 calendar_btn">+ 일정 다운</button>
+ -->                        </div>
+                    </div>
+                    <div class="card_cont_box">
+                        <table id="calendar">
+                            <thead>
+                                <tr>
+                                    <td><button class="before_btn month_btn" type="button" value="&lt;"></button></td>
+                                    <th colspan="5" class="ym">year - month</th>
+                                    <td><button class="after_btn month_btn" type="button" value="&gt;"></button></td>
+                                </tr>
+                            </thead>
+                            <tbody class="table_body">
+                                <tr>
+                                    <th>일</th>
+                                    <th>월</th>
+                                    <th>화</th>
+                                    <th>수</th>
+                                    <th>목</th>
+                                    <th>금</th>
+                                    <th>토</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 모달! -->
+            <!-- 모달! -->
+            <div class="modal harvesting_modal" id="_taskTable3">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">연구 일정</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <section class="card_box sample_analysis_sect">
+                        <div class="card step_1_card">
+                            <div class="card_header">
+                                <h2 class="header_title">분석 계획 정보</h2>
+                            </div>
+                            <div class="card_cont_box">
+                                <form class="sample_analysis_form common_form">
+                                    <div class="analysis_box">
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">분석 번호</label>
+                                           <input type="text" id="plan_note_number" value="ai-o-001-00085" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box task_info_box">
+                                            <label class="file_title" >과제 정보</label>
+                                           <input type="text" id="plan_note_code" value="" disabled>
+                                        </div>
+                                        <div class="form_box list_box">
+                                            <ul class="info_list_wrap" id="note_info_list">
+                                                <li class="info_list">귀리</li>
+                                                <li class="info_list">수확 시기별(수원), 조양, 출수후 50일</li>
+                                                <li class="info_list">수확 시기별(수원), 조양, 출수후 54일</li>
+                                                <li class="info_list">대양 현장시험, 인제, 2020/10월</li>
+                                                <li class="info_list">대양 현장시험, 영월, 2020/11월</li>
+                                                <li class="info_list">대양 현장시험, 평택 팽성, 2021/4월</li>
+                                                <li class="info_list">대양 현장시험, 평택 서탄, 2021/4월</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="analysis_box">
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">분석 항목</label>
+                                            <input type="text" id="plan_note_item" value="물성(TPA법)" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">작업 단계</label>
+                                            <input type="text"  id="plan_note_method"  value="시료 분석" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">시료수</label>
+                                            <input type="text"  id="plan_note_seed_count"  value="3" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">반복수</label>
+                                            <input type="text"  id="plan_note_cycle"  value="1" disabled>
+                                        </div>
+                                        <div class="form_box disabled_box">
+                                            <label class="file_title">생성일</label>
+                                            <input type="text"  id="plan_note_date"  value="2021-09-06 11:39:26" disabled>
+                                        </div>
+                                        <!-- <div class="form_box disabled_box">
+                                            <label class="file_title">승인 날짜</label>
+                                            <input type="text" value="" disabled>
+                                        </div> -->
+                                        <div class="bottom_form_box">
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">User 96Well</label>
+                                                <input type="text" id="plan_note_isWell" value="n" disabled>
+                                            </div>
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">Batch No</label>
+                                                <input type="text" id="plan_note_batchCount" value="3" disabled>
+                                            </div>
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">Sample No / Batch</label>
+                                                <input type="text" id="plan_note_sampleCount" value="20" disabled>
+                                            </div>
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">Blanck No</label>
+                                                <input type="text" id="plan_note_blank" value="0" disabled>
+                                            </div>
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">Standard No</label>
+                                                <input type="text" id="plan_note_standard" value="0" disabled>
+                                            </div>
+                                            <div class="form_box disabled_box">
+                                                <label class="file_title">Control No</label>
+                                                <input type="text" id="plan_note_control" value="0" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                         </div>
+                        <div class="card step_3_card on">
+                            <div class="card_header">
+                                <h2 class="header_title">Comment</h2>
+                            </div>
+                            <div class="card_cont_box">
+                                <form action="" class="common_form">
+                                    <div class="form_box">
+                                        <label for="" class="file_title"></label>
+                                        <textarea name="" id="plan_comment" class="" placeholder="Comment"></textarea>
+                                    </div> 
+                                </form>
+                            </div>              
+                        </div>
+                    </section>
+                    <div class="modal_file_box common_form">
+                        <div class="modal_file_box">
+<!--                            <span>전송파일 :</span><a href="#">과제코드-groupcode-사용자아이디-yyyymmdd.pdf</a>-->
+                            <div class="add_btn_box">
+                                <button class="common_btn1 method_btn enroll_btn send_pdf_btn" id="plan_id" onclick="onClickAnalysis(this)">시료 분석</button>
+<!--                                <ul class="add_list_box">-->
+<!--                                    <li class="add_list">-->
+<!--                                        <button onclick="SendNote();">연구노트</button>-->
+<!--                                    </li>-->
+<!--                                    <li class="add_list">-->
+<!--                                        <button onclick="SendRepository();">리포지터리</button>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal_footer">
+                        <button  type="button" id="excelDownload" class="common_btn1 modal_btn">저장</button>
+                        <button class="common_btn1 modal_btn" onclick="harvestingModalClose()">닫기</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 공유 일정 -->
+            <div class="modal harvesting_modal schedule_modal" id="_taskTable">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">일정</h2>
+                        <button type="button" class="modal_close">닫기</button>
+                    </div>
+                    <div class="modal_date_box common_form">
+                        <div class="form_box">
+                            <label class="file_title">제목</label>
+                            <input type="text" id="new_sch_title">
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">시작일</label>
+                            <input type="date" id="new_start_date">
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">종료일</label>
+                            <input type="date" id="new_end_date">
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">내용</label>
+                            <textarea id="new_sch_contents" ></textarea>
+                        </div> 
+                        <!-- div class="form_box">
+                            <span class="file_title">공유</span>
+                            <div class="checkBoxWrap">
+                                <div class="checkbox_scroll_box">
+                                    <th:block th:each="user : ${user}">
+                                        <label class="check_wrap">
+                                            <input type="checkbox" class="checkbox new_sch_share" th:id="${user.account}">
+                                        </label> 
+                                        <label th:for="${user.account}" th:text="${user.name}"></label>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div> --> 
+                    </div>
+                    <input name="sch_id" type="hidden">
+                    <div class="modal_footer">
+                        <!-- <button class="common_btn1 modal_btn" onclick="">수정</button> -->
+                    </div>
+                </div>
+            </div>
+            
+             <!-- 일정 현황 모달 -->
+            <div class="modal harvesting_modal schedule_status_modal" id="_taskTable2">
+                <div class="modal_box">
+                    <form>
+                        <div class="modal_header">
+                            <h2 class="modal_title">일정 현황</h2>
+                            <button type="button" class="modal_close">닫기</button>
+                        </div>
+                        <div class="modal_date_box common_form">
+                            <div class="form_box">
+                                <label class="file_title">제목</label>
+                                <input id="analysis_title" type="text" disabled>
+                            </div> 
+                            <div class="form_box">
+                                <label class="file_title">기간</label>
+                                <input id="analysis_date" type="text" disabled>
+                            </div> 
+                            <div class="form_box">
+                                <label class="file_title">분석항목</label>
+                                <input id="analysis_item" type="text" disabled>
+                            </div> 
+                            <div class="form_box">
+                                <label class="file_title">작목(품종)</label>
+                                <input id="analysis_genetic" type="text" disabled>
+                            </div> 
+                        </div>
+                    </form>
+                    
+                    <ul class="schedule_cont_box">
+                      
+                    </ul>
+                    
+                    <input name="sch_id" type="hidden">
+                    <div class="modal_footer">
+                        <button type="button" class="common_btn1 modal_btn analysis_move_btn" >시료분석</button>
+                        <button type="button" class="common_btn1 modal_btn" onclick="taskTable2Close()">닫기</button>
+                    </div>
+                </div>
+            </div>
+            
+			<!-- 월간 일정 추가 모달  -->
+            <div class="modal harvesting_modal schedule_modal" id="schedule">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">일정 추가</h2>
+                        <button type="button" class="modal_close" onclick="ScheduleModalClose();">닫기</button>
+                    </div>
+                    <div class="modal_date_box common_form">
+                        <div class="form_box">
+                            <label class="file_title">제목</label>
+                            <input type="text" name="new_sch_title" >
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">시작일</label>
+                            <input type="date" name="new_start_date" >
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">종료일</label>
+                            <input type="date" name="new_end_date" >
+                        </div> 
+                        <div class="form_box">
+                            <label class="file_title">내용</label>
+                            <textarea  name="new_sch_contents"></textarea>
+                        </div> 
+                        <div class="form_box">
+                            <span class="file_title">공유</span>
+                            <div class="checkBoxWrap">
+                                <div class="checkbox_scroll_box">
+                                    <th:block th:each="user : ${userList}">
+                                    	<th:block th:if="${user.account != session.LOGIN_MEMBER.account}">
+                                     	    <label class="check_wrap">
+	                                            <input type="checkbox" class="checkbox new_sch_share" th:id="${user.account}" th:value="${user.account}">
+        	                                </label> 
+    	                                    <label th:for="${user.account}" th:text="${user.name}"></label>
+                                    	</th:block>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="modal_footer">
+                        <button type="button" class="common_btn1 modal_btn" onclick="InsertSchedule();">추가</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <!-- 공통 구조 - main end -->
+
+
+        <!-- 엑셀 저장을 위한 div -->
+        <div style="display: none;">
+            <table style="border-spacing: 0px 0px;" id="tableData">
+                <tbody class="xlsxTbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+
+<script type="text/javascript">
+	function ScheduleModalOpen()
+	{
+		$("#main").addClass("modal_on");
+		$("#schedule").addClass("on");
+	}
+	
+	function ScheduleModalClose()
+	{
+		$("#main").removeClass("modal_on");
+		$("#schedule").removeClass("on");
+	}
+	
+	function taskTable2Close()
+	{
+		$("#main").removeClass("modal_on");
+		$("#_taskTable2").removeClass("on");
+	}
+
+    function harvestingModalClose()
+    {
+        $("#_taskTable2").removeClass("on");
+    }
+
+	function InsertSchedule()
+	{
+		
+		var sch_title = $("input[name='new_sch_title']").val();
+		var start_date = $("input[name='new_start_date']").val();
+		var end_date = $("input[name='new_end_date']").val();
+		var sch_contents = $("textarea[name='new_sch_contents']").val();
+		var sch_share = [];
+		
+		if(sch_title == ''){
+			alert("제목을 입력해주세요.");
+			return;
+		}
+		if(start_date == ''){
+			alert("시작일을 등록해주세요.");
+			return;
+		}
+		if(end_date == ''){
+			alert("종료일을 등록해주세요.");
+			return;
+		}
+		if(sch_contents == ''){
+			alert("내용을 입력해주세요.");
+			return;
+		}
+		
+		$(".new_sch_share").each(function()
+		{
+			if($(this).is(":checked") == true)
+			{
+				sch_share.push($(this).val());
+			}
+		});
+		
+		var data = {"sch_title" : sch_title, "start_date" : start_date, "end_date" : end_date, "sch_contents" : sch_contents, "sch_share" : sch_share};
+		
+		$.ajax(
+		{
+			url : "/share/insertSchedule",
+			type : "POST",
+			dataType : "JSON",
+            contentType: 'application/json; charset=utf-8',
+			data : JSON.stringify(data),
+			success : function(result)
+			{
+				console.log(result);
+				if(result != 0)
+				{	
+					alert("공유 일정이 등록되었습니다");
+					ScheduleModalClose();
+				}else{
+					alert("공유 일정 등록에 실패했습니다");
+				}
+			}
+		});
+	}
+	
+</script>
+<script type="text/javascript" th:inline="javascript">
+    let dateData = [];
+
+    // for(let i = 1; i <= 28; i++) {
+    //
+    //     eval('let data' + i + ' = new TestData(SetThisDate' + i + ', SetThisText' + i + ', FilColorNum['+ i +']); dateData.push(data' + i + ');');
+    // };
+
+    $(document).ready(function(){
+        
+    })
+</script>
+
+<script>
+let gridMap = new Object();
+let excelGrd = null;
+let result_step = [];
+
+let ansyncFlag = true;
+function createGrid(grid_id){
+    // return new Promise((resolve, reject) => {
+    //
+    //     let gridElement = document.getElementById(grid_id);
+    //     console.log(gridElement);
+    //     let plate_id = gridElement.dataset.plate;
+    //     width : 2400,
+    //     console.log(plate_id)
+    //     $.ajax({
+    //         url: '/api/batch-plate',
+    //         method: 'GET',
+    //         dataType:"JSON",
+    //         data : {
+    //             'plate_id' : plate_id,
+    //         },
+    //         success : function(result){
+    //             if(!gridMap[grid_id]) {
+    //                 gridMap[grid_id] = new tui.Grid({
+    //                     el : gridElement,
+    //                     scrollY: false,
+    //                     scrollX: true,
+    //                     data: result.list,
+    //                     rowHeaders: ['rowNum'],
+    //                     editingEvent: 'click',
+    //                     columns: [],
+    //                     columnOptions: {
+    //                         frozenCount: 5,
+    //                         frozenBorderWidth: 2,
+    //                         minWidth: 100
+    //                     }
+    //                 });
+    //                 console.table(result.list);
+    //                 let headerArr = createHeaderList();
+    //                 gridMap[grid_id].setColumns(headerArr);
+    //                 gridMap[grid_id].resetData(result.list);
+    //
+    //                 gridMap[grid_id].on('click', (ev) => {
+    //                     if(ev.targetType == 'columnHeader'){
+    //                         const stepList = result_step;
+    //                         let step_id = -1;
+    //                         stepList.forEach(step => {
+    //                             if(ev.columnName == step.step_name){
+    //                                 step_id = step.step_id;
+    //                             }
+    //                         })
+    //                         if(step_id != -1){
+    //                             getStepImage(step_id);
+    //                         }
+    //                     }
+    //
+    //
+    //                 })
+    //
+    //                 gridMap[grid_id].on('editingStart', (ev) =>{
+    //                     const key = getSelectedPlateId();
+    //                     const bach_id = gridMap[key].getRow(ev.rowKey).batch_id;
+    //                     const step_data = getSelectedStepData();
+    //                     $.ajax({
+    //                         url:"/check/batch",
+    //                         async:false,
+    //                         method:"GET",
+    //                         dataType:"JSON",
+    //                         data:{
+    //                             "batch_id":bach_id,
+    //                             "step_id":step_data.step,
+    //                         },
+    //                         success : function (result){
+    //                             if(!result)
+    //                                 ev.stop();
+    //                         }
+    //                     })
+    //
+    //                     return false;
+    //                 })
+    //                 gridMap[grid_id].on('beforeExport', async ev => {
+    //                     await exportExcel(ev,headerArr);
+    //                 });
+    //             }
+    //             resolve("123");
+    //             ansyncFlag = false;
+    //         },
+    //         error : function(result){
+    //             ansyncFlag = false;
+    //         }
+    //     })
+
+
+}
+
+function createHeader(header, name, check = false, step_id = -1){
+    let headerData = {"header" : header, "name" : name, "width" : "auto", "step_id" : step_id};
+    if(check){
+        headerData.editor="text";
+    }
+    return headerData;
+}
+function addStepEventListner(){
+    const step = document.querySelectorAll('#step_list .step_list');
+    step.forEach(item => {
+        item.addEventListener('click', (e) => {
+            onClickStep(e);
+        })
+    })
+}
+
+function onClickStep(e){
+    $('#step_list .step_list').removeClass('done');
+    const step = e.currentTarget;
+    step.classList.add('done');
+
+    const step_id = step.dataset.step;
+
+    const plate_id = getSelectedPlateId();
+    const plate = document.getElementById(plate_id);
+    let scrollDiv = plate.querySelectorAll('.tui-grid-body-area')[1];
+    const name = step.dataset.name;
+    const column = plate.querySelector(`th[data-column-name="${name}"]`);
+
+    setTimeout(() => {
+        scrollDiv.scrollLeft = column.offsetLeft;
+    }, 10)
+
+    console.log(scrollDiv);
+    setEditStep(step_id);
+}
+
+function setEditStep(step_id){
+    const headerList = createHeaderList(step_id);
+    const grid_id = getSelectedPlateId();
+    gridMap[grid_id].setColumns(headerList);
+
+}
+
+function createHeaderList(step_id = -1){
+    let headerList = [];
+    headerList.push(createHeader("작목 명", "genetic_depth_1"));
+    headerList.push(createHeader("품정 유전자원 명", "genetic_depth_2"));
+    headerList.push(createHeader("Sample ID","batch_sample"));
+    headerList.push(createHeader("Test ID", "batch_test"));
+    headerList.push(createHeader("Well No", "batch_well"));
+    const stepList = result_step;
+    console.table(stepList);
+    stepList.forEach(step =>{
+        let flag = step_id == step.step_id;
+        headerList.push(createHeader(step.step_nickName,step.step_name,flag,step.step_id));
+    })
+
+    return headerList;
+}
+function onClickBatchTabBtn(event){
+    let target = event.currentTarget;
+    console.log(target);
+    let grid_id = target.dataset.grid;
+    createGrid(grid_id);
+}
+
+// 분석 계획 정보 렌더
+function getAnalysisPlan(){
+    // const document.querySelector("analysis_plan_info")
+}
+
+$(document).ready(function(){
+    addStepEventListner();
+});
+
+function saveStepData(){
+    const plate_id = getSelectedPlateId();
+    const data = gridMap[plate_id].getData();
+
+    const stepData = getSelectedStepData();
+    if(stepData == null)
+        return;
+    const step_name = stepData.name;
+    console.log(step_name);
+    let modifyedData = gridMap[plate_id].getModifiedRows().updatedRows;
+    let batchList = [];
+    modifyedData.forEach(row => {
+        let object = new Object();
+        if(row.batch_data)
+            object = JSON.parse(row.batch_data);
+        object[step_name] = row[step_name];
+        row.batch_data = JSON.stringify(object);
+        gridMap[plate_id].setValue(row.rowKey, 'batch_data',row.batch_data);
+
+        let batch_data = new Object();
+        batch_data.batch_id = row.batch_id;
+        batch_data.batch_data = JSON.stringify(object);
+        batchList.push(batch_data);
+    })
+    console.table(batchList);
+    callModifyBatchFunc(batchList);
+}
+
+function saveBatchData(){
+    console.log("test");
+    const plate_id = getSelectedPlateId();
+    const data = gridMap[plate_id].getData();
+    let batchList = [];
+    loadBatchData(plate_id,batchList);
+    callModifyBatchFunc(batchList);
+}
+
+function loadBatchData(plate_id, batchList){
+    console.log("-------------------");
+    console.log(gridMap);
+    console.log(plate_id);
+    console.log(batchList);
+    let modifyedData = gridMap[plate_id].getModifiedRows().updatedRows;
+    const stepData = result_step;
+    let flag = false;
+    modifyedData.forEach(row => {
+        let object = new Object();
+        if(row.batch_data) {
+            object = JSON.parse(row.batch_data);
+        }
+        stepData.forEach(step =>{
+            if(row[step.step_name]) {
+                object[step.step_name] = row[step.step_name];
+            }
+        })
+
+        row.batch_data = JSON.stringify(object);
+        gridMap[plate_id].setValue(row.rowKey, 'batch_data',row.batch_data);
+
+        let batch_data = new Object();
+        batch_data.batch_id = row.batch_id;
+        batch_data.batch_data = JSON.stringify(object);
+        batchList.push(batch_data);
+    })
+    return flag;
+}
+
+function checkAllState(){
+    const dataList = document.querySelectorAll('.tui-grid-rside-area .tui-grid-cell-content');
+    for (let i = 0; i < dataList.length; i++){
+        if(dataList[i].innerText == ''){
+            return false;
+        }
+    }
+    return true;
+}
+
+function saveAllData(){
+    let batchList = [];
+    let plateList = [];
+    const plateEl = document.querySelectorAll('#plate_list .setting_top_list');
+    plateEl.forEach(plate =>{
+        const grid_id = plate.dataset.grid;
+        plateList.push(grid_id);
+        createGrid(grid_id);
+        loadBatchData(grid_id, batchList);
+    })
+    callModifyBatchFunc(batchList);
+}
+
+
+
+function getSelectedStepData(){
+    const selectedStep = document.querySelector('#step_list > .step_list.done');
+    console.log(selectedStep);
+    if(selectedStep){
+        const step_data = Object.assign({}, selectedStep.dataset)
+        console.log(step_data);
+        return step_data;
+    }
+    return null;
+}
+
+function getSelectedPlateId(){
+    const selectedPlate = document.querySelector('#plate_list > .setting_top_list.active');
+    const grid_id = selectedPlate.dataset.grid;
+    return grid_id;
+}
+
+function onClickAnalysis(element){
+    const plan_id = element.dataset.plan_id;
+    location.href = `/analysis/sample_analysis_detail?plan_id=${plan_id}&regist_type=0`
+
+}
+
+
+
+</script>
+</html>

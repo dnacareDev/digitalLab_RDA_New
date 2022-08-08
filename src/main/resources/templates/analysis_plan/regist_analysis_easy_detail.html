@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 분석 계획 등록</title>
+    <link rel="stylesheet" href="../css/common/reset.css">
+    <link rel="stylesheet" href="../css/common/common.css">
+    <link rel="stylesheet" href="../css/common/ui.css">
+    <link rel="stylesheet" href="../css/style/harvesting_after.css">
+    
+    <script src="../js/common/jquery-3.6.0.js"></script>
+    <script src="../js/common/loadHeader.js"></script>
+    <script src="../js/common/common.js"></script>
+    <script src="../js/harvesting_after.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script>
+    <script src="../../static/js/harvesting_after.js"></script> -->
+    <style>
+        .common_form .form_box:nth-child(1) {padding-right: 0;}
+        #main .explane_box {width: 100%; padding-left: 0;}
+        .harvesting_form .form_box:nth-child(2) {width: calc(50% - 10px); margin-right: 10px;}
+
+        #regist_form .form_box:last-child {
+            width: calc(50% - 10px);
+            margin-right: 10px;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box harvesting_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">분석 계획 등록</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">분석 계획 등록 - </li>
+                        <li class="card_inner_list">간편 등록</li>
+                    </ul>
+                    <div class="print_box">
+                        <button class="common_btn1">변경 이력</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_cont_box harvesting_add_box"> 
+                       <form action="" class="harvesting_form common_form" id="regist_form">
+                            <div class="form_box task_box select_box">
+                                <label for="" class="file_title">과제 정보</label>
+                                <select name="result_id" id="result_id" class="task_select common_select">
+                                    <option value="-1" hidden>과제 정보 선택</option>
+                                    <option value="1">dummy1</option>
+                                    <option value="2">dummy2</option>
+                                    <option value="3">dummy3</option>
+                                    <option value="4">dummy4</option>
+                                    <option value="5">dummy5</option>
+                                </select>
+                            </div>
+                            <div class="form_box select_box harvesting_input_box">
+                                <label for="list_lookup" class="file_title">분석 항목</label>
+                                <div class="lookup_input form_inner_box">
+                                    <input type="text" id="list_lookup"><button class=" form_btn modal_on_btn common_btn1" data-modal="_lookup">항목 조회</button>
+                                    <input type="hidden" name="division_id" id="division_id">
+                                    <input type="hidden" name="division" id="division">
+                                    <input type="hidden" name="division_parents" id="division_parents">
+                                </div>
+                            </div>
+                            <div class="select_box form_box harvesting_input_box">
+                                <label for="" class="file_title">품종/유전자원 정보</label>
+                                <div class="form_inner_box">
+                                    <input type="text" id=""><button type="button" class="form_btn common_btn1 modal_on_btn" data-modal="kindSelect">조회</button>
+                                    <input type="hidden" id="genetic_type" name="genetic_type">
+                                    <input type="hidden" id="genetic_parents" name="genetic_parents">
+                                    <input type="hidden" id="genetic" name="genetic">
+                                </div>
+                            </div>
+                            <div class="form_box file_box">
+                                <span class="file_title">파일 선택</span>
+                                <div class="file_input form_inner_box">
+                                    <input type="text" class="file_name" readonly><input type="file" name="" id="file_select2" class="file_select_input" data-none='false'><label for="file_select2" class="form_btn common_btn1">파일 선택</label>
+                                </div>
+                                <span class="ex_text"><span class="star">* </span> 엑셀, pdf, hwp 파일만 등록 가능합니다</span>
+                            </div>
+                       </form>
+                    </div>
+                </div>
+                <div class="card_footer">
+                    <button class="list_btn common_btn1" onclick="location.href='/regist_analysis_list'">목록</button>
+                    <button class="save_btn common_btn1" onclick="onClickRegist()">수정</button>
+                </div>
+            </section>
+            <div class="modal harvesting_modal" id="kindSelect">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">품종/유전정보 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form action="" class="modal_form common_form lookup_form">
+                        <div class="select_box modal_input_box">
+                            <p for="" class="modal_form_title">품종/유전정보</p>
+                            <div class="raido_box_wrap">
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_kind" value="1" data-text="품종">
+                                    <label for="_kind"></label>
+                                </div>
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_genetic" value="2" data-text="유전자원명">
+                                    <label for="_genetic"></label>
+                                </div>
+                                <div class="radio_box">
+                                    <input type="radio" name="kindInfo" id="_etc" value="3" data-text="기타">
+                                    <label for="_etc"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">용도</label>
+                            <select class="common_select" id="modal_genetic_parents">
+                                <option value="-1" hidden>용도 선택</option>
+                                <option value="1">기능성</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title" id="genetic_depth_2_title" style="line-height:1.2;">분류</label>
+                            <select class="common_select" id="modal_depth_2_select" onchange="onChangeModalDepth()">
+                                <option value="-1" hidden>용도 선택</option>
+                                <option value="-2">신규입력</option>
+                                <option value="1">기능성 관련 성분</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="form_box modal_input_box off" id="genetic_new_item_div">
+                            <label for="" class="modal_form_title">신규 세부 항목</label>
+                            <input type="text" id="new_genetic_text" class="" onkeyup="onKeyupGeneticNewText()">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn off" id="_kineSelect_btn" onclick="onClickKindBtn()">사용</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal lookup_modal" id="_lookup">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">분석 항목 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form action="" class="modal_form common_form lookup_form">
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">용도</label>
+                            <select class="common_select" id="modal_division_1">
+                                <option value="-1" hidden>용도 선택</option>
+                                <option value="1">기능성</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">분류</label>
+                            <select class="common_select" id="modal_division_2">
+                                <option value="=1" hidden>용도 선택</option>
+                                <option value="4">기능성 관련 성분</option>
+                                <option value="5">2</option>
+                                <option value="6">3</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">분석 항목</label>
+                            <select class="common_select" id="modal_division_parent">
+                                <option value="-1" hidden>분류 선택</option>
+                                <option value="7">루틴</option>
+                                <option value="8">2</option>
+                                <option value="9">3</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">세부 항목</label>
+                            <select class="common_select" id="detail_select" onchange="onChangeDetailSelect()">
+                                <option value="-1" hidden>분석 항목 선택</option>
+                                <option value="-2">신규입력</option>
+                                <option value="1">2</option>
+                                <option value="2">3</option>
+                            </select>
+                        </div>
+                        <div class="form_box modal_input_box off" id="new_item_div">
+                            <label for="" class="modal_form_title">신규 세부 항목</label>
+                            <input type="text" id="new_item_input" onkeyup="onKeyupNewItemInput()" class="">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn off" id="_lookup_btn" onclick="onClickModalUse()">사용</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- 공통 구조 - main end -->
+    </div>
+    <script>
+        function onChangeDetailSelect(){
+            let selectedValue = $('#detail_select').val();
+            if(selectedValue == -2){
+                $("#new_item_div").removeClass("off").addClass("on");
+                onKeyupNewItemInput();
+            }
+            else{
+                if(selectedValue != -1 ){
+                    $('#_lookup_btn').removeClass("off").addClass('on');
+                }
+                else{
+                    $('#_lookup_btn').removeClass("on").addClass('off');
+                }
+                $("#new_item_div").removeClass("on").addClass("off");
+            }
+        }
+
+        function onKeyupNewItemInput(){
+            let text = $('#new_item_input').val();
+            if(text != ''){
+                $('#_lookup_btn').removeClass("off").addClass('on');
+            }
+            else{
+                $('#_lookup_btn').removeClass("on").addClass('off');
+            }
+        }
+
+        function onClickModalUse(){
+            let divisionParent =  $('#modal_division_parent').val();
+            let division_id = $('#detail_select').val();
+            let division = $('#new_item_input').val();
+
+            $('#division_parents').val(divisionParent);
+            $('#division_id').val(division_id);
+            $('#division').val(division);
+
+            let depth_text_1 = $('#modal_division_1 option:selected').text();
+            let depth_text_2 = $('#modal_division_2 option:selected').text();
+            let depth_text_3 = $('#modal_division_parent option:selected').text();
+            let depth_text_4 = "";
+            let selectedValue = $('#detail_select').val();
+            if(selectedValue == -2)
+                depth_text_4 = division;
+            else
+                depth_text_4 = $('#detail_select option:selected').text();
+            let text = depth_text_1 + " > " + depth_text_2 + " > " + depth_text_3 + " > " + depth_text_4;
+            $('#list_lookup').val(text);
+            $('#_lookup').removeClass('on');
+        }
+
+        document.querySelectorAll('input[name="kindInfo"]').forEach((el) => el.addEventListener('change', (e) => {
+            const value = e.target.dataset.text;
+            const gt = document.querySelector("#genetic_depth_2_title");
+            gt.textContent = value;
+
+
+        }))
+
+        function onChangeModalDepth(){
+            let selectedValue = $('#modal_depth_2_select').val();
+            if(selectedValue == -2){
+                $('#genetic_new_item_div').removeClass('off').addClass('on');
+            }
+            else{
+                $('#genetic_new_item_div').removeClass('on').addClass('off');
+            }
+        }
+
+        function onKeyupGeneticNewText(){
+            let text = $('#new_genetic_text').val();
+            if(text != ''){
+                $('#_kineSelect_btn').removeClass("off").addClass('on');
+            }
+            else{
+                $('#_kineSelect_btn').removeClass("on").addClass('off');
+            }
+        }
+
+        function validateFunction(id, title){
+            let value = $('#' + id).val();
+            if(value == ''){
+                $('#'+id).focus();
+                alert(title + ' 입력해주세요');
+                return false;
+            }
+            return true;
+        }
+
+        function checkForm(){
+           let result_id = $('#result_id').val();
+           if(result_id == -1){
+               alert("과제를 선택해주세요");
+               return false;
+           }
+            let genetic_id = $('#genetic_id').val();
+            if(genetic_id == -1){
+                alert("품종/유전자원 정보를 선택해주세요");
+                return false;
+            }
+            if(!validateFunction('division_id','분석항목을')){
+                return false;
+            }
+            if(!validateFunction('plan_contents','분석 계획 설명을')){
+                return false;
+            }
+
+            return true;
+        }
+
+        function onClickKindBtn(){
+            let genetic_type = $('input[name=kindInfo]:checked').val();
+            let genetic_parents = $('#modal_genetic_parents').val();
+            let genetic_id = $('#modal_depth_2_select').val();
+            let genetic = $('#new_genetic_text').val();
+
+            if(genetic_parents == -1){
+                alert("용도를 선택해주세요");
+                return false;
+            }
+            if(genetic_id == -1){
+                alert($('#genetic_depth_2_title') + "을(를) 선택해주세요");
+                return false;
+            }
+            if(genetic_id == -2){
+                if(genetic == ''){
+                    alert("신규 항목을 입력해주세요");
+                    return false;
+                }
+            }
+            $('#genetic_type').val(genetic_type);
+            $('#genetic_parents').val(genetic_parents);
+            $('#genetic_id').val(genetic_id);
+            $('#genetic').val(genetic);
+            $('#kindSelect').removeClass('on');
+
+        }
+        function onClickRegist(){
+            let registForm = $('#regist_form')[0];
+            let formData = new FormData(registForm);
+
+            if(!checkForm()) {
+                return;
+            }
+
+            let file = $('#file_select2')[0].files[0];
+            formData.append('file',file);
+
+            $.ajax({
+                url:"/regist_analysis_easy_add",
+                type:"POST",
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                data:formData,
+                success:function(data) {
+                    if(data <= 0){
+                        getErrorMessage(data);
+                    }
+                    else{
+                        alert("수정에 성공하셨습니다.");
+                        location.href="/regist_analysis_list";
+                    }
+                },
+                error:function(xhr,status){
+                    alert(xhr + " : " + status);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

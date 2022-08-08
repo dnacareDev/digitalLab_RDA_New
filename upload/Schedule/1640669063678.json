@@ -1,0 +1,61 @@
+[
+  {
+    "batch_id": 7416,
+    "plan_id": 0,
+    "genetic_id": 79,
+    "seed_id": 147,
+    "batch_index": 0,
+    "batch_sample": "1-1",
+    "batch_test": "b1-01",
+    "batch_well": "A01",
+    "user_id": 0,
+    "batch_data": "{\"원시료 (R)\":\"1212\"}",
+    "plate_id": 638,
+    "plate_index": 1,
+    "batch_type": 0,
+    "genetic_depth_1": "고구마",
+    "genetic_depth_2": "심"
+  },
+  {
+    "batch_id": 7417,
+    "plan_id": 0,
+    "genetic_id": -1,
+    "seed_id": -1,
+    "batch_index": 1,
+    "batch_sample": "1-co-01",
+    "batch_test": "b1-02",
+    "batch_well": "B01",
+    "user_id": 0,
+    "plate_id": 638,
+    "plate_index": 1,
+    "batch_type": 0
+  },
+  {
+    "batch_id": 7418,
+    "plan_id": 0,
+    "genetic_id": -1,
+    "seed_id": -1,
+    "batch_index": 0,
+    "batch_sample": "2-co-01",
+    "batch_test": "b2-01",
+    "batch_well": "A01",
+    "user_id": 0,
+    "plate_id": 639,
+    "plate_index": 2,
+    "batch_type": 0
+  },
+  {
+    "batch_id": 7419,
+    "plan_id": 0,
+    "genetic_id": -1,
+    "seed_id": -1,
+    "batch_index": 0,
+    "batch_sample": "3-co-01",
+    "batch_test": "b3-01",
+    "batch_well": "A01",
+    "user_id": 0,
+    "plate_id": 640,
+    "plate_index": 3,
+    "batch_type": 0
+  }
+]

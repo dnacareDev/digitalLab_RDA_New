@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.EachMapper">
+    
+    <!-- 시약 단위 리스트 -->
+	<select id="reagentEachList" parameterType="int" resultType="Each">
+	
+		SELECT
+		*
+		FROM each
+		WHERE each_type = 4
+	</select>	
+	
+	<!-- 시료 단위 리스트 -->
+	<select id="seedEachList" parameterType="int" resultType="Each">
+	
+		SELECT
+		*
+		FROM each
+		WHERE each_type = 5
+	</select>	
+	
+	
+	<!-- 메서드 스탭 단위 리스트 -->
+	<select id="methodEachList" parameterType="int" resultType="Each">
+		SELECT
+		*
+		FROM each
+		WHERE each_type = #{type}
+		ORDER BY each_id ASC
+	</select>	
+</mapper>

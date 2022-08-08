@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:include="./fragments/header.html"></th:block>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 장소 관리</title>
+<link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+<link type="text/css" rel="stylesheet" href="/css/common/common.css">
+<link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+<link type="text/css" rel="stylesheet" href="/css/style/sample_analysis.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/sample_analysis.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+<style>
+.card_cont_box .card_table>tbody {
+	max-height: 400px;
+	overflow-y: auto;
+	display: block;
+}
+
+#wrap .card_cont_box .card_table th {
+	padding: 0 10px;
+}
+
+.data_enroll_btn {
+	position: absolute;
+	right: -540px;
+}
+
+#wrap .card_cont_box .card_table tr {
+	display: flex;
+}
+
+#wrap .card_cont_box .card_table td {
+	display: inline-block;
+}
+
+#main .cont_footer_box.card_table_footer {
+	bottom: 0px;
+}
+
+.method_btn {
+	display: block;
+	line-height: 40px;
+	text-align: center;
+}
+
+#wrap .card_cont_box .card_table tr>td {
+	padding: 0 10px;
+}
+
+.card_cont_box .card_table tr>th:nth-child(3), .card_cont_box .card_table tr>td:nth-child(3),
+	.card_cont_box .card_table tr>th:nth-child(4), .card_cont_box .card_table tr>td:nth-child(4),
+	.card_cont_box .card_table tr>th:nth-child(6), .card_cont_box .card_table tr>td:nth-child(6)
+	{
+	flex: 2;
+}
+
+#main .cont_footer_box.card_table_footer {
+    justify-content: right;
+}
+
+
+</style>
+</head>
+
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box sample_analysis_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">장소 관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">기본 정보 -</li>
+						<li class="card_inner_list">장소 관리</li>
+					</ul>
+				</div>
+				<div class="card">
+					<div class="card_header">
+						<div class="col_select_box select_box">
+							<span>show</span> <select name="limit_select" id="limit_select"
+								class="col_select common_select">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select> <span>entries</span>
+						</div>
+					</div>
+					<div class="card_cont_box">
+						
+						<div id="placeGrid" class="toastTable"></div>
+						
+						<div class="cont_footer_box card_table_footer">
+							<div class="cont_footer_btnbox method_footer_btnbox" >
+								<div class="add_btn_box" >
+									<a class="common_btn1 method_btn enroll_btn"
+										href="/place/place_add">신규 등록</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		 <th:block th:include="./fragments/commonjs.html"></th:block>
+		<!-- 공통 구조 - main end -->
+	</div>
+
+	<script>
+    let currentPageNo = 0;
+    let recordsPerPage = 0;
+    let pageSize = 0;
+    let maxCount = 0;
+    let maxPage = 0;
+    $(document).ready(function(){
+    	searchPlace(0);
+    })
+
+    let placeGrid = null;
+    function searchPlace(pageNo){
+        let limit = $('#limit_select').val();
+        
+        $.ajax(
+            {
+                url: '/place/search_place',
+                method:"GET",
+                dataType:"JSON",
+                data : {
+
+                },
+                success:function(result){
+                	
+                	//console.log(result.list)
+                	
+                	placeGrid = new tui.Grid({
+                        el: document.getElementById('placeGrid'),
+                        scrollX: true,
+                        scrollY: false,
+                 	    data: result.list,
+                 	   	rowHeaders: [
+     	         	      {
+     	         	        type: 'rowNum',
+     	         	        renderer: RowNumRenderer
+     	         	      }
+     	         	    ],
+                        editingEvent: 'click',
+                        columns: [],
+                        columnOptions: {
+                            resizable: true
+                          },
+                        pageOptions: {
+                            useClient: true,
+                            perPage: limit,
+                        }
+                    });
+
+                    const headerArr = [
+                        {
+                            "header" : "장소 ID",
+                            "name" : "place_code",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                        {
+                            "header" : "저장장소",
+                            "name" : "place_name",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                        {
+                            "header" : "온도",
+                            "name" : "place_temp",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                        {
+                            "header" : "습도",
+                            "name" : "place_humidty",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                        {
+                            "header" : "등록자",
+                            "name" : "account",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                        {
+                            "header" : "등록일",
+                            "name" : "create_date",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+                        },
+                    ]
+                    placeGrid.setColumns(headerArr);
+                    placeGrid.resetData(result.list);
+ 
+                    placeGrid.on('click',(ev) => {
+                        if(ev.columnName === 'place_code'){
+                            let id = placeGrid.getRow(ev.rowKey).place_id;
+                            location.href=`/place/place_detail/${id}`;
+                        }
+                    });
+                }
+            }
+        )
+    } 
+   $('#limit_select').change(function(){
+        if(placeGrid != null){
+        	placeGrid.destroy();
+            searchStorage(1);
+        }
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 재배환경 (공유)</title>
+    <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/assignment_management.css">
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $("#header").load("../header/header.html");
+        });
+        </script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script>
+    <style>
+        .data_enroll_btn {position: absolute; right: -540px;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+            <!-- <div class="header_logo">
+                <a href="#">DNA CARE</a>
+            </div>
+            <nav id="nav">
+                <ul class="gub_box">
+                    <li class="gnb_list menu_list">
+                        <p><a href="home.html">홈</a></p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>기초데이터 관리</p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>메소드 관리</p>
+                        <ul class="inner_list_box">
+                            <li class="inner_list menu_list">
+                                <a href="method_management.html">
+                                    Method 관리
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    시약 정보
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    장비 정보
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    기구 정보
+                                </a>
+                            </li> 
+                            <li class="inner_list">
+                                    <p>시료 관리</p>
+                                    <ul class="inner_in_list">
+                                        <li class="in_list menu_list">
+                                            <a href="harvesting_after.html">수확후이용과</a>
+                                        </li>
+                                        <li class="in_list menu_list">
+                                            <a href="#">재배환경 (공유)</a>
+                                        </li>
+                                    </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="gnb_list on">
+                        <p>분석 관리</p>
+                        <ul class="inner_list_box">
+                            <li class="inner_list menu_list">
+                                <a href="setup_analysis_plan.html">
+                                    분석 계획 등록
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="setup_analysis_plan.html">
+                                    분석 계획 설정
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="sample_analysis.html">
+                                    시료 분석
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    결과 등록
+                                </a>
+                            </li> 
+                            <li class="inner_list menu_list active">
+                                <a href="example.html">
+                                    데이터 검증
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="gnb_list">
+                        <p>통계 관리</p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>일정 관리</p>
+                    </li>
+                </ul>
+            </nav> -->
+        </div>
+        <!-- 공통 구조 - header end -->
+        <!-- 공통 구조 - main -->
+        <main id="main">
+            <div class="main_header">
+                <div class="search_box">
+                    <label for="search">
+                        <input type="text" id="search" placeholder="Search" class="search_input">
+                    </label> 
+                </div>
+                <div class="ui_box">
+                    <div class="alarm"></div>
+                    <div class="profile"></div>
+                    <p class="user_id">dev@korea.kr</p>
+                </div>
+            </div>
+            <section class="card_box assignment_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">재배환경 (공유)</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">메소드 관리 - </li>
+                        <li class="card_inner_list">시료 관리 - </li>
+                        <li class="card_inner_list">재배환경 (공유) </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <div class="col_select_box select_box">
+                            <span>show</span>
+                            <select name="" id="" class="col_select common_select">
+                                <option value="">10</option>
+                                <option value="">20</option>
+                                <option value="">30</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                        <div class="right_head_box">
+                            <div class="cont_search_box">
+                                <label for="card_search">
+                                    <input type="text" id="card_search" placeholder="Search" class="cont_search_input">
+                                </label>    
+                            </div>
+                            <button class="common_btn1 CSV_btn">CSV</button>
+                        </div>
+                    </div>
+                    <div class="card_cont_box">
+                        <table class="card_table assignment_table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>사용자 id</span>
+                                    </th>
+                                    <th>
+                                        <span>성명</span>
+                                    </th>
+                                    <th>
+                                        <span>소속실</span>
+                                    </th>
+                                    <th>
+                                        <span>직종</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#">PJ0125162020</a></td>
+                                    <td><span>2</span></td>
+                                    <td><span>3</span></td>
+                                    <td><span>4</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">PJ0125162020</a></td>
+                                    <td><span>2</span></td>
+                                    <td><span>3</span></td>
+                                    <td><span>4</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href=#">PJ0125162020</a></td>
+                                    <td><span>2</span></td>
+                                    <td><span>3</span></td>
+                                    <td><span>4</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">PJ0125162020</a></td>
+                                    <td><span>2</span></td>
+                                    <td><span>3</span></td>
+                                    <td><span>4</span></td>
+                                </tr>
+                                <tr></tr>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                        <div class="cont_footer_box card_table_footer">
+                            <div class="page_box">
+                                <button class="prev_btn page_btn">Previos</button>
+                                <ul class="page_num_box">
+                                    <li class="page_num on">1</li>
+                                    <li class="page_num">2</li>
+                                    <li class="page_num">3</li>
+                                    <li class="page_num">4</li>
+                                    <li class="page_num">5</li>
+                                </ul>
+                                <button class="next_btn page_btn on">Next</button>
+
+                            </div>
+                            <!-- <a class="common_btn1 method_btn user_btn" href="assignment_management2_new.html">신규등록</a> -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- 공통 구조 - main end -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,509 @@
+@charset "utf-8";
+#main .setup_analysis_sect .card {height: auto; padding-bottom: 40px;}
+
+/******* card - first card *******/
+/**** card - first card - setup_analysis_form ****/
+.setup_analysis_form .analysis_box {width: 100%; display: flex; flex-wrap: wrap;}
+
+.setup_analysis_form .analysis_box .list_box {width: 100%;}
+.setup_analysis_form .analysis_box .info_list_wrap {width: 100%; display: flex;}
+.analysis_box .info_list_wrap .info_list {width: 290px; text-align: center; line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; margin-right: 10px;}
+
+.disabled_box > input[type="text"] {line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; padding: 0px 20px; background-color: #F7F7F8;}
+
+/* card - first card - card_sect_footer */
+.card .card_sect_footer {display: flex; justify-content: right; width: 100%;}
+.analysis_add_box .card_sect_footer .analysis_next_btn {width: 120px;}
+
+
+/******* card - step_1_card *******/
+#main .setup_analysis_sect .step_1_card {display: none; padding: 25px 0 50px;}
+
+/* on */
+#main .setup_analysis_sect .step_1_card.on {display: block;}
+
+#main .setup_analysis_sect .step_1_card .card_header {padding-left: 60px;}
+
+/* card_cont_box - 1 */
+.step_1_card .card_cont_box {padding: 0 60px 30px;}
+.step_1_card .card_cont_box:not(:last-child) {border-bottom: 1px solid #D9D9D9;}
+.step_1_card .card_cont_box:last-child {padding-top: 60px;}
+
+.step_1_card .card_cont_box {display: flex; flex-wrap: wrap;}
+
+/* batch_box */
+.step_1_card .card_cont_box .batch_box {width: calc(50% - 10px);}
+.step_1_card .card_cont_box .batch_box:nth-child(2n) {margin-left: 10px;}
+.step_1_card .card_cont_box .batch_box:nth-child(2n - 1) {margin-right: 10px;}
+
+/* batch_box - batch_table, well_used_box */
+/* well_used_box */
+.step_1_card .card_cont_box .batch_box > .well_used_box {margin-bottom: 10px; text-align: right;}
+.step_1_card .card_cont_box .batch_box > .well_used_box > label {margin-right: 160px; position: relative;}
+.step_1_card .card_cont_box .batch_box > .well_used_box > label:after {content: '96well (plate) 사용 여부'; position: absolute; right: -158px; top: calc(50% + 2px); transform: translateY(-50%); width: 160px; height: 26px; color: #000; font-size: 1.4rem;}
+
+/* batch_table - checked false */
+.step_1_card .card_cont_box .batch_box .batch_table {border: 1px solid #D9D9D9; width: 100%; height: 365px; display: inline-block; border-radius: 5px;}
+.step_1_card .card_cont_box .batch_box .batch_table > thead,
+.step_1_card .card_cont_box .batch_box .batch_table > tbody {width: 100%; display: block; border-radius: 5px 5px 0 0 ;}
+.step_1_card .card_cont_box .batch_box .batch_table > tbody {overflow-y: scroll;  border-radius: 0px 0px 5px 5px; height: 320px;}
+
+/* tr */
+.step_1_card .card_cont_box .batch_box .batch_table tr {width: 100%; display: inline-block; border-bottom: 1px solid #F2F2F2;}
+.step_1_card .card_cont_box .batch_box .batch_table > thead > tr { border-bottom: 1px solid #D9D9D9; display: flex;}
+
+/* th, td */
+.step_1_card .card_cont_box .batch_box .batch_table tr > th,
+.step_1_card .card_cont_box .batch_box .batch_table tr > td {display: inline-block; text-align: center; line-height: 40px; width: 30%; height: 40px;}
+
+.step_1_card .card_cont_box .batch_box .batch_table tr > th:first-child,
+.step_1_card .card_cont_box .batch_box .batch_table tr > td:first-child {width: calc(10% - 6px);}
+
+/* th */
+.step_1_card .card_cont_box .batch_box .batch_table tr > th {color: #7C8798; font-weight: 700;}
+
+/* td */
+.step_1_card .card_cont_box .batch_box .batch_table > tbody > tr {display: flex;}
+.step_1_card .card_cont_box .batch_box .batch_table tr > td {font-size: 1.4rem;}
+.step_1_card .card_cont_box .batch_box .batch_table tr > td:first-child {background: url('../../images/drag.png') no-repeat right center; width: calc(10% - 6px);}
+
+
+.step_1_card .card_cont_box .batch_box .checked_table thead > tr {display: flex;}
+.step_1_card .card_cont_box .batch_box .checked_table tr > th,
+.step_1_card .card_cont_box .batch_box .checked_table tr > td {flex: 1;}
+.step_1_card .card_cont_box .batch_box .checked_table tr > th:first-child,
+.step_1_card .card_cont_box .batch_box .checked_table tr > td:first-child {flex: 0.5;}
+
+/* batch_box - first_form_box */
+#main .step_1_card .card_cont_box .first_form_box {padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center;}
+
+/* form box */
+.step_1_card .card_cont_box .first_form_box > .form_box {display: flex; flex-wrap: wrap; width: calc(50% - 5px);}
+.step_1_card .card_cont_box .first_form_box > .form_box:nth-child(2n - 1) {margin-right: 10px;}
+.step_1_card .card_cont_box .first_form_box > .form_box:last-child {width: 100%; margin-right: 0;}
+.step_1_card .first_form_box > .form_box:last-child .dis_form_inner_box {display: flex; flex-direction: column; flex: 1;}
+.step_1_card .form_box:last-child .dis_form_inner_box:not(:last-child) {margin-right: 10px;}
+
+/* select */
+.step_1_card .card_cont_box .first_form_box > .select_box {display: flex; flex-direction: column;}
+.step_1_card .card_cont_box .first_form_box > .select_box > select {width: 100%;}
+
+/* label */
+.step_1_card .card_cont_box .first_form_box > .form_box > label,
+.step_1_card .card_cont_box .first_form_box .dis_form_inner_box > label {color: #7C8798; font-weight: 700; margin-bottom: 8px; padding-left: 3px;}
+
+/* input */
+.step_1_card .form_box .form_inner_box > input[type="text"],
+.step_1_card .card_cont_box .first_form_box > .form_box > input[type="text"] {text-align: left; line-height: 38px; border: 1px solid #D9D9D9; border-radius: 5px; width: 100%; padding: 0 20px;}
+
+/* form_inner_box - 화살표 input */
+.step_1_card .form_box .form_inner_box {padding-top: 28px; width: 100%;}
+.step_1_card .form_box .form_inner_box > input[type="text"] {width: calc(80% - 5px); border-radius: 5px 0 0 5px; border-right: none;}
+.step_1_card .form_box .form_inner_box > .form_btn {width: 20%; border-radius: 0px 5px 5px 0px; position: relative; top: 2px; text-indent: -9999999px;}
+.step_1_card .form_box .form_inner_box > .form_btn:before {content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 15px; background: url('../../images/btn_arrow.png') no-repeat;}
+
+
+/* card_cont_box - 2 */
+.step_1_card .card_cont_box2 {padding-bottom: 0;}
+
+/* batch_table - checked true */
+/* th, td */
+
+
+/* th */
+.card_cont_box2 .batch_box .checked_true_box .batch_table tr > th {color: #7C8798; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+/* td */
+.card_cont_box2 .batch_box .checked_true_box .batch_table tr > td {font-size: 1.4rem; width: 100%;}
+
+
+/* has - arrow */
+.card_cont_box2 .batch_box .checked_true_box .batch_table tr > td:first-child {background: none;}
+
+.card_cont_box2 .batch_box .checked_true_box .batch_table tr.has > td:first-child {background: url('../../images/drag.png') no-repeat center center;}
+
+/* batch_table - 공통 */
+.step_1_card .card_cont_box2 .batch_box .bottom_setting {display: none;}
+
+
+/* batch_right_box */
+.step_1_card .card_cont_box2 .batch_right_box {margin-top: 51px; overflow: auto; height: 364px; border: 1px solid #D9D9D9; border-radius: 5px; position: relative;}
+
+/* sec_batch_table */
+.step_1_card .card_cont_box2 .batch_right_box .sec_batch_table { height: 100%; border: 1px solid #F4F8FB; width: auto; display: inline-block;}
+
+/* sec_batch_table - thead */
+.card_cont_box2 .batch_right_box .sec_batch_table > thead {background-color: #F4F8FB;}
+
+/* sec_batch_table - tr */
+.card_cont_box2 .batch_right_box .sec_batch_table tr {border-bottom: 1px solid #cdd5dba2;}
+
+/* sec_batch_table - th, td */
+.card_cont_box2 .batch_right_box .sec_batch_table th,
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td {text-align: center; width: 60px; height: 43px; line-height: 43px; border-right: 1px solid #cdd5dba2;}
+ 
+/* sec_batch_table - th */
+.card_cont_box2 .batch_right_box .sec_batch_table th { height: 50px; line-height: 50px;}
+
+/* sec_batch_table - td */
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td {padding: 5px;}
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span {display: block; width: 100%; height: 100%; border: 1px solid #7E8796; border-radius: 50%; font-size: 1.3rem;}
+
+/* sec_batch_table - td - span.on_$ */
+@keyframes fadein {
+  0% {
+    opacity: 1;
+  }
+
+50% {
+			opacity: 0.3;
+	}
+  100% {
+    opacity: 1;
+  }
+}
+tr.selected {
+	background: #21ba45;
+	color: #fff;
+}
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span.selected {
+	animation: fadein 1.5s ease 0s 1 normal forwards;
+    animation-iteration-count: infinite;
+}
+
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span.on_1 {background-color: #FE99A2;}
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span.on_2 {background-color: #9DE3D0;}
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span.on_3 {background-color: rgb(241, 186, 158);}
+.card_cont_box2 .batch_right_box .sec_batch_table tbody td > span.on_4 {background-color: rgb(166, 181, 203);}
+
+/* sec_batch_dimm */
+.sec_batch_dimm {display: none;}
+.sec_batch_dimm.on {display: block; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center;}
+.sec_batch_dimm.on > p {color: #fff; font-size: 1.4rem;}
+
+/* step_1_card - card_sect_footer */
+.step_1_card .card_sect_footer {padding-top: 30px;}
+
+
+
+
+/******* step_2_card *******/
+#main .setup_analysis_sect .step_2_card {display: none;}
+
+/* on */
+#main .setup_analysis_sect .step_2_card.on {display: block;}
+
+/* step_2_card - step_2_table */
+.step_2_card .step_2_table {width: 100%; margin-bottom: 30px;}
+
+/* step_2_card - step_2_table - tr */
+.step_2_card .step_2_table tr {border-top: 1px solid #cad6ddbb;}
+.step_2_card .step_2_table > thead > tr {border-top: 2px solid #cad6ddbb; border-bottom: 2px solid #cad6ddbb;}
+.step_2_card .step_2_table > tbody > tr:last-child {border-bottom: 1px solid #cad6ddbb;}
+
+/* step_2_card - step_2_table - th, td */
+.step_2_card .step_2_table tr > th,
+.step_2_card .step_2_table tr > td { text-align: center; line-height: 40px; font-size: 1.4rem; width: 16.66666666666667%;}
+
+/* step_2_card - step_2_table - th */
+.step_2_card .step_2_table tr > th {color: #7C8798; font-weight: 700;}
+
+/* step_2_card - step_2_table - td */
+.step_2_card .step_2_table tr > td {padding: 5px 0;}
+
+/* step_2_card - step_2_table - td - select */
+#wrap .step_2_card .step_2_table tr > td .select_box > .common_select {width: 200px; height: 37px;}
+
+
+/******* step_3_card *******/
+#wrap #main .setup_analysis_sect .step_3_card {display: none; margin-bottom: 50px; display: none;}
+
+/* on */
+#wrap #main .setup_analysis_sect .step_3_card.on {display: block; margin-bottom: 50px;}
+
+.step_3_card .common_form .form_box {width: 100%;}
+.step_3_card .common_form .form_box > textarea {height: 200px;}
+
+
+
+
+/* card footer btn */
+#wrap .card_footer {display: flex; justify-content: space-between; padding: 0; width: 100%;}
+#wrap .card_footer > .common_btn1 {width: 150px; display: inline-block;}
+#wrap .card_footer > .list_btn {background-color: #7C8798;}
+
+#wrap .card_footer.off .appl_regist_btn {display: none;}
+
+
+
+
+
+
+
+
+
+#main .step_2_table > tbody > tr > td:first-child {position: relative;}
+#main .enroll_btn {margin-right: 0; width: 200px; background: none; color: #000; font-size: 1.3rem; border: 1px solid #D9D9D9; height: 37px; line-height: 37px; font-weight: 400;}
+#main .enroll_btn:active:focus {background: none;}
+
+
+#main .add_list_box {width: 200px; text-align: center; box-shadow: 0 0 6px rgba(0, 0, 0, 0.25); position: absolute; background-color: #fff; right: 23px; bottom: 49px; border-radius: 5px; transition: 0.5s all; overflow: hidden; height: 0; opacity: 0;}
+#main .add_list_box .add_list {transition: 0.2s all;}
+#main .add_list_box .add_list > button {display: block; line-height: 40px; width: 100%; background: none;}
+
+/* hover */
+#main .add_list_box .add_list:hover {background-color: #F7F7F8;}
+
+/* active */
+#main .enroll_btn.active + .add_list_box {height: 40px; opacity: 1;}
+
+
+
+
+
+/* scheduleContSet modal */
+#main #scheduleContSet .modal_box {max-width: 1280px;}
+
+#scheduleContSet .top_cont_box {
+    display: flex;
+    padding: 30px 50px 15px;
+}
+
+/* cont_left_box */
+#scheduleContSet .cont_left_box {
+    margin-right: 20px;
+}
+
+
+#scheduleContSet .top_cont_box .file_title {
+    display: block;
+    margin-bottom: 15px;
+}
+
+
+/* 양쪽 공통 */
+#scheduleContSet .cont_list_box {
+    width: calc(50% - 10px);
+}
+
+/* manager_table 공통 */
+.manager_table {
+    display: block;
+    border: 1px solid rgb(232, 238, 242);
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+
+/* thead, tbody  */
+.manager_table > thead,
+.manager_table > tbody {
+    display: block;
+}
+
+/* tbody */
+.manager_table > tbody {
+    height: 210px;
+    overflow-y: auto;
+}
+
+
+/* tr */
+.manager_table tr {
+    display: flex;
+    width: 100%;
+}
+
+.manager_table > thead > tr {
+    border-top: none;
+}
+
+
+/* th, td */
+.manager_table tr > th,
+.manager_table tr > td {
+    flex: 2;
+    height: 40px;
+}
+
+.manager_table tr > th:first-child,
+.manager_table tr > td:first-child {
+    flex: 1;
+}
+
+.manager_table tr > th span,
+.manager_table tr > td span {
+    font-size: 1.4rem;
+    display: block;
+}
+
+/* schedule_date_box */
+#scheduleContSet .schedule_date_box > input:first-child {
+    margin-right: 10px;
+}
+
+
+/* scheduleCont_form */
+#scheduleContSet .scheduleCont_form {
+    padding: 0 50px;
+    flex-direction: column;
+}
+
+#scheduleContSet .scheduleCont_form .form_box {
+    width: 100%;
+    padding: 0;
+}
+
+#scheduleContSet .scheduleCont_form .form_box > textarea {
+    height: 130px;
+}
+
+
+
+
+
+/* stepSetting - modal */
+#main #stepSetting .modal_box {max-width: 1300px;}
+#stepSetting .step_table_box {padding: 10px 50px;}
+
+/* manager_table 공통 */
+.step_table {
+    display: block;
+    border: 1px solid rgb(232, 238, 242);
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+
+/* thead, tbody  */
+.step_table > thead,
+.step_table > tbody {
+    display: block;
+}
+
+/* tbody */
+.step_table > tbody {
+    height: 450px;
+    overflow-y: auto;
+}
+
+
+/* tr */
+.step_table tr {
+    display: flex;
+    width: 100%;
+}
+
+.step_table > thead > tr {
+    border-top: none;
+}
+
+.step_table > tbody > tr {
+    border-bottom: 1px solid rgb(232, 238, 242);
+}
+
+
+/* th, td */
+.step_table tr > th,
+.step_table tr > td {
+    flex: 2;
+    height: 35px;
+}
+
+.step_table tr > th:first-child,
+.step_table tr > td:first-child {
+    flex: 1;
+}
+.step_table tr > th:nth-child(5),
+.step_table tr > td:nth-child(5),
+.step_table tr > th:nth-child(6),
+.step_table tr > td:nth-child(6) {
+    flex: 2.5;
+}
+
+.step_table tr > th:nth-child(2),
+.step_table tr > td:nth-child(2) {
+    flex: 6;
+    height: 0px;
+}
+
+
+
+.step_table tr > th span,
+.step_table tr > td span {
+    font-size: 1.3rem;
+    display: block;
+    line-height: 35px;
+}
+
+.step_table tr > td span {
+    cursor: pointer;
+    
+}
+
+.step_table tr > td:nth-child(2) span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 480px;
+}
+
+.step_table tr > td:nth-child(5) span,
+.step_table tr > td:nth-child(6) span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 187px;
+}
+
+
+
+
+.step_1_card .card_cont_box .first_form_box > .order_select,
+.step_1_card .card_cont_box .first_form_box > .form_box:nth-child(1),
+.step_1_card .card_cont_box .first_form_box > .form_box:nth-child(2) {
+    flex-direction: column;
+}
+
+.step_1_card .card_cont_box .first_form_box > .form_box > .file_title,
+.step_1_card .card_cont_box .first_form_box .dis_form_inner_box > .file_title,
+.step_1_card .card_cont_box .first_form_box > .order_select,
+.step_1_card .card_cont_box .first_form_box > .form_box {
+    margin-bottom: 5px;
+}
+
+.step_1_card .card_cont_box .first_form_box > .order_select select {
+    width: 100%;
+}
+
+
+.step_1_card .card_cont_box .first_form_box > .form_box {
+    flex-wrap: nowrap;
+}
+
+.step_1_card .form_box:last-child .dis_form_inner_box {
+    width: calc(33.3333% - 10px);
+}
+
+
+.step_1_card .card_cont_box .first_form_box > .form_box:nth-child(4) {
+    margin-right: 10px;
+}
+
+.step_1_card .card_cont_box .first_form_box > .form_box:nth-child(5) {
+    margin-right: 0;
+}
+
+.step_1_card .form_box .form_inner_box > input[type="text"] {
+    width: calc(100% - 68px);
+}
+
+.step_1_card .form_box .form_inner_box > .form_btn {
+    width: 68px;
+}
+
+
+
+
+
+
+
+

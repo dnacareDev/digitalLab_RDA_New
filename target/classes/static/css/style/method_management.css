@@ -1,0 +1,58 @@
+@charset "utf-8";
+/********* card title box *********/
+.card_box .card_title_box {display: flex; padding: 10px 0 20px 1px; align-items: center;}
+
+.card_box .card_title_box .card_title {font-size: 2rem; font-weight: 700; margin-right: 30px;}
+
+.card_box .card_title_box .card_list_text {display: flex;}
+.card_box .card_title_box .card_list_text > li {color: #666666; margin-right: 5px;}
+
+/********* card  *********/
+#main .card_box .card {padding: 40px 30px; height: auto;}
+
+/***** card - header *****/
+#main .card_box .card .card_header .col_select_box {display: flex; align-items: center;}
+
+/* col select box - text */
+#main .card_box .card .card_header .col_select_box > span {font-size: 1.8rem; font-weight: 500; color: #7C8798; margin-right: 10px;} 
+#main .card_box .card .card_header .col_select_box > span:last-child {margin-right: 0; margin-left: 10px;}
+
+/* col select box - select */
+#main .card_box .card .card_header .col_select_box .col_select {width: 80px; height: 35px; padding: 5px 10px; background-position: right 15px center; font-size: 1.4rem;}
+
+/* col select box - right head box */
+#main .card_box .card .card_header .right_head_box {display: flex; align-items: center;}
+
+.cont_search_box {margin-right: 10px;}
+
+/* col select box - right head box - sec select */
+#main .right_head_box .sec_select_box {margin-right: 10px;}
+#main .right_head_box .sec_select_box .sec_select {width: 238px;}
+
+/* col select box - right head box - btn */
+#main .right_head_box .CSV_btn {padding: 0 20px 0 0; background: #6875E9 url("../../images/light_dawnload.png") no-repeat right 17px center;}
+#main .right_head_box .CSV_btn:active:focus {background: #525ec7 url("../../images/light_dawnload.png") no-repeat right 17px center -4px;}
+
+
+#main .card_cont_box {overflow-x: auto; overflow-y: hidden; padding-bottom: 20px;}
+
+/***** card - table *****/
+#main .card_cont_box .method_table {margin-bottom: 30px;}
+
+
+/***** card - cont footer *****/
+/* card - cont footer - cont footer btnbox */
+#main .cont_footer_box .method_footer_btnbox {position: relative; padding: 0 10px;}
+#main .method_footer_btnbox .enroll_btn {margin-right: 0;}
+#main .cont_footer_box .method_footer_btnbox .add_list_box {width: 150px; text-align: center; box-shadow: 0 0 6px rgba(0, 0, 0, 0.15); position: absolute; background-color: #fff; right: 10px; bottom: 45px; border-radius: 5px; transition: 0.5s all; overflow: hidden; height: 0; opacity: 0;}
+#main .cont_footer_box .method_footer_btnbox .add_list_box .add_list {transition: 0.2s all;}
+#main .method_footer_btnbox .add_list_box .add_list > a {display: block; line-height: 40px;}
+
+/* hover */
+#main .cont_footer_box .method_footer_btnbox .add_list_box .add_list:hover {background-color: #F7F7F8;}
+
+/* active */
+#main .method_footer_btnbox .enroll_btn.active + .add_list_box {height: 120px; opacity: 1;}
+
+
+

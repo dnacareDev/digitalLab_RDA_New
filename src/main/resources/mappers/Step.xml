@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.StepMapper">
+	
+	<resultMap type="Step" id="stepMap">
+		<id property="step_id" column="step_id"/>
+		<collection property="inputList" column="step_id" ofType="Input" javaType="java.util.ArrayList" select="inputList" />
+		<collection property="sub_step_list" column="step_id" ofType="Step" javaType="java.util.ArrayList" select="subStepList"/>
+	</resultMap>
+	
+	<!-- <resultMap type="Step" id="stepMap">
+		<id property="step_id" column="step_id1" />
+		<result property="step_name" column="step_name1" />
+		
+		<collection property="inputList" ofType="Input" javaType="java.util.ArrayList">
+			<id property="input_id" column="input_id" />
+			<result property="input" column="input" />
+			<result property="step_id" column="step_id" />
+		</collection>
+		
+		<collection property="sub_step_list" ofType="Step" javaType="java.util.ArrayList" >
+				
+			    <id property="step_id" column="step_id" />
+			    <result property="step_name" column="step_name" />
+			    
+				<collection property="inputList" ofType="Input" javaType="java.util.ArrayList" >
+					<id property="input_id" column="input_id" />
+					<result property="input" column="input" />
+					<result property="step_id" column="step_id" />
+				</collection>
+		</collection>
+	</resultMap> -->
+	
+	<!-- 스탭 등록 -->
+	<insert id="insertStep">
+		INSERT
+		INTO step (
+		step_id,
+		method_id,
+		ATCH_FILE_NM,
+		step_index,
+		step_type,
+		step_depth,
+		step_parent,
+		step_seed,
+		step_comment,
+		step_name,
+		<choose>
+			<when test="step_type == 1">
+		seed_id,
+			</when>
+			<when test="step_type == 2">
+		reagent_id,
+			</when>
+			<when test="step_type == 3">
+		equipment_id,
+			</when>
+			<when test="step_type == 4">
+		instrument_id,
+			</when>
+			<when test="step_type == 5">
+		etc_id,
+			</when>
+		</choose>
+		account,
+		step_nickname
+		)
+		VALUES
+		(
+		#{step_id},
+		#{method_id},
+		#{ATCH_FILE_NM , jdbcType=VARCHAR},
+		#{step_index},
+		#{step_type},
+		#{step_depth},
+		#{step_parent},
+		#{step_seed},
+		#{step_comment , jdbcType=VARCHAR},
+		#{step_name},
+		#{data_id},
+		#{account},
+		#{step_nickName , jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 스탭 리스트 -->
+	<!-- <select id="methodStepList" resultMap="stepMap">
+		SELECT
+		s1.step_id as step_id , s1.step_name as step_name1 , i1.input_id as input_id1 , i1.input as input1 , s2.step_id as step_id2, s2.step_name as step_name2 , i2.input_id as input_id2 , i2.input as input2
+		FROM step s1 LEFT OUTER JOIN input i1 ON s1.step_id = i1.step_id
+			LEFT OUTER JOIN step s2 ON s1.step_id = s2.step_parent
+			LEFT OUTER JOIN input i2 ON s2.step_id = i2.step_id
+		WHERE s1.method_id = #{method_id}
+			AND s1.step_parent = 0
+		ORDER BY s1.STEP_INDEX DESC
+	</select> -->
+	
+	<select id="methodStepList" resultMap="stepMap">
+		SELECT
+		*
+		FROM step
+		WHERE method_id = #{method_id}
+			AND step_parent = 0
+		ORDER BY STEP_INDEX ASC
+	</select>
+	
+	<select id="subStepList" resultType="Step">
+		SELECT
+		s.*
+		FROM step s
+		WHERE s.step_parent = #{step_id}
+		ORDER BY s.STEP_INDEX ASC
+	</select>
+	
+	<select id="inputList" resultType="Input">
+		SELECT
+    	i.* , e.each as each
+    	FROM input i LEFT OUTER JOIN each e
+    		ON i.each_id = e.each_id
+    	WHERE i.step_id = #{step_id} 
+	</select>
+	
+	<select id="inputList2" resultType="Input">
+		SELECT
+    	i.* , e.each as each
+    	FROM input i LEFT OUTER JOIN each e
+    		ON i.each_id = e.each_id
+    	WHERE i.step_id = #{step_id} 
+	</select>
+	
+	<!-- 스탭 토탈카운트 -->
+	<select id="stepTotalCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM step WHERE method_id = #{method_id}
+	</select>
+	
+	<!-- 시퀀스 번호 -->
+    <select id="getSeqId" resultType="int">
+        SELECT step_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+	<select id="selectStepById" resultType="Step" parameterType="int">
+		SELECT * FROM STEP WHERE STEP_ID = #{step_id}
+	</select>
+
+	<select id="selectPlanStep" resultType="PlanStep" parameterType="PlanStep">
+		SELECT * FROM PLAN_STEP WHERE STEP_ID = #{step_id} AND plan_id = #{plan_id}
+	</select>
+
+	<insert id="registPlanStep" parameterType="PlanStep">
+		INSERT INTO PLAN_STEP(
+			PLAN_STEP_ID,
+			PLAN_ID,
+			STEP_ID
+		)
+		VALUES(
+			#{plan_step_id},
+		    #{plan_id},
+		    #{step_id}
+		)
+	</insert>
+	
+	<delete id="deleteStep" parameterType="int">
+		DELETE
+		step
+		WHERE method_id = #{method_id}
+	</delete>
+
+	<select id="selectStepImageByStep" parameterType="int" resultType="StepImage">
+		SELECT * FROM STEP_IMAGE
+		WHERE plan_step_id = #{plan_step_id}
+	</select>
+
+<!--	<insert id="registStepImage" parameterType="java.util.List">-->
+<!--		INSERT ALL-->
+<!--		<foreach collection="list" item="item" index="index" open=""  separator="" close="">-->
+<!--		INTO step_image(-->
+<!--			step_image_id,-->
+<!--		    plan_step_id,-->
+<!--			image_comment,-->
+<!--			ORIG_FILE_NM,-->
+<!--			ATCH_AT_CODE,-->
+<!--			create_date-->
+<!--		)-->
+<!--		VALUES(-->
+<!--			get_seq('step_image_seq_id'),-->
+<!--		    #{item.plan_step_id},-->
+<!--		    #{item.image_comment},-->
+<!--		    #{item.ORIG_FILE_NM},-->
+<!--		    #{item.ATCH_AT_CODE},-->
+<!--			sysdate-->
+<!--		)-->
+<!--		</foreach>-->
+<!--		select 1 from dual-->
+<!--	</insert>-->
+	
+	<!-- 스텝 이미지 추가 -->
+	<insert id="registStepImage" parameterType="StepImage">
+		INSERT INTO step_image(
+			step_image_id,
+			plan_step_id,
+			image_comment,
+			ORIG_FILE_NM,
+			ATCH_AT_CODE,
+			create_date
+		)
+		VALUES(
+				  step_image_seq_id.nextVal,
+				  #{plan_step_id},
+				  #{image_comment},
+				  #{ORIG_FILE_NM},
+				  #{ATCH_AT_CODE},
+				  sysdate
+			  )
+	</insert>
+	
+	<!-- 스텝 이미지 수정 -->
+	<update id="modifyStepImage" parameterType="StepImage">
+		UPDATE
+		step_image
+		SET
+		image_comment = #{image_comment}
+		WHERE step_image_id = #{step_image_id}
+	</update>
+
+	<select id="getSeqNextVal" parameterType="String" resultType="int">
+		SELECT plan_seq_id.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<delete id="deleteStepImage" parameterType="int">
+		DELETE FROM STEP_IMAGE
+		WHERE STEP_IMAGE_ID = #{step_image_id}
+	</delete>
+</mapper>

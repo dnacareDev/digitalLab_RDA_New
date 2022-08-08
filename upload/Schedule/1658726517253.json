@@ -1,0 +1,51 @@
+[
+  {
+    "batch_id": 319,
+    "plan_id": 0,
+    "genetic_id": 63,
+    "seed_id": 121,
+    "batch_index": 0,
+    "batch_sample": "1-1",
+    "user_id": 0,
+    "batch_data": "{\"1179\":\"1\",\"1180\":\"3\",\"1181\":\"4\"}",
+    "plate_id": 124,
+    "plate_index": 1,
+    "batch_type": 0,
+    "genetic_depth_1": "배추",
+    "genetic_depth_2": "겨울대장",
+    "step_id": 0,
+    "batch_sub_id": 0
+  },
+  {
+    "batch_id": 320,
+    "plan_id": 0,
+    "genetic_id": 23,
+    "seed_id": 110,
+    "batch_index": 1,
+    "batch_sample": "2-1",
+    "user_id": 0,
+    "batch_data": "{\"1179\":\"1\",\"1180\":\"3\",\"1181\":\"41\"}",
+    "plate_id": 124,
+    "plate_index": 1,
+    "batch_type": 0,
+    "genetic_depth_1": "사과 줄기",
+    "genetic_depth_2": "후지",
+    "step_id": 0,
+    "batch_sub_id": 0
+  },
+  {
+    "batch_id": 321,
+    "plan_id": 0,
+    "genetic_id": -1,
+    "seed_id": -1,
+    "batch_index": 2,
+    "batch_sample": "1-bl-01",
+    "user_id": 0,
+    "batch_data": "{\"1179\":\"1\",\"1180\":\"32\",\"1181\":\"4\"}",
+    "plate_id": 124,
+    "plate_index": 1,
+    "batch_type": 0,
+    "step_id": 0,
+    "batch_sub_id": 0
+  }
+]

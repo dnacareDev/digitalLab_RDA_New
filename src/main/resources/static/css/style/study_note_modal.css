@@ -1,0 +1,175 @@
+@charset "utf-8";
+/* card - 공통 */
+#_taskTable .card {height: auto; padding-bottom: 40px;}
+#_taskTable .sample_analysis_sect {padding-top: 20px;}
+
+/********* first_card *********/
+#_taskTable .card .card_header {align-items: center; margin-bottom: 50px;}
+#_taskTable .card .card_header .header_title {font-weight: 700; }
+
+/* first_card - place_date_box */
+#_taskTable .first_card .place_date_box {margin-bottom: 30px;}
+#_taskTable .first_card .place_date_box > .place_date_text {color: #FF5858; margin-bottom: 10px; padding-left: 2px;}
+#_taskTable .first_card .place_date_box .place_date_list_box {border: 1px solid #D9D9D9; border-radius: 5px; height: 130px; width: 100%; overflow-y: auto; overflow-x: hidden; padding: 10px 15px;}
+#_taskTable .first_card .place_date_box .place_date_list_box .place_date_list {margin-bottom: 5px; font-size: 1.4rem;}
+
+/* first_card - step_list_box */
+#_taskTable .first_card .step_list_box {display: flex; width: 100%; margin-bottom: 30px;}
+#_taskTable .first_card .step_list_box .step_list {width: 90px; line-height: 42px; border: 2px solid #BAC3D3; text-align: center; margin-right: 30px; font-size: 1.4rem; border-radius: 21px; position: relative; cursor: pointer;}
+
+#_taskTable .first_card .step_list_box .step_list:not(:last-child):before {content: ''; position: absolute; left: 88px; top: 50%; transform: translateY(-50%); width: 32px; height: 2px; background-color: #BAC3D3;}
+
+/* ready */
+#_taskTable .first_card .step_list_box .step_list.ready {border: 2px solid #788DEE;}
+
+/* done */
+#_taskTable .first_card .step_list_box .step_list.done {background-color: #788DEE; border: 2px solid #788DEE; color: #fff;}
+#_taskTable .first_card .step_list_box .step_list.done:before {background-color: #788DEE;}
+
+
+/* first_card - sample_analysis_box */
+#_taskTable .first_card .sample_analysis_table_box {margin-bottom: 40px;}
+#_taskTable .first_card .bottom_setting {display: none;}
+#_taskTable .first_card .sample_analysis_box {width: 100%; overflow-x: scroll; overflow-y: hidden; padding-bottom: 10px; border: 1px solid #C8D2DB; border-radius: 5px;} 
+
+/* sample_analysis_table */
+#_taskTable .first_card .sample_analysis_box .sample_analysis_table { border-bottom: 1px solid #C8D2DB; width: 2315px; display: inline-block;}
+
+/* sample_analysis_table - col */
+#_taskTable .sample_analysis_table colgroup > col:nth-child(1),
+#_taskTable .sample_analysis_table > tbody > tr > th > span {width: 40px;}
+#_taskTable .sample_analysis_table colgroup > col:nth-child(3),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(3) > span {width: 250px;}
+
+#_taskTable .sample_analysis_table colgroup > col:nth-child(2),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(2) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(4),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(4) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(5),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(5) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(6),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(6) > span {width: 110px;}
+
+#_taskTable .sample_analysis_table colgroup > col:nth-child(7),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(7) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(8),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(8) > span {width: 160px;}
+
+#_taskTable .sample_analysis_table colgroup > col:nth-child(9),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(9) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(10),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(10) > span,
+#_taskTable .sample_analysis_table colgroup > col:nth-child(11),
+#_taskTable .sample_analysis_table > tbody > tr > td:nth-child(11) > span {background-color: #F7F7F8; width: 425px;}
+
+/* tr */
+#_taskTable .sample_analysis_box .sample_analysis_table > thead > tr,
+#_taskTable .sample_analysis_box .sample_analysis_table tr:not(:last-child) {border-bottom: 1px solid #C8D2DB;}
+
+/* th, td */
+#_taskTable .first_card .sample_analysis_box .sample_analysis_table tr > th,
+#_taskTable .first_card .sample_analysis_box .sample_analysis_table tr > td {width: auto; line-height: 40px; text-align: center; font-size: 1.4rem;}
+
+#_taskTable .sample_analysis_box .sample_analysis_table > thead > tr > th:not(:last-child),
+#_taskTable .sample_analysis_box .sample_analysis_table > tbody > tr > td:not(:last-child),
+#_taskTable .sample_analysis_box .sample_analysis_table > tbody > tr > th {border-right: 1px solid #C8D2DB;}
+
+/* th */
+#_taskTable .first_card .sample_analysis_box .sample_analysis_table tr > th {background-color: #F4F8FB;}
+
+/* td */
+#_taskTable .sample_analysis_table > tbody > tr > th > span,
+#_taskTable .sample_analysis_table > tbody > tr > td > span {padding: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; display: block; line-height: 40px;}
+
+
+/* first_card - card_sect_footer */
+#_taskTable .first_card .card_sect_footer {text-align: right;}
+#_taskTable .first_card .card_sect_footer .common_btn1 {width: 150px;}
+#_taskTable .first_card .card_sect_footer .batch_done_brn {border: 1px solid #768BF4; background-color: #fff; color: #768BF4; margin-left: 5px;}
+#_taskTable .first_card .card_sect_footer .batch_done_brn:active:focus {background-color: rgb(240, 240, 240);}
+
+
+
+
+/********* step_1_card *********/
+#_taskTable .step_1_card {display: block; transition: 0.5s all; overflow: visible; height: auto; }
+
+
+/* step_1_card - sample_analysis_form */
+#_taskTable .sample_analysis_form .analysis_box {width: 100%; display: flex; flex-wrap: wrap;}
+
+#_taskTable .sample_analysis_form .analysis_box .list_box {width: calc(100% + 5px); padding-right: 0; margin-left: -5px;}
+#_taskTable .sample_analysis_form .analysis_box .info_list_wrap {width: 100%; display: flex; flex-wrap: wrap;}
+#_taskTable .analysis_box .info_list_wrap .info_list {width: 290px; text-align: center; line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; margin-left: 5px; margin-bottom: 10px;}
+
+#_taskTable .disabled_box > input[type="text"] {line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; padding: 0px 20px; background-color: #F7F7F8;}
+
+#_taskTable .sample_analysis_form .analysis_box .bottom_form_box {width: 100%; display: flex; flex-wrap: wrap;}
+#_taskTable .sample_analysis_form .analysis_box .bottom_form_box .form_box {width: calc(33.3333% - 0px);}
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(1),
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(4) {padding-left: 0; padding-right: 10px;}
+
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(2),
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(5) {padding-left: 5px; padding-right: 5px;}
+
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(3),
+#_taskTable .sample_analysis_form .bottom_form_box .form_box:nth-child(6) {padding-left: 10px; padding-right: 0px;}
+
+
+
+
+/********* step_2_card *********/
+#_taskTable .step_2_card {display: block; height: auto; transition: 0.3s all; overflow: visible;}
+
+#_taskTable .step_2_card .card_cont_box .batch_info_table {width: 100%; border-top: 1px solid #D1DADF;}
+#_taskTable .step_2_card .card_cont_box .batch_info_table tr {border-bottom: 1px solid #D1DADF;}
+#_taskTable .step_2_card .card_cont_box .batch_info_table tr > th {color: #7C8798; font-weight: 700;}
+
+#_taskTable .step_2_card .card_cont_box .batch_info_table tr > th,
+#_taskTable .step_2_card .card_cont_box .batch_info_table tr > td {text-align: center; line-height: 50px;}
+
+#_taskTable .step_2_card .card_cont_box .batch_info_table tr > td {background-color:#768BF5 ; color: #fff;}
+
+
+
+
+
+
+/******* step_3_card *******/
+#_taskTable .step_3_card {display: none; margin-bottom: 50px; display: none;}
+
+/* on */
+#_taskTable .step_3_card.on {display: block; margin-bottom: 50px;}
+
+#_taskTable .step_3_card .common_form .form_box {width: 100%;}
+#_taskTable .step_3_card .common_form .form_box > textarea {height: 200px;}
+#_taskTable .step_3_card  .card_header {margin-bottom: 20px;}
+
+
+
+/* card_footer */
+#_taskTable .card_footer {display: flex; justify-content: space-between; padding: 0; width: 100%;}
+#_taskTable .card_footer > .common_btn1 {width: 150px; display: inline-block;}
+#_taskTable .card_footer > .list_btn {background-color: #7C8798;}
+
+
+
+
+#_taskTable .method_comment_box .form_box {width: 100%;}
+#_taskTable .method_comment_box .form_box > textarea {height: 110px;}
+#_taskTable .photo_btn {display: inline-block; width: 35px; height: 20px; font-size: 1.1rem; line-height: 15px; margin-left: 5px; font-weight: 400; transform: translateY(-1px);}
+
+
+
+
+#_taskTable .method_footer_btnbox {position: relative; padding: 0 10px;}
+#_taskTable .method_footer_btnbox .enroll_btn {margin-right: 0;}
+#_taskTable .method_footer_btnbox .add_list_box {width: 150px; text-align: center; box-shadow: 0 0 6px rgba(0, 0, 0, 0.15); position: absolute; background-color: #fff; right: 10px; bottom: auto; top: 45px; border-radius: 5px; transition: 0.5s all; overflow: hidden; height: 0; opacity: 0;}
+#_taskTable .method_footer_btnbox .add_list_box .add_list {transition: 0.2s all;}
+#_taskTable .method_footer_btnbox .add_list_box .add_list > a {display: block; line-height: 40px;}
+
+/* hover */
+#_taskTable .method_footer_btnbox .add_list_box .add_list:hover {background-color: #F7F7F8;}
+
+/* active */
+#_taskTable .method_footer_btnbox .enroll_btn.active + .add_list_box {height: 120px; opacity: 1;}

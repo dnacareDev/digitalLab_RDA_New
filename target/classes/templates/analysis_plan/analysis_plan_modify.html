@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> --> 
+    <title>Digital Lab - 분석 계획 설정</title>
+    <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/vendor/css/dragula.min.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/setup_analysis_plan_2.css">
+    
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/vendor/js/dragula.min.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const result = [[${result}]];
+        $(document).ready(function(){
+            console.log(result);
+            if(result.plan.planMethodList[0]) {
+                $('#method_cycle').val(result.plan.planMethodList[0].method_cycle);
+            }
+        })
+    </script>
+    <script src="/js/setup_analysis_plan_2.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/vendor/css/dragula.min.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/setup_analysis_plan_2.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/vendor/js/dragula.min.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <!-- <script type="text/javascript" th:inline="javascript">
+        const result = [[${result}]];
+        $(document).ready(function(){
+            console.log(result);
+            if(result.plan.planMethodList[0]) {
+                $('#method_cycle').val(result.plan.planMethodList[0].method_cycle);
+            }
+        })
+    </script> -->
+    <!-- <script src="../../static/js/setup_analysis_plan_2.js"></script> -->
+    <style>
+        .step_1_card .form_box .form_inner_box > .form_btn {top: 1px;}
+        #batch_container tr > td:first-child{
+            background: url(../../images/drag.png) no-repeat right center;
+        }
+        .info_list div {
+            border-bottom: 1px solid #D9D9D9;
+        }
+		.sec_batch_table tbody td {
+			cursor: pointer;
+		}
+        .schedule_date_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .schedule_date_box input {
+            flex: 1;
+        }
+
+		.order_select {
+			display: none;
+		}
+		.order_select.on {
+			display: flex;
+			width: 100%;
+		}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box setup_analysis_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">분석 계획 설정</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">분석 계획 설정 - </li>
+                        <li class="card_inner_list">고급 수정</li>
+                        <li th:text="' - '+${result.plan.plan_code}"></li>
+                    </ul>
+                    <div class="print_box">
+                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+                </div>
+                <div class="card first_card">
+                    <div class="card_cont_box analysis_add_box"> 
+                       <form action="" class="setup_analysis_form common_form">
+                           <div class="analysis_box">
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">분석 번호</label>
+                                  <input type="text" name="" id="" th:value="${result.plan.plan_code}" disabled>
+                               </div>
+                               <div class="form_box disabled_box task_info_box">
+                                   <label for="" class="file_title">과제 정보</label>
+                                  <input type="text" name="" id="" value="PJ014855012021 - 수요자 선호형 옥수수 신품종 지역적응연구 및 이용촉진사업(1주관)" disabled>
+                               </div>
+                               <div class="form_box list_box">
+                                   <ul class="info_list_wrap">
+                                       <li class="info_list">옥수수</li>
+                                       <li class="info_list">단옥3호</li>
+                                       <li class="info_list">고당옥</li>
+                                       <li class="info_list">수원단85호</li>
+                                   </ul>
+                               </div>
+                           </div>
+                           <div class="analysis_box">
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">분석 항목</label>
+                                   <input type="text" name="" id="plan_aspect" th:value="${result.plan.division_depth_4}" disabled>
+                               </div>
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">작업 단계</label>
+                                   <input th:if="${result.plan.method_stage == 1}" type="text" name="" id="" value="전처리" disabled>
+                                   <input th:if="${result.plan.method_stage == 2}" type="text" name="" id="" value="시료 분석" disabled>
+
+                               </div>
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">시료수</label>
+                                   <input type="text" name="" id="" th:value="${result.plan.seed_ammount}" disabled>
+                               </div>
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">반복수</label>
+                                   <input type="text" name="" id="method_cycle" disabled>
+                               </div>
+                               <div class="form_box disabled_box">
+                                   <label for="" class="file_title">생성일</label>
+                                   <input type="text" name="" id="" th:value="${result.plan.create_date}" disabled>
+                               </div>
+                             <!--  <div class="form_box disabled_box">
+                                   <label for="" class="file_title">승인 날짜</label>
+                                   <input type="text" name="" id="" th:value="${result.plan.approve_date}" disabled>
+                               </div>-->
+                           </div>
+                       </form>
+                       <div class="card_sect_footer">
+                            <button class="common_btn1 analysis_next_btn">다음</button>
+                       </div>
+                    </div>
+                </div>
+                <!-- 숨겨진 card 섹션에 on 클라스 적용 -->
+                <div class="card step_1_card on">
+                    <div class="card_header">
+                        <h2 class="header_title">Step 1. batch 설정</h2>
+                    </div>
+                    <div class="card_cont_box">
+                        <div class="batch_box">
+                            <div class="well_used_box">
+                                <input type="checkbox" id="methodList" class="common_checkBox">
+                                <label for="methodList" class="common_check_label"></label> 
+                            </div>
+                            <table class="batch_table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>작목</th>
+                                        <th>품종/유전자원</th>
+                                        <th>Sample ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="drag_table1">
+                                    <tr>
+                                        <td></td>
+                                        <td>옥수수</td>
+                                        <td>단옥 3호</td>
+                                        <td>1-1</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>옥수수</td>
+                                        <td>고당옥</td>
+                                        <td>2-1</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>옥수수</td>
+                                        <td>수원단 85호</td>
+                                        <td>3-1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="batch_box first_form_box .common_form">
+                            <div class="form_box">
+                                <label for="batch_count" class="file_title">생성 Batch 수</label>
+                                <input type="number" id="batch_count">
+                            </div> 
+                            <div class="form_box">
+                                <label for="batch_by_sample" class="file_title">Batch 당 샘플수</label>
+                                <input type="number" id="batch_by_sample">
+                            </div> 
+                            <div class="order_select">
+                                <label for="" class="file_title">Well Order</label>
+                                <select name="" id="order_select" class="common_select">
+                                    <option defaultValue="Vertical">Vertical</option>
+                                    <option value="Horizontal">Horizontal</option>
+                                </select>
+                            </div> 
+                            <div class="form_box select_box">
+                                <label for="" class="file_title">사용자 추가 항목</label>
+                                <select name="" id="user_add_select" class="common_select">
+                                    <option defaultValue hidden>선택</option>
+                                    <option value="Blank">Blank No</option>
+                                    <option value="Standard">Standard No</option>
+                                    <option value="Control">Control No</option>
+                                </select>
+                            </div> 
+                            <div class="form_box">
+                                <div class="lookup_input form_inner_box">
+                                    <input type="text" id=""><button class="form_btn list_lookup_btn common_btn1" id="addBtn">추가</button>
+                                </div>
+                            </div>
+                            <div class="form_box">
+                                <div class="dis_form_inner_box disabled_box">
+                                    <label for="" class="file_title" id="blank_box">Blank No</label>
+                                    <input type="number" id="plan_blank" value="0" disabled>
+                                </div>
+                                <div class="dis_form_inner_box disabled_box" >
+                                    <label for="" class="file_title" id="standard_box">Standard No</label>
+                                    <input type="number" id="plan_standard" value="0" disabled>
+                                </div>
+                                <div class="dis_form_inner_box disabled_box" >
+                                    <label for="" class="file_title" id="control_box">Control No</label>
+                                    <input type="number" id="plan_bcontrol" value="0" disabled>
+                                </div>
+                            </div> 
+                        </div>
+                     <div class="card_sect_footer">
+                         <button class="common_btn1" id="add_batch_btn">다음</button>
+                     </div>
+                    </div>
+                    <div class="card_cont_box card_cont_box2">
+                        <div class="batch_box" id="batch_container">
+                            <div class="setting_top_box">
+                                <ul class="setting_top_list_box">
+                                    <li class="setting_top_list active" data-false="Batch_1" data-true="check_Batch_1">Batch #1</li>
+                                    <li class="setting_top_list" data-false="Batch_2" data-true="check_Batch_2">Batch #2</li>
+                                    <li class="setting_top_list" data-false="Batch_3" data-true="check_Batch_3">Batch #3</li>
+                                </ul>
+                            </div>
+                            
+                            
+                            <div class="checked_false_box checked_box">
+                                <table class="batch_table bottom_setting" id="Batch_1">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목1</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="noneCheckedTable1">
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>수원단 85호</td>
+                                            <td>3-1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="batch_table bottom_setting" id="Batch_2">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목2</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="noneCheckedTable2">
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>수원단 85호</td>
+                                            <td>3-1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                
+                                <table class="batch_table bottom_setting" id="Batch_3">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목3</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="noneCheckedTable3">
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>수원단 85호</td>
+                                            <td>3-1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            
+                            <div class="checked_true_box checked_box">
+                                <table class="batch_table checked_table bottom_setting" id="check_Batch_1">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목1</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                            <th>Test ID</th>
+                                            <th>Well No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="CheckedTable1">
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>A01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                            <td>b1-02</td>
+                                            <td>B01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>C01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>D01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>E01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>F01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>G01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="batch_table checked_table bottom_setting" id="check_Batch_2">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목2</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                            <th>Test ID</th>
+                                            <th>Well No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="CheckedTable2">
+                                        <tr class="has">
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>A01</td>
+                                        </tr>
+                                        <tr class="has">
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                            <td>b1-02</td>
+                                            <td>B01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>C01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>D01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>E01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>F01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>G01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="batch_table checked_table bottom_setting" id="check_Batch_3">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>작목3</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                            <th>Test ID</th>
+                                            <th>Well No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="CheckedTable3">
+                                        <tr class="has">
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>단옥 3호</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>A01</td>
+                                        </tr>
+                                        <tr class="has">
+                                            <td></td>
+                                            <td>옥수수</td>
+                                            <td>고당옥</td>
+                                            <td>2-1</td>
+                                            <td>b1-02</td>
+                                            <td>B01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>C01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>D01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>E01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>F01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>G01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>H01</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="batch_box batch_right_box">
+                           <table class="sec_batch_table">
+                               <colgroup>
+                                    <col style="background-color: #F4F8FB;">
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                        <th>8</th>
+                                        <th>9</th>
+                                        <th>10</th>
+                                        <th>11</th>
+                                        <th>12</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>A</td>
+                                       <td><span class="on_1">b1-01</span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>B</td>
+                                        <td><span>b1-02</span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>D</td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>F</td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>G</td>
+                                        <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                       <td><span></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>H</td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                    </tr>
+                                </tbody>
+                           </table>
+                           <div class="sec_batch_dimm">
+                               <p>96well을 사용하는 경우에만 활성화됩니다.</p>
+                           </div>
+                        </div>
+                     <div class="card_sect_footer">
+                         <button class="common_btn1 add_batch_next_btn">다음</button>
+                     </div>
+                    </div>
+                 </div>
+
+                <div class="card step_2_card on">
+                    <div class="card_header">
+                        <h2 class="header_title">Step 2. 일정 및 담당자 설정</h2>
+                    </div>
+                   <div class="card_cont_box">
+                        <table class="step_2_table">
+                            <thead>
+                                <tr>
+                                    <th>Batch 번호</th>
+                                    <th>설정 타입</th>
+                                    <th>담당자(정)</th>
+                                    <th>담당자(부)</th>
+                                    <th>시작일</th>
+                                    <th>종료일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>
+                                        <div class="add_btn_box">
+                                            <button class="common_btn1 method_btn enroll_btn">Batch #1</button>
+                                            <ul class="add_list_box">
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn" data-modal="scheduleContSet">Batch별 설정</button>
+                                                </li>
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn show_step_modal" data-modal="stepSetting">step별 설정</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>Batch별 설정</td>
+                                    <td>최유찬</td>
+                                    <td>홍구순</td>
+                                    <td>2021-08-10</td>
+                                    <td>2021-08-10</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="select_box">
+                                            <button class="common_btn1 method_btn enroll_btn">Batch #2</button>
+                                            <ul class="add_list_box">
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn" data-modal="scheduleContSet">Batch별 설정</button>
+                                                </li>
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn show_step_modal" data-modal="stepSetting">step별 설정</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>Batch별 설정</td>
+                                    <td>최유찬</td>
+                                    <td>홍구순</td>
+                                    <td>2021-08-10</td>
+                                    <td>2021-08-10</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="select_box">
+                                            <button class="common_btn1 method_btn enroll_btn">Batch #3</button>
+                                            <ul class="add_list_box">
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn" data-modal="scheduleContSet">Batch별 설정</button>
+                                                </li>
+                                                <li class="add_list">
+                                                    <button type="button" class="modal_on_btn show_step_modal" data-modal="stepSetting">step별 설정</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>Batch별 설정</td>
+                                    <td>최유찬</td>
+                                    <td>홍구순</td>
+                                    <td>2021-08-10</td>
+                                    <td>2021-08-10</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    <div class="card_sect_footer">
+                        <!--<button class="common_btn1">다음</button>-->
+                    </div>
+                   </div>
+                </div>
+
+                <div class="card step_3_card on">
+                    <div class="card_header">
+                        <h2 class="header_title">Step 3 . Comment</h2>
+                    </div>
+                    <div class="card_cont_box">
+                        <form action="" class="common_form">
+                            <div class="form_box">
+                                <label for="" class="file_title"></label>
+                                <textarea name="plan_contents" id="plan_contents" class="" placeholder="Comment" th:text="${result.plan.plan_contents}"></textarea>
+                            </div> 
+                        </form>
+                    </div>        
+                </div>
+
+                <div class="card_footer not_padd_footer">
+                    <button class="list_btn common_btn1" onclick="location.href='/analysis_plan_list'">목록</button>
+                    <button class="save_btn common_btn1" id="modify_btn">저장</button>
+                    <!-- th:if="${session.LOGIN_MEMBER.account == result.plan.account}"  -->
+                </div>
+            </section>
+
+            <div class="modal harvesting_modal" id="kindSelect">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">분석 항목 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form action="" class="modal_form common_form lookup_form">
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">용도</label>
+                            <select class="common_select" id="">
+                                <option value="-1" hidden>용도 선택</option>
+                            </select>
+                        </div>
+                        <div class="select_box modal_input_box">
+                            <label for="" class="modal_form_title">분류</label>
+                            <select class="common_select" id="">
+                                <option value="-1" hidden>용도 선택</option>
+                            </select>
+                        </div>
+                        <div class="form_box modal_input_box off">
+                            <label for="" class="modal_form_title">신규 세부 항목</label>
+                            <input type="text" id="" class="">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn off">사용</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal harvesting_modal" id="stepSetting">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">step별 설정</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="step_table_box">
+                        <table class="step_table card3_cont_table">
+                            <thead>
+                                <tr>
+                                    <th><span>step</span></th>
+                                    <th><span>step 설명</span></th>
+                                    <th><span>담당자</span></th>
+                                    <th><span>담당자(부)</span></th>
+                                    <th><span>시작일</span></th>
+                                    <th><span>종료일</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="modal_on_btn" data-modal="scheduleContSet">
+                                    <td><span>1</span></td>
+                                    <td><span>분쇄시료(P)</span></td>
+                                    <td><span></span></td>
+                                    <td><span></span></td>
+                                    <td><span></span></td>
+                                    <td><span></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn on" id="schedule_save">저장</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal harvesting_modal scheduleCont_modal" id="scheduleContSet">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">일정 및 담당자 설정</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="top_cont_box">
+                        <div class="cont_left_box cont_list_box" id="plan_manager_list">
+                            <span class="file_title">담당자 (정)</span>
+                            <table class="main_manager_table manager_table card3_cont_table">
+                                <thead>
+                                    <tr>
+                                        <th><span></span></th>
+                                        <th><span>이름</span></th>
+                                        <th><span>연구실</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-user_id="21">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="11">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="6">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="3">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="1">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="12">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="radio" name="kindInfo" id=""  class="checkbox"> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>유용소재연구실</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="manager_name_list"></p>
+                        </div>
+                        <div class="cont_right_box cont_list_box" id="manager_list">
+                            <span class="file_title">담당자 (부)</span>
+                            <table class="sub_manager_table manager_table card3_cont_table">
+                                <thead>
+                                    <tr>
+                                        <th><span></span></th>
+                                        <th><span>이름</span></th>
+                                        <th><span>연구실</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-user_id="22">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="3">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="4">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="5">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="12">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                    <tr data-user_id="3">
+                                        <td>
+                                            <div>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" name="" id="" class="checkbox">
+                                                </label> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>품질관리연구실</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="manager_name_list"></p>
+                        </div>
+                    </div>
+                    <form action="" class="scheduleCont_form common_form">
+                        <div class="form_box">
+                            <label for="" class="file_title">일정 등록</label>
+                            <div class="schedule_date_box">
+                                <input type="date" id="start_date" name="start_date" placeholder="시작일">
+                                <input type="date" id="end_date" name="end_date" placeholder="종료일">
+                            </div>                         
+                        </div>
+                        <div class="form_box">
+                            <label for="" class="file_title">Comment</label>
+                            <textarea name="" id="" class="manage_comments"></textarea>
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn">저장</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+
+                                <th:block th:each=" log : ${result.logList}">
+                                    <li class="change_list">
+                                        <span class="change_check"></span>
+                                        <div class="chang_text_box">
+                                            <p class="change_text"><span th:text="${log.data_code}"></span>
+                                                <th:block th:switch="${log.action_type}">
+                                                    <span th:case="1">등록</span>
+                                                    <span th:case="2">수정</span>
+                                                    <span th:case="3">삭제</span>
+                                                    <span th:case="4">분석 설정</span>
+                                                    <span th:case="5">시료 분석</span>
+                                                    <span th:case="6">결과 등록</span>
+                                                </th:block>
+                                            </p>
+                                            <span class="change_date" th:text="${log.log_date}"></span>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- 공통 구조 - main end -->
+    </div>
+	<script>
+	const analysisBtn = document.querySelector('.analysis_next_btn');
+	analysisBtn.addEventListener('click', (e) => {		
+		document.querySelector('.step_1_card').scrollIntoView({behavior: "smooth", block: "start", inline: "start"})
+	})
+	const addBatchBtn = document.querySelector('.add_batch_next_btn');
+	addBatchBtn.addEventListener('click', (e) => {		
+		document.querySelector('.step_2_card').scrollIntoView({behavior: "smooth", block: "start", inline: "start"})
+	})
+	
+	// 날짜 선택
+		$('input[type="date"]').on('change', function(e) {
+			
+			let start = $('#start_date').val();
+			let end = $('#end_date').val();
+			let startDate = new Date(start);
+			let endDate = new Date(end);
+			
+			if (isEmpty(end)) {
+				document.getElementById('end_date').valueAsDate = startDate;
+			}else if(isEmpty(start)){
+				document.getElementById('start_date').valueAsDate = endDate;
+			}else if(e.target.id == 'end_date' && (endDate - startDate) < 0){
+				document.getElementById('start_date').valueAsDate = endDate;	
+			}else if(e.target.id == 'start_date' && (endDate - startDate) < 0){
+				document.getElementById('end_date').valueAsDate = startDate;	
+			}
+			
+		});
+		
+		// 빈값 확인
+		let isEmpty = (val) => {
+			if(val === '' || val === null || val === undefined || (val !== null && typeof val === 'object' && !Object.keys(val).legth)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	
+	</script>
+</body>
+</html>

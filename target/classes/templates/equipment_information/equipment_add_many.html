@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 장비 정보</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/harvesting_after.css">
+<link rel="stylesheet" href="/toastGrid/tui-grid.min.css" />
+<link rel="stylesheet" href="/toastGrid/tui-pagination.css" />
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/js/harvesting_after.js"></script>
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+<link rel="stylesheet" href="../../static/toastGrid/tui-grid.min.css" />
+<link rel="stylesheet" href="../../static/toastGrid/tui-pagination.css" />
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script>
+<script src="../../static/js/harvesting_after.js"></script> -->
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">장비 정보</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">장비 정보 -</li>
+						<li class="card_inner_list">대량 등록</li>
+					</ul>
+					<div class="print_box">
+						<button class="common_btn1">변경 이력</button>
+					</div>
+				</div>
+
+				<!-- <div class="card">
+					<div class="card_cont_box">
+						<form action="" class="new_enroll_form common_form">
+							<div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input
+										type="file" name="excelFile" id="file_select1"
+										class="file_select_input" data-none="false"
+										accept=".xlsx, .xls"><label for="file_select1"
+										class="form_btn common_btn1">파일 선택</label>
+								</div>
+								<span class="ex_text"><span class="star">* </span> 엑셀,
+									pdf, hwp 파일만 등록 가능합니다</span>
+							</div>
+						</form>
+					</div>
+				</div> -->
+
+				<div class="card save_table_card_">
+					<div class="card_cont_box">
+						<div id="grid"></div>
+						<div class="card_addRe_footer">
+							<button type="button" class="add_row_btn common_btn1">추가</button>
+							<button type="button" class="delete_btn common_btn1">
+								삭제</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<button type="button" class="save_btn common_btn1">등록</button>
+				</div>
+			</section>
+
+			<!-- 모달 -->
+			<div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<p for="" class="modal_form_title">품종/유전정보</p>
+							<div class="raido_box_wrap">
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_kind"> <label
+										for="_kind"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_genetic"> <label
+										for="_genetic"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_etc"> <label
+										for="_etc"></label>
+								</div>
+							</div>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">용도</label> <select
+								class="common_select" id="">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성</option>
+								<option value="">2</option>
+								<option value="">3</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분류</label> <select
+								class="common_select" id="">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성 관련 성분</option>
+								<option value="">2</option>
+								<option value="">3</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off">
+							<label for="" class="modal_form_title">신규 세부 항목</label> <input
+								type="text" id="" class="">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn off">사용</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+
+	<script src="/toastGrid//tui-pagination.js"></script>
+	<script src="/toastGrid//tui-grid.min.js"></script>
+	
+	<script>
+	
+	const columndata = [ {
+		header : '한글장비명',
+		name : 'equipment_name',
+		editor : 'text',
+		width : 'auto',
+		minWidth : 250
+	}, {
+		header : '모델명',
+		name : 'equipment_model',
+		editor : 'text',
+		width : 150
+	}, {
+		header : '취득일자',
+		name : 'equipment_date',
+		editor : 'text',
+		width : 120
+	}, {
+		header : '취득금액',
+		name : 'equipment_price',
+		editor : 'text',			
+		width : 120
+	}, {
+		header : '활용범위',
+		name : 'equipment_range',
+		editor: {
+		      type: 'select',
+		      options: {
+		        listItems: [
+		        	{text : "공동활용허용 가능", value : "공동활용허용 가능"},
+		        	{text : "단독활용만 가능", value : "단독활용만 가능"}
+		        ]
+		      }
+		    },    
+		width : 150
+	}, {
+		header : '공동활용 허용범위',
+		name : 'equipment_public',
+		editor: {
+		      type: 'select',
+		      options: {
+		        listItems: [
+		        	{text : "기관 내부 활용", value : "기관 내부 활용"},
+		        	{text : "기관 외부 활용", value : "기관 외부 활용"}
+		        ]
+		      }
+		    },    
+		width : 120
+	}, {
+		header : '장비용도',
+		name : 'equipment_purpose',
+		editor: {
+		      type: 'select',
+		      options: {
+		        listItems: [
+		        	{text : "계측", value : "계측"},
+		        	{text : "시험", value : "시험"},
+		        	{text : "분석", value : "분석"},
+		        	{text : "기타", value : "기타"}
+		        ]
+		      }
+		    },    
+		width : 120
+	}, {
+		header : '설치장소',
+		name : 'equipment_place',
+		editor : 'text',
+		width : 200
+	}, {
+		header : '등록번호',
+		name : 'equipment_regist',
+		editor : 'text',
+		width : 120
+	}, {
+		header : '고정자산관리번호',
+		name : 'equipment_manage',
+		editor : 'text',
+		width : 120
+	}, {
+		header : '메소드 스텝 개수',
+		name : 'equipment_method',
+		editor : 'text',
+		width : 120
+	},{
+		header : '사용 여부',
+		name : "equipment_status",
+		editor : 'text',
+		width : 120
+	}
+	]
+	
+	</script>
+	<script>
+		// toast- grid
+		let rowdata = [];
+		let checkRow = [];
+		let rowLength;
+		
+		// row key
+		let rowKey = 4;
+		
+		for(let i = 0; i <= rowKey; i++){
+			rowdata.push({});
+		}
+		
+		const Grid = tui.Grid;
+		
+		let instance = new Grid({
+			el : document.getElementById('grid'), // Container element
+			minBodyHeight : 5,
+			scrollX : true,
+			scrollY : false,
+			rowHeaders: ['rowNum'],
+			pageOptions : {
+				perPage : 5
+			},
+			data : rowdata,
+			columns : columndata
+
+			});
+			//instance.resetData(newData);  // Call API of instance's public method
+			Grid.applyTheme('clean'); // Call API of static method
+
+		instance.on('check' , (ev) =>{
+			checkRow.push(`${ev.rowKey}`);
+		})
+		
+		instance.on('uncheck' , (ev) =>{
+			const check = checkRow.indexOf(`${ev.rowKey}`);
+			checkRow.splice(check , 1);
+		})
+		
+		// 로우 추가
+		$('.add_row_btn').on('click' , function(){
+
+			instance.appendRow([{}], {
+			  extendPrevRowSpan: true,
+			  focus: true
+			});
+			
+			rowKey++;
+		})
+		
+		// 로우 삭제
+		$('.delete_btn').on('click' ,function(){
+			
+			instance.removeRow(rowKey);
+			rowKey--;
+			
+		})
+		
+		$('.list_btn').on('click', function() {
+			location.href = `/equipment/equipment_list`;
+		})
+		
+		// 등록 
+		$('.save_btn').on('click' , function(){
+			
+			const equipmentList = [];
+			
+			const rowLength =  $('.tui-grid-cell-row-header').length - 1;
+			
+			// 컬럼 헤드
+			for(let i = 0; i<rowLength; i++){
+				
+				let row = instance.getRow(i);
+				
+				console.log(row , "row")
+				
+				// 한글 장비명 체크
+				if(row.equipment_name == null){
+					alert(`${i+1}번 한글장비명을 입력해주세요`)
+					return;
+				}
+				
+				// 취득금액 체크
+				if(row.equipment_price != null){
+					if(isNaN(row.equipment_price)){
+						alert(`${i+1}번 취득금액의 숫자를 입력해주세요`);
+						return;
+					}								
+				}
+				
+				// 활용범위 체크
+				if(row.equipment_range != null){
+					
+					switch (row.equipment_range) {
+						case "공동활용허용 가능" : row.equipment_range = "1"
+							break;
+						case "단독활용만 가능" : row.equipment_range = "2"
+							break;
+		
+						default:
+							alert(`${i+1}번 활용범위를 확인해주세요`);
+							return;
+						}
+				}
+				
+				// 공동활용 허용범위 체크
+				if(row.equipment_public != null){
+
+					switch (row.equipment_public) {
+						case "기관 내부 활용" : row.equipment_public = "1"
+							break;
+						case "기관 외부 활용" : row.equipment_public = "2"
+							break;
+		
+						default:
+							alert(`${i+1}번 공동활용 허용범위를 확인해주세요`);
+							return;
+						}
+				}
+				
+				// 장비용도 체크
+				if(row.equipment_purpose != null){
+					
+					switch (row.equipment_purpose) {
+					case "계측" : row.equipment_purpose = "1"
+						break;
+					case "시험" : row.equipment_purpose = "2"
+						break;
+					case "분석" : row.equipment_purpose = "3"
+						break;
+					case "기타" : row.equipment_purpose = "4"
+						break;
+					default:
+						alert(`${i+1}번 장비용도를 확인해주세요`);
+						return;
+					}							
+				}
+				
+				equipmentList.push(row);
+			}
+		
+			$.ajax({
+				type : "POST",
+				url : "/equipment/equipment_many_add",
+				data : JSON.stringify({"equipmentList" : equipmentList}),
+				contentType: 'application/json; charset=utf-8',
+				success : function(data) {
+					
+					if(data.result.length > 0){
+						
+						// 에러리스트
+						let errorMessage = '';
+						data.result.forEach((item)=>{
+							if(item.errCode == -1){
+								errorMessage += `${item.index}번 ${item.equipment.equipment_name} 등록이 실패했습니다.\n`
+							}
+							if(item.errCode == -2){
+								errorMessage += `${item.index}번 ${item.equipment.equipment_name} 한글장비명이 중복됬습니다.\n`
+							}
+						})
+						alert(errorMessage);
+		            } else {
+		                alert("장비가 등록되었습니다");
+		                location.href="/equipment/equipment_list";
+		            }
+				},
+				error : function(xhr,status) {
+					alert(xhr + " : " + status);
+				}
+			});
+		})
+		
+	</script>
+</body>
+</html>

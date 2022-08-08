@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:include="./fragments/header.html"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Lab - 분석 계획 등록</title>
+    <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/harvesting_after.css">
+    
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+        #main .form_box.file_box {padding-left: 0;}
+        .common_form .form_box:nth-child(1) {padding-right: 0;}
+        #main .explane_box {width: 100%; padding-left: 0;}
+        .harvesting_form .form_box:nth-child(2) {width: 50%; margin-right: 20px; padding-right: 0;}
+        .harvesting_form .form_box:nth-child(3) {width: calc(50% - 20px);}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+			<!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box harvesting_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">분석 계획 등록</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">분석 계획 등록 - </li>
+                        <li class="card_inner_list">탬플릿 수정</li>
+                         <li th:text="' - '+${result.plan.plan_code}"></li>
+                    </ul>
+                    <div class="print_box on">
+						<button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_cont_box harvesting_add_box"> 
+                       <form action="" id="regist_form" class="harvesting_form common_form">
+                            <div class="form_box task_box select_box">
+                                <label for="" class="file_title">과제 정보</label>
+								<select name="" id="" class="task_select common_select" disabled="true">
+                                    <option value="-1" hidden>과제 정보 선택</option>
+                                   <th:block th:each="item : ${result.reportList.list}">
+										<option th:value="${item.report_id}" th:selected="${result.plan.report_id} == ${item.report_id}">
+										<span th:text="${item.tot_rsch_start_year}+' - ('+${item.prj_dtl_no}+') '+${item.prj_dtl_nm}">
+										</span>
+										</option>
+									</th:block>
+                                </select>
+                            </div>
+                            <div class="form_box select_box harvesting_input_box">
+                                <label for="list_lookup" class="file_title">분석 항목</label>
+                                <div class="lookup_input form_inner_box">
+                                    <input type="text" id="list_lookup" readonly><button class=" form_btn modal_on_btn common_btn1" data-modal="_lookup">항목 조회</button>
+                                </div>
+                            </div>
+                            <div class="select_box form_box harvesting_input_box">
+                                <label for="" class="file_title">품종/유전자원 정보</label>
+                                <div class="form_inner_box">
+                                    <input type="text" id="genetic_text" name="genetic_text" readonly><button type="button" class="form_btn common_btn1 modal_on_btn" data-modal="kindSelect">조회</button>
+                                </div>
+                            </div>
+                            <div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input
+										type="file" name="excelFile" id="file_select2"
+										class="file_select_input" data-none="false" accept=".xlsx , .xls"><label
+										for="file_select2" class="form_btn common_btn1">파일 선택</label>
+								</div>
+                                <span class="ex_text"><span class="star">* </span> 엑셀 파일만 등록 가능합니다</span>
+                            </div>
+                            
+                            
+                            <!-- 품종관련 -->
+							<input id="genetic_id" name="genetic_id" th:value="${result.plan.genetic_id}" type="hidden" />
+							<input id="genetic_depth_2" name="genetic_depth_2" type="hidden" />
+							<input id="genetic_depth_2_id" name="genetic_depth_2_id" type="hidden" th:value="${result.plan.genetic_depth_2_id}"/>
+							<input id="genetic_type" name="genetic_type" type="hidden" th:value="${result.plan.genetic_type}"/>
+							
+							<input type="hidden" name="division_id" id="division_id" th:value="${result.plan.division_id}">
+							<input type="hidden" name="division" id="division" >
+							<input type="hidden" name="division_parents" id="division_parents" >
+							
+                            <input type="hidden" name="plan_id" th:value="${result.plan.plan_id}"/>
+                            <input type="hidden" name="USEE_AT_CODE" th:value="${result.plan.USEE_AT_CODE}"/>
+                       	    <input type="hidden" name="plan_code" th:value="${result.plan.plan_code}"/>
+                       	    
+                       	    <input type="hidden" name="template_head" />
+                       	    <input type="hidden" name="template_body" />
+                       </form>
+                       <div class="card_sect_footer">
+                            <button class="common_btn1 template_btn">탬플릿등록</button>
+                       </div>
+                    </div>
+                </div>
+                
+                <div class="card save_table_card" >
+                    <div class="card_cont_box">
+                       <div id="analysisGrid"></div>
+                    </div>        
+                </div>
+
+                <div class="card_footer">
+                    <button type="button" class="list_btn common_btn1">목록</button>
+                    <button th:if="${session.LOGIN_MEMBER.account == result.plan.account}" type="button" class="save_btn common_btn1" onclick="onClickRegist()">저장</button>
+                </div>
+            </section>
+            
+            
+           <!-- 품종 모달 -->
+			<div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">품종/유전정보</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<p for="" class="modal_form_title">품종/유전정보</p>
+							<div class="raido_box_wrap">
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_kind"
+										   th:checked="${result.plan.genetic_type == 1}"> <label
+										for="_kind"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_genetic"
+										   th:checked="${result.plan.genetic_type == 2}"> <label
+										for="_genetic"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_etc"
+										   th:checked="${result.plan.genetic_type == 3}"> <label
+										for="_etc"></label>
+								</div>
+							</div>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">작목</label> <select
+								class="common_select" id="genetic_main" onchange="onChangeGenetic(event);">
+								<option value="-1" hidden>작목 선택</option>
+								<th:block th:each=" genetic : ${result.geneticList}">
+									<option th:value="${genetic.genetic_id}"
+										th:text="${genetic.genetic}"
+										th:selected="${genetic.genetic_id} == ${result.plan.genetic_depth_2_id}"></option>
+								</th:block>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title" id="genetic_name">품종</label>
+							<select class="common_select"
+								id="genetic_sub">
+								<option value="-1" id="selectBox_type_text" hidden>품종 선택</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off new_input_form">
+							<label for="" class="modal_form_title">신규 세부 항목</label> <input
+								type="text" id="new_text">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn genetic_btn">사용</button>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 분석 항목 모달 -->
+			<div class="modal lookup_modal" id="_lookup">
+				<div class="modal_box on">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">용도</label> <select
+								class="common_select" id="modal_division_1"
+								onchange="onChangeDivisionDepth1()">
+								<option value="-1" hidden>용도 선택</option>
+								<th:block th:each="list : ${result.division.list}">
+									<option th:value="${list.division_id}"
+										th:text="${list.division}"
+										th:selected="${list.division_id} == ${result.division_detail.division_depth1_id}"></option>
+								</th:block>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분류</label> <select
+								class="common_select" id="modal_division_2"
+								onchange="onChangeDivisionDepth2()">
+								<option value="-1" hidden>분류 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분석 항목</label> <select
+								class="common_select" id="modal_division_parent"
+								onchange="onChangeDivisionDepth3()">
+								<option value="-1" hidden>분석 항목 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">세부 항목</label> <select
+								class="common_select" id="detail_select"
+								onchange="onChangeDetailSelect()">
+								<option value="-1" hidden>세부 항목 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box" id="new_item_div" style="display: none;	">
+							<label for="" class="modal_form_title">신규 세부 항목</label><input
+								type="text" id="new_item_input" onkeyup="onKeyupNewItemInput()"
+								class="">
+						</div>
+
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn off" id="_lookup_btn"
+							onclick="onClickModalUse()" data-dismiss="_lookup">사용</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal harvesting_modal" id="logModal">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">변경 이력 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<div class="card sec_card">
+						<div class="card_cont_box">
+							<ul class="change_list_box">
+
+								<th:block th:each=" log : ${result.logList}">
+									<li class="change_list">
+										<span class="change_check"></span>
+										<div class="chang_text_box">
+											<p class="change_text"><span th:text="${log.data_code}"></span>
+												<th:block th:switch="${log.action_type}">
+													<span th:case="1">등록</span>
+													<span th:case="2">수정</span>
+													<span th:case="3">삭제</span>
+													<span th:case="4">추가</span>
+												</th:block>
+											</p>
+											<span class="change_date" th:text="${log.log_date}"></span>
+										</div>
+									</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+        </main>
+       	<th:block th:include="./fragments/commonjs.html"></th:block>
+        <!-- 공통 구조 - main end -->
+    </div>
+	<script type="text/javascript" th:inline="javascript">
+
+		let result = [[${result}]];
+		let head = JSON.parse([[${result.plan.template_head}]]);
+		let rowdata = JSON.parse([[${result.plan.template_body}]]);
+		let coldata = []
+		for (let i of head) {
+
+			let obj = {
+				header: `${i.header}`,
+				name: `${i.name}`,
+				editor: 'text'
+			}
+			coldata.push(obj);
+		}
+
+		let division_detail = [[${result.division_detail}]];
+
+		let genetic_id = result.plan.genetic_id;
+        let genetic_parents = result.plan.genetic_depth_2_id;
+        let genetic_type = result.plan.genetic_type;
+
+		let text = `${division_detail.division_depth1} > ${division_detail.division_depth2} > ${division_detail.division_depth3} > ${division_detail.division}`;
+		$('#list_lookup').val(text);
+
+		//분석항목
+		loadDivision(division_detail.division_depth1_id, 2, "modal_division_2", division_detail.division_depth2_id);
+		loadDivision(division_detail.division_depth2_id, 3, "modal_division_parent", division_detail.division_depth3_id);
+		loadDivision(division_detail.division_depth3_id, 4, "detail_select", division_detail.division_id);
+
+
+		//품종/유전자원 정보
+		$("#genetic_text").val(result.plan.genetic_depth_1 + " > " + result.plan.genetic_depth_2);
+		$.ajax({
+			url: `/api/genetic/genetic_depth?genetic_parents=${genetic_parents}&genetic_depth=2&genetic_type=${genetic_type}`,
+			type: "GET",
+			success: function (data) {
+				for (i of data) {
+					let display = `<option value="${i.genetic_id}" ${i.genetic_id == genetic_id ? 'selected' : ''}>${i.genetic}</option>`;
+
+					$('#genetic_sub').append(display);
+				}
+				let display = `<option value="-2">신규등록</option>`;
+				$('#genetic_sub').append(display);
+			}
+		})
+
+
+		// toast- grid
+
+		const Grid = tui.Grid;
+		let instance;
+
+		function grid() {
+
+			instance = new Grid({
+				el: document.getElementById('analysisGrid'), // Container element
+				scrollX: false,
+				scrollY: false,
+				rowHeaders: ['rowNum'],
+				data: rowdata,
+				columns: coldata
+			});
+
+			//instance.resetData(newData); // Call API of instance's public method
+			Grid.applyTheme('clean'); // Call API of static method
+		}
+
+		grid();
+
+		//분석항목조회 처음 셀렉트박스 시작
+
+
+		// 엑셀 불러오기
+		$('.template_btn').on('click', function () {
+
+			let excelFile = $('input[name="excelFile"]')[0];
+
+			if (excelFile.files.length <= 0) {
+				alert("템플릿을 추가해주세요");
+				return;
+			}
+
+			$("#analysisGrid").children().remove();
+
+			var formData = new FormData();
+
+
+			for (var i = 0; i < excelFile.files.length; i++) {
+				formData.append("excelFile", excelFile.files[i]);
+			}
+
+			for (var key of formData.keys()) {
+				console.log(key);
+			}
+
+			for (var value of formData.values()) {
+				console.log(value);
+			}
+
+			$.ajax({
+				type: "POST",
+				enctype: "multipart/form-data",
+				url: "/api/equipment_excel_add",
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+
+					coldata = [];
+
+					for (let i of data.head) {
+
+						let obj = {
+							header: `${i.header}`,
+							name: `${i.name}`,
+							editor: 'text'
+						}
+						coldata.push(obj);
+					}
+					rowdata = data.body;
+
+					grid();
+				},
+				error: function (err) {
+					alert("엑셀 등록에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			});
+		})
+
+		// 파일 등록 확장자 체크
+		$('#file_select2').on('change', function () {
+			if ($("#file_select2").val() != "") {
+				let ext = $('#file_select2').val().split('.').pop().toLowerCase();
+				if ($.inArray(ext, ['xls', 'xlsx']) == -1) {
+					alert('다른 형식의 파일입니다. 엑셀 형식만 업로드 가능 합니다');
+					$("#file_select2").val(""); // input file 파일명을 다시 지워준다.
+					return;
+				}
+			}
+		})
+
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+
+			if (!validateFunction('list_lookup', '분석 항목을')) {
+				return false;
+			}
+
+			if (!validateFunction('genetic_text', '품종/유전자원 정보를')) {
+				return false;
+			}
+
+			return true;
+		}
+
+		function onClickRegist() {
+
+			const rowLength = $('.tui-grid-cell-row-header').length - 1;
+			let template_head = [];
+			let template_body = [];
+
+			// 컬럼 헤드
+			for (let i = 0; i < rowLength; i++) {
+
+				let body = {};
+
+				let row = $('td[data-row-key="' + i + '"]');
+
+				for (let j = 1; j < row.length; j++) {
+
+					let key = row[j].attributes[1].value;
+					let value = row[j].textContent;
+
+					if (i == 0) {
+						let head = {
+							header: `${key}`,
+							name: `${key}`
+						}
+						template_head.push(head);
+					}
+					body[key] = value;
+				}
+				template_body.push(body);
+			}
+
+			$('input[name="template_head"]').val(JSON.stringify(template_head));
+			$('input[name="template_body"]').val(JSON.stringify(template_body));
+
+			if (!checkForm()) {
+				return;
+			}
+
+			let analysisForm = $('#regist_form')[0];
+			let formData = new FormData(analysisForm);
+
+			$.ajax({
+				url: "/regist_analysis_template_update",
+				type: "POST",
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function (data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("수정 성공하셨습니다.");
+						location.reload();
+					}
+				},
+				error: function (xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url: "/err-message",
+				type: "GET",
+				data: {
+					err_msg_id: err_msg_id
+				},
+				success: function (data) {
+					alert(data.msg);
+				}
+			})
+		}
+
+		$('.list_btn').on('click', function () {
+			location.href = `/regist_analysis_list`;
+		})
+
+		function initSelect(id, text, isDetail) {
+			$('#' + id).empty();
+			let defaultOption = `<option value="-1" hidden>${text}</option>`
+			$('#' + id).append(defaultOption);
+			$('#' + id).val(-1).prop("selected", "true");
+
+			if (isDetail) {
+				//onChangeDetailSelect();
+			}
+		}
+
+		function initDivisionSelect(depth) {
+			switch (depth) {
+				case 1:
+					initSelect('modal_division_2', '분류 선택', false);
+				case 2:
+					initSelect('modal_division_parent', '분석 항목 선택', false);
+				case 3:
+					initSelect('detail_select', '세부 항목 선택', true);
+			}
+		}
+
+		function onChangeDivisionDepth1() {
+			let selectedValue = $('#modal_division_1').val();
+
+			initDivisionSelect(1);
+			if (selectedValue != -1) {
+				searchDivision(selectedValue, 2, 'modal_division_2');
+			}
+		}
+
+		function onChangeDivisionDepth2() {
+			let selectedValue = $('#modal_division_2').val();
+
+			initDivisionSelect(2);
+			if (selectedValue != -1) {
+				searchDivision(selectedValue, 3, "modal_division_parent");
+			}
+		}
+
+		function onChangeDivisionDepth3() {
+			let selectedValue = $('#modal_division_parent').val();
+
+			initDivisionSelect(3);
+			if (selectedValue != -1) {
+				searchDivision(selectedValue, 4, "detail_select");
+			}
+		}
+
+		function onChangeDetailSelect() {
+			let selectedValue = $('#detail_select').val();
+			if (selectedValue == -2) {
+
+
+				if ($('#modal_division_parent').val() == -1) {
+					alert("상위 항목을 먼저 선택해주세요.");
+					$('#detail_select').val(-1).prop("selected", true);
+					return;
+				}
+				//$("#new_item_div").css('display' , '');
+				onKeyupNewItemInput();
+			} else {
+
+				if (selectedValue != -1) {
+					$('#_lookup_btn').removeClass("off").addClass('on');
+				} else {
+					$('#_lookup_btn').removeClass("on").addClass('off');
+				}
+				//$("#new_item_div").css('display' , '');
+			}
+		}
+
+		function onKeyupNewItemInput() {
+			let text = $('#new_item_input').val();
+			if (text != '') {
+				$('#_lookup_btn').removeClass("off").addClass('on');
+				$('#_lookup_btn').attr('disabled', false);
+			} else {
+				$('#_lookup_btn').removeClass("on").addClass('off');
+				$('#_lookup_btn').attr('disabled', true);
+			}
+		}
+
+		function onClickModalUse() {
+
+			let depth_val_1 = $('#modal_division_1 option:selected').val();
+			let depth_val_2 = $('#modal_division_2 option:selected').val();
+			let depth_val_3 = $('#modal_division_parent option:selected').val();
+			let depth_val_4 = $('#detail_select option:selected').val();
+
+			if (depth_val_1 == -1) {
+				alert("용도를 선택해주세요");
+				return;
+			}
+			if (depth_val_2 == -1) {
+				alert("분류를 선택해주세요");
+				return;
+			}
+			if (depth_val_3 == -1) {
+				alert("분석 항목을 선택해주세요");
+				return;
+			}
+			if (depth_val_4 == -1) {
+				alert("세부 항목을 선택해주세요");
+				return;
+			}
+
+			let divisionParent = $('#modal_division_parent').val();
+			let division_id = $('#detail_select').val();
+
+			$('#division_parents').val(divisionParent);
+			$('#division_id').val(division_id);
+			$('#division').val(division);
+
+			let depth_text_1 = $('#modal_division_1 option:selected').text();
+			let depth_text_2 = $('#modal_division_2 option:selected').text();
+			let depth_text_3 = $('#modal_division_parent option:selected').text();
+			let depth_text_4 = $('#detail_select option:selected').text();
+
+			/* if(division_id == -2){
+                depth_text_4 = division;
+            }else{
+                depth_text_4 = division;
+            }  */
+
+			let text = depth_text_1 + " > " + depth_text_2 + " > " + depth_text_3 + " > " + depth_text_4;
+			$('#list_lookup').val(text);
+			$('#_lookup').removeClass('on');
+			$('#main').removeClass('modal_on');
+		}
+
+		function searchDivision(division_id, division_depth, select_id) {
+			$.ajax({
+				url: '/search-division',
+				method: "GET",
+				dataType: "JSON",
+				data: {
+					"division_id": division_id,
+					"division_depth": division_depth,
+					"USEE_AT_CODE" : 2
+				},
+				success: function (result) {
+					if (result.state < 0) {
+						getErrorMessage(result.state);
+					} else {
+						const list = result.list;
+						list.forEach(e => {
+
+							console.log(e.division, "e.division");
+							let option = `<option value="${e.division_id}">${e.division}</option>`
+							$('#' + select_id).append(option);
+						})
+					}
+				}
+			})
+		}
+
+		$('input[name="kindInfo"]').on('click', function (e) {
+
+			$('#selectBox_type_text').nextAll().remove();
+
+			if (e.target.id == '_kind') {
+				genetic_type = 1;
+				$('#selectBox_type_text').text("품종을 선택해주세요");
+				$('#genetic_name').text("품종");
+				removeForm();
+			}
+
+			if (e.target.id == '_genetic') {
+				genetic_type = 2;
+				$('#selectBox_type_text').text("유전자원명을 선택해주세요");
+				$('#genetic_name').text("유전자원명");
+				removeForm();
+			}
+
+			if (e.target.id == '_etc') {
+				genetic_type = 3;
+				$('#selectBox_type_text').text("기타를 선택해주세요");
+				$('#genetic_name').text("기타");
+				removeForm();
+			}
+			let geneticParentsVal = $("#genetic_main option:selected").val();
+			$.ajax({
+				url: `/api/genetic/genetic_depth?genetic_parents=${geneticParentsVal}&genetic_depth=2&genetic_type=${genetic_type}`,
+				type: "GET",
+				success: function (data) {
+
+					$('#selectBox_type_text').nextAll().remove();
+
+					for (i of data) {
+						let display = `<option value="${i.genetic_id}" >${i.genetic}</option>`;
+
+						$('#genetic_sub').append(display);
+					}
+				}
+			})
+		})
+
+		function removeForm() {
+			$('.new_input_form').addClass('off');
+			$('.new_input_form').val('');
+		}
+
+		function onChangeGenetic(event) {
+
+			let genetic_parents = event.target.value;
+
+			$('#selectBox_type_text').nextAll().remove();
+
+			$.ajax({
+				url: `/api/genetic/genetic_depth?genetic_parents=${genetic_parents}&genetic_depth=2&genetic_type=${genetic_type}`,
+				type: "GET",
+				success: function (data) {
+
+					for (i of data) {
+						let display = `<option value="${i.genetic_id}" >${i.genetic}</option>`;
+
+						$('#genetic_sub').append(display);
+					}
+				}
+			})
+		}
+
+		$('#genetic_sub').on('change', function (e) {
+
+			if (e.target.value == -2) {
+				$('.new_input_form').removeClass('off');
+			} else {
+				removeForm();
+			}
+		})
+
+		$('.genetic_btn').on('click', function () {
+
+			let genetic_main_id = $('#genetic_main').val();
+			let genetic_sub_id = $('#genetic_sub').val();
+			let genetic_main = $('#genetic_main option:checked').text();
+			let genetic_text = $('#genetic_sub option:checked').text();
+
+			if (genetic_main_id == -1) {
+				alert("용도를 선택해주세요.")
+				return;
+			}
+
+			if (genetic_sub_id == -1) {
+				alert("서브카테고리를 선택해주세요.");
+				return;
+			}
+
+			if (genetic_sub_id == -2) {
+				let new_text = $('#new_text').val();
+				if (new_text != '') {
+					genetic_text = new_text;
+				} else {
+					alert("신규 세부 항목을 입력해주세요");
+					return;
+				}
+				$('input[name="genetic_depth_2"]').val(new_text);
+			}
+			$('input[name="genetic_type"]').val(genetic_type);
+			$('input[name="genetic_depth_2_id"]').val(genetic_main_id);
+			$('input[name="genetic_id"]').val(genetic_sub_id);
+			$('input[name="genetic_text"]').val(`${genetic_main} < ${genetic_text}`);
+
+			document.getElementById('main').classList.remove('modal_on');
+		})
+
+		function loadDivision(division_id, division_depth, select_id, check_id) {
+
+			console.log('loadDivision');
+			
+
+			$.ajax({
+				url: '/search-division',
+				method: "GET",
+				dataType: "JSON",
+				async: false,
+				data: {
+					"division_id": division_id,
+					"division_depth": division_depth,
+					"USEE_AT_CODE" : 2
+				},
+				success: function (result) {
+					if (result.state < 0) {
+						getErrorMessage(result.state);
+					} else {
+						const list = result.list;
+
+						let option = '';
+						
+						list.forEach(e => {
+							option += `<option value="${e.division_id}" ${e.division_id == `${check_id}` ? 'selected' : ''} >${e.division}</option>`
+						})
+
+						$('#' + select_id).append(option);
+					}
+				}
+			})
+		}
+
+		/* function loadGeneticSub(value){
+			
+			if(genetic_type == 3){
+				let display = `<option value="-2">신규등록</option>`;
+				
+				$('#genetic_sub').append(display);
+			}
+			
+			$.ajax({
+				url : `/api/genetic/genetic_depth?genetic_parents=${value}&genetic_depth=2&genetic_type=${genetic_type}`,
+				type : "GET",
+				success : function(data){
+					
+					for(i of data){
+						let display = `<option value="${i.genetic_id}" ${i.genetic_id == `${genetic_id}` ? 'selected' : ''}>${i.genetic}</option>`;
+					
+						$('#genetic_sub').append(display);
+					}
+				}
+			})
+		}
+		
+		loadGeneticSub(genetic_parents); */
+	</script>
+</body>
+</html>

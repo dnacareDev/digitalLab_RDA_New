@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:include="./fragments/header.html"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 시료 관리</title>
+    <link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/setup_analysis_plan.css">
+
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/setup_analysis_plan.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+
+        #main .card_cont_box .card_table {width: 100%; }
+        #main .card_cont_box .card_table > tbody {overflow-x: hidden;}
+        #wrap .card_cont_box .plan_table th:nth-child(4),
+        #wrap .card_cont_box .plan_table td:nth-child(4),
+        #wrap .card_cont_box .plan_table th:nth-child(5),
+        #wrap .card_cont_box .plan_table td:nth-child(5) {width: 200px;}
+
+
+        #main .method_footer_btnbox .enroll_btn.active + .add_list_box {height: 160px; opacity: 1;}
+
+        .card {position: relative;}
+   
+        #main .cont_footer_box.card_table_footer {bottom: 30px; z-index: 0; height: 40px; padding-right: 20px; width: 100%; justify-content: right;}
+
+        #main .cont_footer_btnbox .add_btn_box { margin-left: 0; padding-right: 0;}
+
+        #main .card .cont_search_box > label {margin-bottom: 0 !important;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end--> 
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box analysis_plan_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">시료관리</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">재료 및 방법 - </li>
+                        <li class="card_inner_list">시료 관리</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <div class="col_select_box select_box">
+                            <span>show</span>
+                            <select id="limit_select" class="col_select common_select">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card_cont_box">
+                        <div id="seedGrid" class="toastTable" style="z-index:0;"></div>
+                    </div>
+                    
+                    <div class="cont_footer_box card_table_footer">
+                        <div class="cont_footer_btnbox method_footer_btnbox">
+                            <div class="add_btn_box">
+                                <button class="common_btn1 method_btn enroll_btn">신규 등록</button>
+                                <ul class="add_list_box">
+                                    <li class="add_list">
+                                        <a href="/seed/seed_easy_add">일반 등록</a>
+                                    </li>
+                                    <li class="add_list">
+                                        <a href="/seed/seed_add">고급 등록</a>
+                                    </li>
+                                    <li class="add_list">
+                                        <a href="/seed/seed_many_add">대량 등록</a>
+                                    </li>
+                                    <li class="add_list">
+                                        <a href="/seed/seed_template_add">탬플릿 등록</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </section>
+        </main>
+    <th:block th:include="./fragments/commonjs.html"></th:block>
+        <!-- 공통 구조 - main end -->
+    </div>
+<script type="text/javascript" th:inline="javascript">
+    let list = [[${list}]];
+    console.log(list);
+</script>
+
+<script>
+    // const _list = document.querySelectorAll('.plan_table tbody > tr');
+
+    // _list.forEach((item) => {
+    //     let td = item.firstElementChild;
+
+    //     if(td !== null) {
+    //         if(td.innerText !== '') {
+    //             item.addEventListener('click', () => {
+    //                 location.href='setup_analysis_plan2.html'
+    //             });
+    //         };
+    //     };
+        
+    // });
+    $(document).ready(function(){
+        searchSeed(0);
+    })
+
+    $('#limit_select').change(function(){
+       if(seedGrid != null){
+           seedGrid.destroy();
+           searchSeed(1);
+       }
+    });
+    let seedGrid = null;
+    function searchSeed(pageNo){
+        let limit = $('#limit_select').val();
+        $.ajax({
+            url: '/api/seed/seed_list',
+            method:"GET",
+            dataType:"JSON",
+            data : {
+
+            },
+            success:function(result){
+            	
+            	console.log(result);
+            	
+                seedGrid = new tui.Grid({
+                    el: document.getElementById('seedGrid'),
+                    scrollX: true,
+                    scrollY: false,
+                    data: result.list,
+                    rowHeaders: [
+  	         	      {
+  	         	        type: 'rowNum',
+  	         	        renderer: RowNumRenderer
+  	         	      }
+  	         	    ],
+                    editingEvent: 'click',
+                    columns: [],
+                    columnOptions: {
+                        resizable: true
+                      },
+                    pageOptions: {
+                        useClient: true,
+                        perPage: limit,
+                    }
+                });
+
+                const headerArr = [
+                    {
+                        "header" : "과제 번호",
+                        "name" : "prj_dtl_no",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 180
+                    },
+                    {
+                        "header" : "등록 방법",
+                        "name" : "regist_type",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 150
+                    },
+                    {
+                        "header" : "과제 명",
+                        "name" : "prj_dtl_nm",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 350
+                    },
+                    {
+                        "header" : "작목 명",
+                        "name" : "genetic_depth1", //depth 1 의 정보 명
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 200
+                    },
+                    {
+                        "header" : "품종/유전자원명",
+                        "name" : "genetic_depth2",  //depth 2의 정보 명
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 200
+                    },
+                    {
+                        "header" : "시료 수",
+                        "name" : "seed_count",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 120
+                    },
+                    {
+                        "header" : "발송인",
+                        "name" : "seed_sender",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 150
+                    },
+                    {
+                        "header" : "보관 장소",
+                        "name" : "place_name",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 200
+                    },
+                    {
+                        "header" : "발송 일자",
+                        "name" : "send_date",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 200
+                    },
+                    {
+                        "header" : "수취 일자",
+                        "name" : "receive_date",
+                        sortable: true,
+                        filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                        width : 200
+                    },
+                ]
+                seedGrid.setColumns(headerArr);
+                seedGrid.resetData(result.list);
+
+                seedGrid.on('click',(ev) => {
+                    if(ev.columnName === 'prj_dtl_no'){
+                        let id = seedGrid.getRow(ev.rowKey).user_report_id;
+                        location.href=`/seed/seed-detail/${id}`
+                }
+                })
+            }
+        })
+        
+    }
+</script>
+</body>
+</html>

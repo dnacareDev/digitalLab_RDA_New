@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:include="./fragments/header.html"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <title>Digital Lab - 실험 방법</title>
+    <link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/method_management.css">
+    
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+    <!-- <link type="text/css" rel="stylesheet" href="../../static/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="../../static/css/style/method_management.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+        #wrap .card_cont_box .card_table th {padding: 0 15px;}
+        
+        #main .card_cont_box .card_table tr > th:nth-child(2), 
+        #main .card_cont_box .card_table tr > td:nth-child(2),
+        #main .card_cont_box .card_table tr > th:nth-child(3), 
+        #main .card_cont_box .card_table tr > td:nth-child(3) {flex: 4; max-width: 250px;}
+
+        #main .card_cont_box .card_table tr > th:nth-child(4), 
+        #main .card_cont_box .card_table tr > td:nth-child(4),
+        #main .card_cont_box .card_table tr > th:nth-child(6), 
+        #main .card_cont_box .card_table tr > td:nth-child(6),
+        #main .card_cont_box .card_table tr > th:nth-child(7), 
+        #main .card_cont_box .card_table tr > td:nth-child(7) {flex: 2; max-width: 130px;}
+
+        #main .card_cont_box .card_table tr > th:nth-child(1), 
+        #main .card_cont_box .card_table tr > td:nth-child(1),
+        #main .card_cont_box .card_table tr > th:nth-child(8), 
+        #main .card_cont_box .card_table tr > td:nth-child(8) {flex: 3; max-width: 210px;}
+
+
+        .card .cont_footer_box .page_box {margin-left: 150px;}
+        .right_head_box .card_switch_box {
+            display: flex;
+            flex-direction: row;
+            width: 220px;
+        }
+        .right_head_box .card_switch_box > span {
+            margin-right: 10px;
+            font-size: 1.4rem;
+            margin-top: 0px;
+        }
+
+        /* switch */
+        .right_head_box .card_switch_box {display: flex; flex-direction: row; width: 220px;}
+        .right_head_box .card_switch_box .card_switch {width: 41px;}
+        .card_switch_box .card_switch > .switch_check[type="checkbox"] {display: none;}
+        .card_switch_box .card_switch > label {display: block; background-color: #E4E4E4; height: 20px; border-radius: 10px; -webkit-border-radius: 10px; position: relative; transition: 0.1s all;}
+        .card_switch_box .card_switch > label:before {content: ''; position: absolute; left: 2px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;background-color: #fff; border-radius: 50%; -webkit-border-radius: 50%; transition: 0.2s all;}
+
+        /* checked */
+        .card_switch > .switch_check[type="checkbox"]:checked + label {background-color: #768BF5;}
+        .card_switch > .switch_check[type="checkbox"]:checked + label:before {left: 23px;}
+
+        .right_head_box .card_switch_box > span {margin-right: 10px; font-size: 1.4rem; margin-top: 0px;}
+        .right_head_box .card_switch_box > span:first-child {margin-top: -0px;}
+        .right_head_box .card_switch_box > span:last-child {margin-right: 0; margin-left: 10px;}
+
+        .right_head_box .card_switch_box {width: auto;}
+        .method_check_box {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            width: 120px;
+        }
+
+        .method_check_box:last-child {
+            width: 150px;
+        }
+
+        .method_check_box .check_wrap {
+            margin-right: 7px;
+        }
+
+        .method_check_box .check_wrap .method_select_text {
+            display: inline-block;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->  
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box">
+                <div class="card_title_box">
+                    <h2 class="card_title">실험 방법</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">재료 및 방법 - </li>
+                        <li class="card_inner_list">실험 방법</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <div class="col_select_box select_box">
+                            <span>show</span>
+                            <select id="limit_select" class="col_select common_select">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                        <div class="right_head_box">
+                            <div class="card_switch_box">
+                                <!-- <span>공유 메소드</span>
+                                <div class="card_switch">
+                                    <input type="checkbox" class="switch_check" id="job_check">
+                                    <label for="job_check"></label>
+                                </div>
+                                <span>나의 메소드</span> -->
+                                <div class="method_check_box">
+                                    <label for="" class="check_wrap">
+                                        <input type="radio" name="share_type" id="myMethod" value="2" class="checkbox" checked="checked">
+                                    </label>
+                                    <label for="myMethod" class="method_select_text">나만의 실험방법</label>
+                                </div>
+                                <div class="method_check_box">
+                                    <label for="" class="check_wrap">
+                                        <input type="radio" name="share_type" id="groupMethod" value="1" class="checkbox">
+                                    </label>
+                                    <label for="groupMethod" class="method_select_text">그룹 실험방법</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_cont_box">
+                        <div id="methodGrid" style="z-index: 0"></div>
+                    </div>
+                        <div class="cont_footer_box">
+                            <div></div>
+                            <div class="page_box">
+<!--                                <button class="prev_btn page_btn">Previos</button>-->
+                                <ul class="page_num_box">
+
+                                </ul>
+<!--                                <button class="next_btn page_btn on">Next</button>-->
+                            </div>
+                            <div class="cont_footer_btnbox method_footer_btnbox">
+                                <div class="add_btn_box">
+                                    <button class="common_btn1 method_btn enroll_btn">신규 등록</button>
+                                    <ul class="add_list_box">
+                                        <li class="add_list">
+                                            <a href="/method/method_easy_add">일반 등록</a>
+                                        </li>
+                                        <li class="add_list">
+                                            <a href="/method/method_add">고급 등록</a>
+                                        </li>
+                                        <li class="add_list">
+                                            <a href="/method/method_template_add">탬플릿 등록</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </section>
+        </main>
+        <th:block th:include="./fragments/commonjs.html"></th:block>
+        <!-- 공통 구조 - main end -->
+    </div>
+    <script th:inline="javascript" type="text/javascript">
+		
+        const Grid = tui.Grid;
+        let methodGrid;
+        let share_type = 2;
+
+        
+        $('input[name="share_type"]').on('change' , function(e){
+			
+        	share_type = e.target.value;
+        	
+        	searchMethod(1);
+        })
+        
+        function searchMethod(pageNo){
+        	
+        	$("#methodGrid").children().remove();	
+        	
+            let limit = $('#limit_select').val();
+            
+            $.ajax({
+                url: `/method/search-method?share_type=${share_type}`,
+                method:"GET",
+                dataType:"JSON",
+                data : {
+
+                },
+                success:function(result){
+                	
+                	result.list.forEach(e => {
+                		
+                		if(e.stepNo == null || e.stepNo == 0){
+                			e.stepNo = '-'
+                		}
+                		
+                		if(e.method_stage == 1){
+                			e.method_stage = '전처리'
+                		}else if (e.method_stage == 2) {
+                			e.method_stage = '시료분석'
+                		}
+                	})
+                	
+                    methodGrid = new Grid({
+                        el : document.getElementById('methodGrid'),
+                        scrollX: true,
+                        scrollY: false,
+                        data: result.list,
+                        rowHeaders: [
+      	         	      {
+      	         	        type: 'rowNum',
+      	         	        renderer: RowNumRenderer
+      	         	      }
+      	         	    ],
+                        editingEvent: 'click',
+                        columns: [],
+                        columnOptions: {
+                            resizable: true
+                          },
+                        pageOptions: {
+                            useClient: true,
+                            perPage: limit,
+                        }
+                    });
+
+                    const headerArr = [
+                        {
+                            "header" : "실험 방법 ID",
+                            "name" : "method_code",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 180
+                        },
+                        {
+                            "header" : "등록 방법",
+                            "name" : "regist_type",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 120
+                        },
+                        {
+                            "header" : "분석 항목",
+                            "name" : "division",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 200
+                        },
+                        {
+                            "header" : "설명",
+                            "name" : "method_contents",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 300
+                        },
+                        {
+                            "header" : "Step No",
+                            "name" : "stepNo",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 120
+                        },
+                        {
+                            "header" : "적용 단계",
+                            "name" : "method_stage",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 150
+                        },
+                        {
+                            "header" : "등록자",
+                            "name" : "account",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 150
+                        },
+                        {
+                            "header" : "등록일",
+                            "name" : "create_date",
+                            sortable: true,
+                            filter: {type: 'text', showApplyBtn: true, showClearBtn: true},
+                            width : 200
+                        },
+                    ]
+
+                    methodGrid.setColumns(headerArr);
+                    methodGrid.resetData(result.list);
+                    
+                    methodGrid.on('click',(ev) => {
+                        if(ev.columnName === 'method_code'){
+                            let id = methodGrid.getRow(ev.rowKey).method_id;
+                            location.href=`/method/method-detail/${id}`;
+                        }
+                    });
+                }
+            });
+        }
+        
+        searchMethod(1);
+        
+        $('#limit_select').change(function(){
+            if(methodGrid != null){
+            	methodGrid.destroy();
+            	searchMethod(1);
+            }
+        })
+    </script>
+</body>
+</html>

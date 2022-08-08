@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 데이터 검증</title>
+    <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/study_notes.css">
+    <link rel="stylesheet" href="/css/style/example_modify.css">
+    
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/study_notes.css">
+    <link rel="stylesheet" href="../../static/css/style/example_modify.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+        .check_wrap {padding-top: 0; display: inline-block; margin-right: 0; height: 20px; margin-bottom: 15px;}
+        .check_wrap .checkbox {display: inline-block;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+      <!-- 공통 구조 - header -->
+        <div id="header">
+            <th:block th:include="/../header/header.html"></th:block>
+        </div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+            <!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+             
+            <section id="section">
+                <div class="title_box clearfix">
+                    <div class="title">
+                        <h2>데이터 검증</h2>
+                        <div class="sub_title">분석관리-데이터 검증</div>
+                    </div>
+                    <div class="btn_box">
+<!--                        <button type="button">변경 이력</button>-->
+                    </div>
+                </div>
+                <div class="top container card">
+                    <div class="top_inner container_inner clearfix">
+                        <div class="content content1">
+                            <div class="conternt_title"><h3>Step 1 . 과제선택</h3></div>
+                            <div class="select_box">
+                                <select class="common_select" onchange="onChangeFirst()" id="report_select">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="content content2">
+                            <div class="conternt_title"><h3>Step 2 . 분석 항목 선택</h3></div>
+                            <div class="select_box">
+                                <select class="common_select" onchange="onChangeSecond()" id="division_select">
+                                    <option value="-1" hidden>=====분석항목=====</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="content content3">
+                            <div class="conternt_title"><h3>Step 3 . 시료 분석 선택</h3></div>
+                            <div class="table_box" style="min-height: 170px; max-height: 170px">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>분석 번호</th>
+                                            <th>작목명</th>
+                                            <th>품종/유전자원명</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="sampleTbody">
+                                        <!--
+                                            <tr>
+                                                <td><a href="">dt-groupcode-21-00000</a></td>
+                                                <td>밀</td>
+                                                <td>새금강,곡우,신영,조성,세영,조영,신성,민풍,광영,다얼</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="">dt-groupcode-21-00000</a></td>
+                                                <td>밀</td>
+                                                <td>새금강,곡우,신영,조성,세영,조영,신성,민풍,광영,다얼</td>
+                                            </tr>
+                                        -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="content content4">
+                            <div class="conternt_title"><h3>Step 4 . 분석 샘플 선택</h3></div>
+                            <div class="right_btn">
+                                <span class="gray_title">#결과값</span>
+                                <div class="select_box">
+                                    <select class="common_select" onchange="onChangeResult(this)" id="sampleSelect" style="width:120px !important">
+                                        <!-- <option value="">1</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option> -->
+                                    </select>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design" onclick="onChangeSampleType(this, 'bl')"></div>
+                                        <span>Blank</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design" onclick="onChangeSampleType(this, 'st')"></div>
+                                        <span>Standard</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design" onclick="onChangeSampleType(this, 'co')"></div>
+                                        <span>Control</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="table_box">
+                                <table style="border: 1px solid #D9D9D9">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <label for="" class="check_wrap">
+                                                    <input type="checkbox" onchange="onChangeFourAll(this)" id="fourAllCheckbox" class="checkbox">
+                                                </label>
+                                            </th>
+                                            <th>작목</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                            <th>Test ID</th>
+                                            <th>Well No</th>
+                                            <th>결과 값</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="fourTbody">
+                                        <!-- <tr>
+                                            <td>
+                                              <label for="" class="check_wrap">
+                                                <input type="checkbox" class="checkbox">
+                                            </label>
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="choi_btn" style="text-align: right; padding-top: 20px;">
+                                <button type="button" onclick="onClickStepFour()">선택</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container bottom_container">
+                    <div class="container_inner bottom_container_inner clearfix">
+                        <div class="conternt_title"><h3>선택 샘플 리스트</h3></div>
+                        <div class="table_box">
+                            <table style="border: 1px solid #D9D9D9">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label for="" class="check_wrap">
+                                                <input type="checkbox"  onchange="onChangeSampleAll(this)" id="sampleAllCheckbox" class="checkbox">
+                                            </label>
+                                        </th>
+                                        <th>분석 번호</th>
+                                        <th>작목명</th>
+                                        <th>품종/유전자원</th>
+                                        <th>Sample ID</th>
+                                        <th>Test ID</th>
+                                        <th>Well No</th>
+                                        <th>결과 값</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbodySample">
+                                    <!-- <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bottom_this_btn clearfix">
+                            <div class="left_btn">
+                                <!-- <button type="button">제거</button> -->
+                            </div>
+                            <div class="right_btn">
+                                <button type="button" class="common_btn1 modal_on_btn" data-modal="minMax">검증</button>
+                                <button type="button" onclick="onClickSave()" class="common_btn1">저장</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit_btn clearfix">
+                    <div class="left_btn">
+                        <button type="button" onclick="location.href='/example_list'">목록</button>
+                    </div>
+                    <!-- 
+                        <div class="right_btn">
+                            <button type="button" style="background: #768BF5;" class=" date_task modal_on_btn" data-modal="_taskTable">나르다전송</button>
+                        </div> 
+                    -->
+                </div>
+            </section>
+            
+            <div class="modal harvesting_modal" id="_taskTable">
+                <div class="modal_box on">
+                    <div class="modal_header">
+                        <h2 class="modal_title">나르다 전송</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="send_btn_box">
+                        <div class="send_list">
+                            <table class="send_list_table">
+                                <thead>
+                                    <tr>
+                                        <th>전송일자</th>
+                                        <th>전송파일</th>
+                                        <th>전송상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span>2021.11.19</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span>성공</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>2021.11.14</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span class="fail">실패</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="common_btn1 send_list_btn">전송이력</button>
+                    </div>
+                    <div class="modal_date_box">
+                        <div class="card_cont_box">
+                            <div class="an_list_box an_list_box2">
+                                <div class="cont_search_box">
+                                    <div class="conternt_title"><h3>Step 1 . 과제선택</h3></div>
+                                    <div class="select_box">
+                                        <select class="common_select" id="">
+                                            <option value="">밀과 트리티케일의 저장에 따른 품질 특성 검정 및 활용 기술 개발 (3공동)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conternt_title"><h3>Step 2 . 분석항목 선택</h3></div>
+                                <div class="list_table_box switch_table_box">
+                                    <table class="list_table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>분석항목번호</th>
+                                                <th>작목명</th>
+                                                <th>품종/유전자원명</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-id="id_1">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_1" class="common_checkBox">
+                                                    <label for="analysis2_1" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00001</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_2">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_2" class="common_checkBox">
+                                                    <label for="analysis2_2" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00002</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_3">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_3" class="common_checkBox">
+                                                    <label for="analysis2_3" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00003</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_4">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_4" class="common_checkBox">
+                                                    <label for="analysis2_4" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00004</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_5">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_5" class="common_checkBox">
+                                                    <label for="analysis2_5" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00005</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           </div>
+                           <div class="switch_btn_box">
+                            <button type="button" class="switch_btn switch_right_btn">오른쪽</button>
+                            <button type="button" class="switch_btn switch_left_btn">왼쪽</button>
+                            </div>
+                           <div class="an_list_box an_list_box2">
+                               <ul class="list_add_box switch_right_box">
+                                <div data-id="id_0" class="right_list right_header">
+                                    <div class="list_in_wrap">
+                                       
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">분석항목번호</span>
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">작목명</span>
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">품종/유전자원명</span>
+                                    </div>
+                                </div>
+                                   <span class="none">선택 항목을 추가해주세요.</span>
+                               </ul>
+                           </div>
+                        </div>
+                    </div>
+                  
+                    <div class="modal_footer">
+	                       	<input type="file" id="noteFile" name="file">
+	                       	<button class="common_btn1" onclick="SendNote();">연구노트</button>
+                    	<form action="noteTest" id="noteForm" method="POST" enctype="multipart/form-data">
+                       	</form>
+                        <button class="common_btn1 modal_btn send_next_btn">전송</button>
+                    </div>
+                </div>
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">나르다 전송</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="send_btn_box">
+                        <div class="send_list">
+                            <table class="send_list_table">
+                                <thead>
+                                    <tr>
+                                        <th>전송일자</th>
+                                        <th>전송파일</th>
+                                        <th>전송상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span>2021.11.19</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span>성공</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>2021.11.14</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span class="fail">실패</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="common_btn1 send_list_btn">전송이력</button>
+                    </div>
+                    <div class="modal_date_box">
+                        <table class="card_table">
+                            <thead>
+                                <tr>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="method_id_list">text</td>
+                                    <td class="ana_list">text</td>
+                                    <td class="ex_list">text</td>
+                                    <td class="step_no_list">text</td>
+                                    <td class="status_list">text</td>
+                                    <td class="apply_step_list">text</td>
+                                    <td class="regist_list">text</td>
+                                    <td class="regist_date_list">text</td>
+                                </tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                            </tbody>
+                        </table> 
+                    </div>
+                    <div class="modal_file_box">
+                    	<form action="sendRepository" method="POST" enctype="multipart/form-data">
+                        	<span>전송파일 :</span>
+                        	<a href="#">나르다전송.pdf</a>
+                        	<input type="file" name="file">
+                        	<button type="submit" class="common_btn1 send_pdf_btn">전송</button>
+                    	</form>
+
+                    </div>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn">닫기</button>
+                    </div>
+                </div>
+            </div> 
+           
+            <div class="modal harvesting_modal" id="minMax">
+                <div class="modal_box on">
+                    <div class="modal_header">
+                        <h2 class="modal_title">데이터 검증</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form class="minMax_box common_form">
+                        <div class="form_box">
+                            <label for="" class="file_title">최소값(Min)</label>
+                            <input type="number" value="0" id="minValue">
+                        </div> 
+                        <div class="form_box">
+                            <label for="" class="file_title">최대값(Max)</label>
+                            <input type="number" value="0" id="maxValue">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn" onclick="onClickVerification()">적용</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+        let clickSampleNumber = ""; // 분석번호
+        let checkedType = []; // 샘플 타입 (Blank, Standard, Cotrol)
+        let stepFourData = []; // 분석 샘플 데이터
+        let resultType = 1; // 결과값
+        let sampleTableData = [];
+
+        // Step 1 . --  셀렉트 박스 변경
+        const onChangeFirst = () => {
+            const selectEl = event.target;
+            const selectText = selectEl.options[selectEl.selectedIndex].innerText;
+
+            const report_id = selectEl.options[selectEl.selectedIndex].value;
+            searchDivision(report_id)
+            // 서버에서 받는 데이터
+            const optionData = ["option1", "option2", "option3", "option4"];
+            const selectSecond = document.querySelectorAll(".common_select")[1];
+            selectSecond.innerHTML = "";
+            for(var i = 0 ; i < optionData.length ; i++){
+                let optionEl = document.createElement("option");
+                optionEl.innerText = optionData[i] + selectText;
+                selectSecond.appendChild(optionEl);
+            }
+        }
+
+        // Step 2 . --  셀렉트 박스 변경
+        const onChangeSecond = async () => {
+            initData(ACTION_DIVISION)
+            const selectEl = event.target;
+            const selectText = selectEl.options[selectEl.selectedIndex].innerText;
+            const method_id = selectEl.options[selectEl.selectedIndex].value;
+            const resultData = await searchPlan(method_id);
+            const sampleData = resultData.list;
+
+
+            document.querySelector(".tbodySample").innerHTML = "";
+            initAllChecked();
+            sampleTableData = [];
+            // 서버에서 받는 데이터
+            const sampleTbody = document.querySelector(".sampleTbody");
+            sampleTbody.innerHTML = "";
+            
+            for(var i = 0 ; i < sampleData.length ; i++){
+                const tr = document.createElement("tr");
+                for(var key in sampleData[i]){
+                    if(key == 'plan_id' || key == 'method_result'){
+                        continue;
+                    }
+                    const td = document.createElement("td");
+                    if(key == "plan_code"){
+                        const a = document.createElement("a");
+                        a.innerText = sampleData[i][key];
+                        a.setAttribute("onclick", "onClickThird(this)")
+                        a.dataset.plan = sampleData[i].plan_id;
+                        a.dataset.result = sampleData[i].method_result;
+                        td.appendChild(a)
+                    }
+                    else{
+                        td.innerText = sampleData[i][key];
+                    }
+                    tr.appendChild(td);
+                }
+                sampleTbody.appendChild(tr);
+            }
+
+        }
+
+        // Step 3 . --  시료 분석 번호 클릭
+        const onClickThird = async e => {
+            const plan_id = e.dataset.plan;
+            clickSampleNumber = e.innerText;
+            const resultData =  await searchSample(plan_id);
+            const sampleData = resultData.list;
+
+            const sampleSelect = document.querySelector("#sampleSelect");
+            let optionHtml = "";
+            const returnResult = item => {
+                let resultArr = [];
+                for(let i = 1 ; i < Number(e.dataset.result)+1 ; i++){
+                    resultArr.push( item[`result${i}`]);
+                }
+                return resultArr;
+            }
+            
+
+            for(let i = 1 ; i < Number(e.dataset.result)+1 ; i++){
+                optionHtml += `<option>${i}</option>`
+            }
+
+            sampleSelect.innerHTML = optionHtml;
+
+            stepFourData = [];
+            sampleData.map(item => {
+                stepFourData.push(
+                    {
+                        name:item.genetic_depth_1,
+                        kind:item.genetic_depth_2,
+                        sampleId:item.batch_sample,
+                        testId:item.batch_test,
+                        wellNo:item.batch_well,
+                        result:returnResult(item),
+                    }
+                )
+            })
+            
+            initData(ACTION_PLAN);
+            initAllChecked()
+            drawStepFourTable();
+            
+        };
+
+
+        // -------------------------------------------------------------------
+        // Step 4 . --  테이블 그리기
+        const drawStepFourTable = () => {
+            const fourTbody = document.querySelector(".fourTbody");
+
+            fourTbody.innerHTML = "";
+
+
+            for(var i = 0 ; i < stepFourData.length ; i++){
+                
+                if(
+                    !stepFourData[i]["sampleId"].includes("bl") && 
+                    !stepFourData[i]["sampleId"].includes("st") && 
+                    !stepFourData[i]["sampleId"].includes("co")
+                ){}else{
+                    // 타입값 비교
+                    if(!checkedType.some(e => stepFourData[i]["sampleId"].includes(e))   ){continue}
+
+                }
+
+                // 결과값 비교
+                // if(stepFourData[i]["status"] !== Number(resultType) ){continue};
+              
+                const tr = document.createElement("tr");
+                // tr.innerHTML = `<td><input type='checkbox' id='fourInput${i}'><label for='fourInput${i}' class='checkbox_design'></label></td>`
+                tr.innerHTML = `<td><label for="" class="check_wrap"><input type="checkbox" onchange={onchangeFourInput(this)} class="checkbox"></label></td>`
+                for(var key in stepFourData[i]){
+                    if(key=="currentIndex" || key=="clickSampleNumber"){continue};
+                    const td = document.createElement("td");   
+                    if(key == "result"){
+                        td.innerText = stepFourData[i][key][Number(resultType)-1]||"-";
+                    }else{
+                        td.innerText = stepFourData[i][key];
+                    }         
+                    tr.appendChild(td);
+                }
+                fourTbody.appendChild(tr);
+            };
+        }
+
+        // Step 4 . --  타입 변경 (Blank, Standard, control) 
+        const onChangeSampleType = (e, type) => {
+            if(!e.parentNode.children[0].checked){
+                checkedType.push(type)
+            }else{
+                checkedType = checkedType.filter(e => e !== type);
+            };
+            initAllChecked();
+            drawStepFourTable();
+        }
+
+        // Step 4 . --  결과값 변경
+        const onChangeResult = e => {
+            const selectText = e.options[e.selectedIndex].innerText;
+            console.log(123);
+            resultType = selectText;
+            initAllChecked();
+            drawStepFourTable();
+        }
+
+
+        // Step 4 . --  선택 버튼 클릭 
+        const onClickStepFour = () => {
+            const fourTbody = document.querySelector(".fourTbody");
+            const trEls = fourTbody.querySelectorAll("tr");
+            let clickIndex = [];
+            for(var i = 0 ; i < trEls.length ; i++){
+                if(trEls[i].querySelector("input").checked){
+                    clickIndex.push(i);
+                }
+            }
+            drawSampleTbody(clickIndex, Number(resultType)-1);
+        }
+
+        // Step 4 . --  전체 체크박스 클릭
+        const onChangeFourAll = e => {
+            const fourTbody = document.querySelector(".fourTbody");
+            const inputEls = fourTbody.querySelectorAll("input");
+            for(var i = 0 ; i < inputEls.length ; i++){
+                inputEls[i].checked = e.checked;
+            }
+        }
+
+        // Step 4 . --  개별 체크박스 클릭
+        const onchangeFourInput = e => {
+            const fourTbody = document.querySelector(".fourTbody");
+            const inputEls = fourTbody.querySelectorAll("input");
+            const fourAllCheckbox = document.querySelector("#fourAllCheckbox");
+            let checkedCount = 0;
+            for(var i = 0 ; i < inputEls.length ; i++){
+                if(inputEls[i].checked){
+                    checkedCount++;
+                }
+            }
+            fourAllCheckbox.checked = inputEls.length == checkedCount
+        }
+
+
+        // -------------------------------------------------------------------
+        // 선택 샘플 리스트 . --  테이블 그리기 
+        const drawSampleTbody = (clickIndex, resultIndex) => {
+            const tbodySample = document.querySelector(".tbodySample");
+            clickIndex.map((item, index) => {
+                stepFourData[item].currentIndex = resultIndex;
+                stepFourData[item].clickSampleNumber = clickSampleNumber;
+                sampleTableData.push(stepFourData[item]);
+            });
+
+            tbodySample.innerHTML = "";
+            sampleTableData.map((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><label for="" class="check_wrap"><input type="checkbox" onchange={onchangeSampleInput(this)} class="checkbox"></label></td>
+                                <td>${item.clickSampleNumber}</td>
+                                <td>${item.name != null ? item.name : ""}</td>
+                                <td>${item.kind != null ? item.kind : ""}</td>
+                                <td>${item.sampleId != null ? item.sampleId : ""}</td>
+                                <td>${item.testId != null ? item.testId : ""}</td>
+                                <td>${item.wellNo != null ? item.wellNo : ""}</td>
+                                <td>${item.result[item.currentIndex] || "-"}</td>
+                                `
+                tbodySample.appendChild(tr);
+            })
+
+            
+        }  
+        
+        // 선택 샘플 리스트 . --  전체 체크박스 클릭
+        const onChangeSampleAll = e => {
+            const tbodySample = document.querySelector(".tbodySample");
+            const inputEls = tbodySample.querySelectorAll("input");
+            for(var i = 0 ; i < inputEls.length ; i++){
+                inputEls[i].checked = e.checked;
+            }
+        }
+
+        // 선택 샘플 리스트 . --  개별 체크박스 클릭
+        const onchangeSampleInput = e => {
+            const tbodySample = document.querySelector(".tbodySample");
+            const inputEls = tbodySample.querySelectorAll("input");
+            const sampleAllCheckbox = document.querySelector("#sampleAllCheckbox");
+            let checkedCount = 0;
+            
+            for(var i = 0 ; i < inputEls.length ; i++){
+                if(inputEls[i].checked){
+                    checkedCount++;
+                }
+            }
+            sampleAllCheckbox.checked = inputEls.length == checkedCount
+        }
+
+
+        // -------------------------------------------------------------------
+        // 검증 버튼 클릭
+        const onClickVerification = () => {
+            const tbodySample = document.querySelector(".tbodySample");
+            const trEls = tbodySample.querySelectorAll("tr");
+
+            const minValue = document.querySelector("#minValue").value;
+            const maxValue = document.querySelector("#maxValue").value;
+
+            for(var i = 0 ; i < trEls.length ; i++){
+                var _number =  Number(trEls[i].children[7].innerText);
+                if(_number == "-"){continue};
+                trEls[i].children[0].children[0].children[0].checked = minValue <= _number && _number <= maxValue;
+            }
+        }
+        
+        // 저장 버튼 클릭
+        const onClickSave = async () => {
+            const selectEls = document.querySelectorAll(".common_select");
+            const sampleTbody = document.querySelector(".sampleTbody");
+            const trEls = sampleTbody.querySelectorAll("tr");
+            const sampleSelect = document.querySelector("#sampleSelect");
+            const selectText = sampleSelect.options[sampleSelect.selectedIndex].innerText;
+
+            // const fourTbody = document.querySelector(".fourTbody");
+            // const fourInputEls = fourTbody.querySelectorAll("input");
+            // let fourCheckedArr = [];
+            // for(var i = 0 ; i < fourInputEls.length ; i++){
+            //     if(fourInputEls[i].checked){
+            //         fourCheckedArr.push(i);
+            //     }
+            // }
+
+            // console.log(fourCheckedArr);
+
+            // return;
+
+            const result = await $.ajax({
+                url:'/example/example_regist',
+                type:"POST",
+                dataType:"JSON",
+                data:{
+                    "verification_id" : selectEls[0].options[selectEls[0].selectedIndex].value,
+                    "division_id" : selectEls[1].options[selectEls[1].selectedIndex].dataset.id,
+                    "plan_id" : trEls[0].children[0].children[0].dataset.plan,
+                    "result_number" :  Number(selectText),
+                    "result_blank" : checkedType.some(e=>e=="bl")?1:0,
+                    "result_standard" : checkedType.some(e=>e=="st")?1:0,
+                    "result_control" : checkedType.some(e=>e=="co")?1:0,
+                    "result_min" : document.querySelector("#minValue").value,
+                    "result_max" : document.querySelector("#maxValue").value,
+                    "report_id" : document.querySelector('#report_select').value,
+                    "sample_data" : JSON.stringify({
+                        sampleTbody:sampleTbody.innerHTML,
+                        selectEls:[selectEls[0].innerHTML, selectEls[1].innerHTML, selectEls[2].innerHTML],
+                        stepFourData,
+                        sampleTableData,
+                        clickSampleNumber,
+                    })
+                },
+                success:function (result){
+                	console.log(result); 
+                	alert("저장되었습니다."); 
+                	
+                	return result;}
+            })
+        }
+
+
+
+        function initAllChecked(){
+            document.querySelector("#fourAllCheckbox").checked = false;
+        }
+    </script>
+
+    </body>
+<script>
+    cehckbox();
+    
+    function cehckbox()
+    {
+        const check = document.getElementsByClassName("checkbox_design");
+        
+        const checkAll= document.getElementById("checkAll");
+        
+        for(let i=0; i<check.length; i++)
+        {
+            check[i].addEventListener("click", () =>
+            {
+                let check_box = check[i].previousElementSibling;
+                check[i].classList.toggle("active");
+
+                if(check[i].classList.contains("active") == true)
+                {
+                    check_box.checked = true;
+                }
+                else
+                {
+                    check_box.checked = false;
+                }
+            });
+        }
+    }
+    
+    // first card, sec card - table
+    const leftbox = document.querySelectorAll('.switch_table_box');
+    const rightbox = document.querySelectorAll('.switch_right_box')
+    const rightBtn = document.querySelectorAll('.switch_right_btn');
+    const leftBtn = document.querySelectorAll('.switch_left_btn');
+    const none = document.querySelectorAll('.none');
+    let forNum = 0;
+
+    // right 이동 기능 함수(tr의 data-id의 순서로 sort됨)
+    function rightSwichFuc()
+    {
+        let tbody = leftbox[0].lastElementChild.lastElementChild;
+        let tr = tbody.querySelectorAll('tr');
+        
+        tr.forEach(item =>
+        {
+            let check = item.getElementsByTagName('input')[0];
+            if(check.checked)
+            {
+                // input - id 값
+                let inputId = check.getAttribute('id');
+
+                // tr - data-id 값
+                let trId = item.getAttribute('data-id');
+
+                // list 생성, listd의 data-id값 적용
+                let rightList = document.createElement('li');
+                rightList.setAttribute('data-id', trId);
+                rightList.setAttribute('class', 'right_list');
+
+                // input, label box 요소
+                let inputBox = document.createElement('div');
+                inputBox.setAttribute('class', 'list_in_wrap');
+                
+                // list - input, label 생성(class, id, type 적용)
+                let rightCheck = document.createElement('input');
+                rightCheck.setAttribute('type', 'checkbox');
+                rightCheck.setAttribute('class', 'common_checkBox');
+                rightCheck.setAttribute('id', inputId);
+
+                let rightlabel = document.createElement('label');
+                rightlabel.setAttribute('for', inputId);
+                rightlabel.setAttribute('class', 'common_check_label');
+
+                // list - list안에 input, label append
+                inputBox.append(rightCheck, rightlabel);
+                rightList.append(inputBox);
+
+                // tr - td 선택
+                let data = item.querySelectorAll('td');
+
+                data.forEach((items, idx) =>
+                {
+                    if(idx !== 0)
+                    {
+                        let val = items.innerText;
+                        let textBox = document.createElement('div');
+                        textBox.setAttribute('class', 'list_in_wrap');
+
+                        let span = document.createElement('span');
+                        span.setAttribute('class', 'right_data');
+                        span.innerText = val;
+                        textBox.append(span);
+                        rightList.append(textBox);
+                    };
+                });
+
+
+                let rightWarp = rightbox[0];
+                let rightHas = rightbox[0].querySelectorAll('.right_list');
+
+                if(rightHas.length === 0)
+                {
+                    rightbox[0].append(rightList);
+                    item.remove();
+                }
+                else
+                {
+                    let sortArr = [];
+                    let thisData = trId.split('_');
+
+                    for(let i of rightHas)
+                    {
+                        let sortData = i.getAttribute('data-id');
+                        let spData = sortData.split('_');
+
+                        sortArr.push(parseInt(spData[1]));
+                    };
+
+                    sortArr.push(parseInt(thisData[1]));
+
+                    sortArr.sort(function(a, b)
+                    {
+                        if(a > b) return 1;
+                        if(a === b) return 0;
+                        if(a < b) return -1;
+                    });
+                    
+                    let pos = sortArr.indexOf(parseInt(thisData[1]));
+                    if(pos === 0)
+                    {
+                        rightHas[pos].insertAdjacentElement('beforebegin', rightList);
+                        item.remove();
+                    }
+                    else
+                    {
+                        rightHas[pos - 1].insertAdjacentElement('afterend', rightList);
+                        item.remove();
+                    };
+                };
+            };
+        });
+
+        let not = rightbox[0].querySelectorAll('li');
+
+        let notJ = not.length === 0 ? none[0].classList.remove('has') : none[0].classList.add('has');
+    };
+
+    // left 이동 기능 함수(list의 data-id의 순서로 sort됨)
+    function leftSwichFuc()
+    {
+        let ul = rightbox[0];
+        let li = ul.querySelectorAll('.right_list');
+        
+        li.forEach((item, idx) =>
+        {
+            if(idx !== 0)
+            {
+                let check = item.getElementsByTagName('input')[0];
+
+                if(check.checked)
+                {
+                    // input - id 값
+                    let inputId = check.getAttribute('id');
+    
+                    // tr - data-id 값
+                    let liId = item.getAttribute('data-id');
+    
+                    // tr 생성, list의 data-id값 적용
+                    let leftTr = document.createElement('tr');
+                    leftTr.setAttribute('data-id', liId);
+    
+                    // input, label box 요소
+                    let inputBox = document.createElement('td');
+                    let spanBox = document.createElement('span');
+    
+                    // tr - input, label 생성(class, id, type 적용)
+                    let rightCheck = document.createElement('input');
+                    rightCheck.setAttribute('type', 'checkbox');
+                    rightCheck.setAttribute('class', 'common_checkBox');
+                    rightCheck.setAttribute('id', inputId);
+    
+                    let rightlabel = document.createElement('label');
+                    rightlabel.setAttribute('for', inputId);
+                    rightlabel.setAttribute('class', 'common_check_label');
+    
+                    // list - list안에 input, label append
+                    spanBox.append(rightCheck, rightlabel);
+                    inputBox.append(spanBox);
+                    leftTr.append(inputBox);
+    
+                    // tr - td 선택
+                    let data = item.querySelectorAll('.list_in_wrap > span');
+    
+                    data.forEach((items) =>
+                    {
+                        let val = items.innerText;
+                        let textBox = document.createElement('td');
+    
+                        let span = document.createElement('span');
+                        span.innerText = val;
+    
+                        textBox.append(span);
+                        leftTr.append(textBox);
+                    });
+    
+                    let leftWarp = leftbox[0].lastElementChild.lastElementChild;
+                    let leftHas = leftWarp.querySelectorAll('tr');
+    
+                    if(leftHas.length === 0)
+                    {
+                        leftWarp.append(leftTr);
+                        item.remove();
+                    }
+                    else
+                    {
+                        let sortArr = [];
+                        let thisData = liId.split('_');
+    
+                        for(let i of leftHas)
+                        {
+                            let sortData = i.getAttribute('data-id');
+                            let spData = sortData.split('_');
+    
+                            sortArr.push(parseInt(spData[1]));
+                        };
+    
+                        sortArr.push(parseInt(thisData[1]));
+    
+                        sortArr.sort(function(a, b)
+                        {
+                            if(a > b) return 1;
+                            if(a === b) return 0;
+                            if(a < b) return -1;
+                        });
+                        
+                        let pos = sortArr.indexOf(parseInt(thisData[1]));
+                        
+                        if(pos === 0)
+                        {
+                            leftHas[pos].insertAdjacentElement('beforebegin', leftTr);
+                            item.remove();
+                        }
+                        else
+                        {
+                            leftHas[pos - 1].insertAdjacentElement('afterend', leftTr);
+                            item.remove();
+                        };
+					};
+				};
+            };
+        });
+
+        let not = rightbox[0].querySelectorAll('li');
+
+        let notJ = not.length === 0 ? none[0].classList.remove('has') : none[0].classList.add('has');
+    };
+
+    rightBtn[0].addEventListener('click', rightSwichFuc);
+    leftBtn[0].addEventListener('click', leftSwichFuc);
+    
+    const sendnext = document.querySelector('.send_next_btn');
+
+    sendnext.addEventListener('click', (e) =>
+    {
+        let target = e.target;
+        let par = target.parentNode.parentNode;
+        let nextPar = par.nextElementSibling;
+        
+        par.classList.remove('on');
+        nextPar.classList.add('on');
+    });
+    
+    function SendNote()
+    {
+    	var formData = new FormData();
+    	formData.append("projectCode","PJ01556709");
+    	formData.append("userId","dXNlcjAx&r=");
+    	formData.append("file",document.getElementById("noteFile").value);
+    	
+		$.ajax(
+		{
+			url : "http://researchworks.argonet.co.kr:28180/api/elnupload",
+			type : "POST",
+			data : formData,
+			enctype: 'multipart/form-data',
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(result)
+			{
+				alert('데이터 검증 등록 성공하셧습니다.');
+                location.href=onclick="/example_list";
+			},
+			error : function(e)
+			{
+				console.log(e);
+			}
+		});
+    }
+
+    $(document).ready(function(){
+        searchResult();
+    })
+
+    function searchDivision(report_id){
+        $.ajax({
+            url:'/division/division-result',
+            type:"GET",
+            dataType:"JSON",
+            data:{
+                'report_id' : report_id
+            },
+            success : function(result){
+                fillDivisionSelect(result.list);
+            }
+        })
+    }
+
+    function searchResult(){
+        $.ajax({
+            url:'/api/report-result',
+            type:"GET",
+            dataType:"JSON",
+            data:{
+
+            },
+            success : function(result){
+                fillReportSelect(result.list);
+            }
+        })
+    }
+
+    async function searchPlan(method_id){
+        const result = await $.ajax({
+            url:'/analysis/search/plan-method',
+            type:"GET",
+            dataType:"JSON",
+            data:{
+                'method_id' : method_id,
+            },
+            success:function (result){
+                return result;
+            }
+        })
+        return result;
+    }
+
+
+    async function searchSample(plan_id){
+        const result = await $.ajax({
+            url:'/api/batch-plan',
+            type:"GET",
+            dataType:"JSON",
+            data:{
+                'plan_id' : plan_id,
+            },
+            success:function(result){
+                return result;
+            }
+        })
+        return result;
+    }
+
+    function createDefaultOption(item){
+        return `<option value="-1">=====${item}=====</option>`
+    }
+
+    function fillDivisionSelect(division_list){
+        console.table(division_list);
+        initData(ACTION_REPORT)
+        initDivision(ACTION_REPORT);
+        division_list.forEach(division =>{
+            if(division) {
+                const option = `<option value="${division.division_id}" data-id="${division.division_id}" >${division.division}</option>`
+                $('#division_select').append(option);
+            }
+        })
+    }
+
+    function fillReportSelect(report_list){
+        initReport();
+        console.table(report_list);
+        report_list.forEach(report =>{
+            const option = `<option value="${report.report_id}">${report.prj_dtl_nm}</option>`
+            $('#report_select').append(option);
+        })
+    }
+    const ACTION_REPORT = 1;
+    const ACTION_DIVISION = 2;
+    const ACTION_PLAN = 3;
+
+    function initData(action){
+        switch (action){
+            case ACTION_REPORT:{
+                initDivision();
+            }
+            case ACTION_DIVISION:{
+                initSeed();
+            }
+            case ACTION_PLAN:{
+                initSample();
+            }
+        }
+    }
+
+    function initReport(){
+        $('#report_select').empty();
+        const defaultOption = createDefaultOption('과제');
+        $('#report_select').append(defaultOption);
+    }
+
+    function initDivision(){
+        $('#division_select').empty();
+        const defaultOption = createDefaultOption('분석항목');
+        $('#division_select').append(defaultOption);
+    }
+
+    function initSeed(){
+        console.log("test");
+        $('.sampleTbody').empty();
+    }
+
+    function initSample(){
+        $('.fourTbody').empty();
+    }
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+

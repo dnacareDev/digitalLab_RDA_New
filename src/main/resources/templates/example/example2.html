@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Lab - 데이터 검증</title>
+    <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/study_notes.css">
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $("#header").load("../header/header.html");
+        });
+        </script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script>
+<style>
+    /*  공통 */
+    .clearfix::before{
+        content: "";
+        display: block;
+    }
+    .clearfix::after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+    /*  공통 */
+    
+    .container{
+        width: calc(100% - 60px);
+        margin: 30px 35px;
+        border-radius: 6px;
+         background-color: #fff; box-shadow: 0 2px 8px #bcc3caa2;
+    }
+    .container .container_inner{
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 20px;
+    }
+    .title_box{
+        max-width:100%;
+        padding: 0 35px;
+    }
+    .title_box .title{
+        float: left;
+    }
+    .title_box .title h2, .title_box .title .sub_title{
+        float: left;
+    }
+    .title_box .title h2{
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .title_box .title .sub_title{
+        margin-left: 10px;
+        font-size: 16px;
+        font-weight: 300;
+        color: #666666;
+        line-height: 1.8;
+    }
+    .title_box .btn_box{
+        float: right;
+    }
+    button[type="button"], .submit_btn input[type="submit"]{
+        padding: 7px 30px;
+        border-radius: 5px;
+        background-color: #768BF5;
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        height: 40px;
+    }
+    h3{
+        font-size: 18px;
+        font-weight: 500;
+        color: #222222;
+        margin-bottom: 20px;
+    }
+    select.common_select{
+        width: 99% !important;
+        margin-left:1%
+    }
+    .select_box{
+        padding-top: 15px;
+    }
+    .content{
+        padding: 20px;
+    }
+    .content1{
+        padding-top: 0;
+    }
+    .table_box table{
+        min-width:100%;
+        width: max-content;
+    }
+    .table_box{
+        margin-left: 1%;
+        padding: 0px 0;
+        width: 99%;
+        overflow: auto;
+        min-height: 500px;
+        max-height: 500px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+    }
+
+    .table_box table thead,
+    .table_box table tbody {
+        width: 100%;
+    }
+
+    .table_box table thead tr{
+        border-top: 2px solid #E8EEF2;
+        border-bottom: 2px solid #E8EEF2;
+        
+    }
+    .table_box table tbody tr{
+        border-bottom: 1px solid #E8EEF2;
+    }
+
+    .table_box table tr {
+        display: flex;
+        width: 100%;
+    }
+
+    .table_box table thead tr th {
+        font-weight: bold;
+    }
+
+    .table_box table thead tr th, table tbody tr td{
+        text-align: center;
+        line-height: 40px;
+        font-size: 1.4rem;
+        flex: 1;
+    }
+
+    .table_box table tbody tr td:first-child {line-height: 37px;}
+
+
+    .right_btn{
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .right_btn > *{
+        display: inline-block;
+        padding-top: 0;
+        vertical-align: middle;
+    }
+    .right_btn ul {
+        display: flex;
+    }
+    
+    .right_btn li{
+        display: flex;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .right_btn li > span {
+        font-size: 1.4rem;
+        margin-left: 5px;
+    }
+
+    /* checkbox */
+    .checkbox_design{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+        background-color: #fff;
+        border: 1px solid #D9D9D9;
+        position: relative;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    .checkbox_design.active{
+        border: 1px solid #788DEE;
+        background-color: #788DEE;
+    }
+    .checkbox_design.active::before{
+        content: "";
+        position: absolute;
+        display: block;
+        left: 3px;
+        bottom: 5px;
+        width: 6px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 20px;
+        transform: rotate(45deg);
+    }
+    .checkbox_design.active::after{
+        content: "";
+        position: absolute;
+        display: block;
+        right: 1px;
+        bottom: 7px;
+        width: 12px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 20px;
+        transform: rotate(-45deg);
+    }
+    input[type="checkbox"]{
+        display: none;
+    }
+    span.gray_title{
+        color: #7C8798;
+        font-size: 1.6rem;
+        margin-right: 5px;
+    }
+
+    span.gray_title + .select_box {
+        margin-right: 10px;
+    }
+
+    span.gray_title + .select_box > .common_select {
+        height: 30px;
+    }
+
+    .left_btn{
+        float: left;
+    }
+    .right_btn{
+        float: right;
+    }
+    .bottom_this_btn{
+        padding-top: 20px; 
+        margin-left: 1%;
+        width: 99%;
+    }
+    .bottom_this_btn button{
+        
+        padding: 7px 40px;
+    }
+    .bottom_this_btn .left_btn button{
+        background-color: #FF5C5C;
+    }
+    .submit_btn{
+        max-width: 100%;
+        padding: 10px 35px 30px 35px;
+    }
+    .submit_btn button, .submit_btn input[type="submit"]{
+        padding: 7px 40px;
+    }
+    .submit_btn button{
+        background-color: #7C8798;
+    }
+
+    #main.modal_on .modal.on .modal_box {max-width: 1300px; display: none;}
+    #main.modal_on .modal.on .modal_box.on {display: block;}
+    #main.modal_on .modal.on .modal_box .modal_date_box {padding: 15px 60px;}
+
+    #main.modal_on #minMax.modal.on .modal_box {max-width: 800px;}
+
+
+    .modal_date_box .card_table > thead > tr > th {line-height: 40px; padding: 0 15px;}
+
+    .conternt_title {
+        padding-left: 15px;
+    }
+    .right_btn > button:first-child {
+        margin-right: 10px;
+    }
+    
+    .content2 .select_box,
+    .content1 .select_box {
+        padding-top: 0;
+    }
+
+    
+    .card_cont_box {display: flex; height: auto !important; width: 100%;}
+    .an_list_box { width: calc(50% - 15px);}
+    .an_list_box:first-child {margin-right: 15px;}
+    .an_list_box:last-child {margin-left: 15px; max-width: 515px;}
+
+    .an_list_box .cont_search_box  {margin-bottom: 10px;}
+    .an_list_box .cont_search_box .cont_search_input {width: 100%; border-radius: 20px;}
+    .an_list_box .cont_search_box .cont_search_input::placeholder {color: #D9D9D9;}
+
+    .an_list_box .list_table_box {border: 1px solid #D9D9D9; border-radius: 5px; overflow: auto; height: 335px;}
+
+    .an_list_box .list_table_box .list_table {min-width: 680px;}
+    .an_list_box .list_table_box .list_table > thead > tr,
+    .an_list_box .list_table_box .list_table tr:not(:last-child) {border-bottom: 1px solid #E2E2E2;}
+
+    .an_list_box .list_table_box .list_table th,
+    .an_list_box .list_table_box .list_table td {text-align: center; line-height: 40px; font-size: 1.4rem;}
+
+    /* card btn box */
+    .card_cont_box .switch_btn_box {display: flex; flex-direction: column; justify-content: center;}
+    .card_cont_box .switch_btn_box .switch_btn {text-indent: -9999999px; width: 28px; height: 28px;
+         background: url('../../images/set_remove_add.png') no-repeat center center;
+        }
+    .card_cont_box .switch_btn_box .switch_right_btn {margin-bottom: 20px; transform: rotate(180deg);}
+
+
+
+    .an_list_box .list_table_box .list_table td > span {display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #7C8798;}
+
+    .an_list_box .list_table_box .list_table tbody td:nth-child(1) > span {width: 60px; height: 40px;}
+    .an_list_box .list_table_box .list_table tbody td:nth-child(2) > span {width: 180px;}
+    .an_list_box .list_table_box .list_table tbody td:nth-child(3) > span {width: 140px;}
+    .an_list_box .list_table_box .list_table tbody td:nth-child(4) > span {width: 270px;}
+
+
+    .an_list_box .list_add_box {width: 100%; height: 100%; background-color: #F7F7F8; border-radius: 5px; position: relative;}
+    .an_list_box .list_add_box span.none {display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);}
+    .an_list_box .list_add_box span.has {display: none;}
+
+
+    /********* card 2 *********/
+    .an_list_box2 .cont_search_box  {margin-bottom: 20px; width: 100%; display: flex; flex-direction: column;}
+    .an_list_box2 .cont_search_box label {width: calc(85% - 10px); margin-right: 10px;}
+    .an_list_box2 .cont_search_box .common_btn1 {width: 15%;}
+
+    .an_list_box2 .cont_search_box:first-child .common_btn1 {background: #ACB9F9 url('../../images/btn_arrow.png') no-repeat center center;}
+    .an_list_box2 .cont_search_box:last-child .common_btn1 {background: #ACB9F9 url('../../images/delete.png') no-repeat center center;}
+
+    .an_list_box2 .cont_search_box:first-child .common_btn1.on {background: #768BF5 url('../../images/btn_arrow.png') no-repeat center center;}
+    .an_list_box2 .cont_search_box:last-child .common_btn1.on {background: #768BF5 url('../../images/delete.png') no-repeat center center;}
+    .an_list_box .list_table_box {border: 1px solid #D9D9D9; border-radius: 5px; overflow: auto; height: 335px;}
+
+    .an_list_box2 .conternt_title {padding-left: 2px;}
+    .an_list_box2 h3 {margin-bottom: 0; font-size: 1.6rem;}
+    .an_list_box2 .select_box {padding-top: 5px;}
+    .an_list_box2 .select_box .common_select {margin-left: 0; width: 100% !important;}
+
+    .an_list_box2 .conternt_title:nth-child(1) {margin-bottom: 5px;}
+    .an_list_box2 .conternt_title:nth-child(2) {margin-bottom: 10px;}
+
+
+    .an_list_box2 .list_add_box {width: 100%; height: 335px; background-color: #F7F7F8; border-radius: 5px; position: relative;}
+    .an_list_box .list_add_box span.none {display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);}
+    .an_list_box .list_add_box span.has {display: none;}
+    
+    .list_add_box {padding: 5px; overflow: auto;}
+    .right_list {display: flex; align-items: center; height: 40px; background-color: #fff; border: 1px solid #eeeeee; border-radius: 6px;}
+
+    .right_list .list_in_wrap {text-align: center; padding: 0 10px; display: inline-block; width: 150px;}
+    .right_list .list_in_wrap > span {width: 100%; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 40px; font-size: 1.4rem; text-align: center;}
+    .right_list .list_in_wrap:first-child { width: 80px; padding: 0  10px 0 0px;}
+    .right_list .list_in_wrap:nth-child(2) {width: 140px;}
+    .right_list .list_in_wrap:nth-child(3) {width: 100px;}
+
+    .right_list .list_in_wrap:nth-child(4),
+    .right_list .list_in_wrap:nth-child(5) {width: 180px;}
+
+    
+
+
+
+
+    .an_list_box2 .cont_search_box label {width: 100%; margin-right: 0;}
+
+    .an_list_box .list_table_box .list_table tbody th,
+    .an_list_box .list_table_box .list_table tbody td > span {padding: 0 10px;}
+    .an_list_box .list_table_box .list_table tbody td > span {margin: 0 auto;}
+
+
+    .for_box_wrap {margin-bottom: 10px; display: flex; align-items: center;}
+    .for_box_wrap > p {margin-right: 15px; font-size: 1.4rem;}
+    .for_box_wrap .for_box {width: 75px; display: flex; align-items: center; justify-content: space-between; height: 30px;}
+    .for_box_wrap .for_box .for_btn {line-height: 19px; width: 19px; font-size: 1.6rem; font-weight: bold; color: #fff; background-color: #6875E9; border-radius: 4px;}
+
+    .list_add_box .right_list {width: 640px;}
+    .list_add_box .right_list .list_in_wrap:first-child {width: 60px;}
+    .list_add_box .right_list .list_in_wrap:nth-child(2) {width: 200px;}
+    .an_list_box .list_table_box .list_table tbody tr > td:last-child > span {min-width: 100px; line-height: 40px;}
+    .list_add_box {padding-top: 45px;} 
+
+
+    .list_add_box .right_list.right_header {position: absolute; top: 5px;}
+    .right_list .list_in_wrap:nth-child(4) {width: 270px;}
+    .modal_date_box {padding: 0 40px; margin-bottom: 20px;}
+
+
+    .an_list_box2 .list_add_box {height: 100%;}
+    
+    .switch_right_box {border: 1px solid #D9D9D9;}
+    
+    #wrap .common_btn1 {padding: 0;}
+    .minMax_box {padding: 40px 60px 0;}
+    .minMax_box .for_box label {font-size: 1.4rem;}
+</style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+            <!-- <div class="header_logo">
+                <a href="#">DNA CARE</a>
+            </div>
+            <nav id="nav">
+                <ul class="gub_box">
+                    <li class="gnb_list menu_list">
+                        <p><a href="home.html">홈</a></p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>기초데이터 관리</p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>메소드 관리</p>
+                        <ul class="inner_list_box">
+                            <li class="inner_list menu_list ">
+                                <a href="method_management.html">
+                                    Method 관리
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    시약 정보
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    장비 정보
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    기구 정보
+                                </a>
+                            </li> 
+                            <li class="inner_list">
+                                <p>시료 관리</p>
+                                <ul class="inner_in_list">
+                                    <li class="in_list menu_list">
+                                        <a href="harvesting_after.html">수확후이용과</a>
+                                    </li>
+                                    <li class="in_list menu_list">
+                                        <a href="#">재배환경 (공유)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="gnb_list on">
+                        <p>분석 관리</p>
+                        <ul class="inner_list_box">
+                            <li class="inner_list menu_list">
+                                <a href="setup_analysis_plan.html">
+                                    분석 계획 등록
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    분석 계획 설정
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    시료 분석
+                                </a>
+                            </li>
+                            <li class="inner_list menu_list">
+                                <a href="#">
+                                    결과 등록
+                                </a>
+                            </li> 
+                            <li class="inner_list menu_list active">
+                                <a href="example.html">
+                                    데이터 검증
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="gnb_list">
+                        <p>통계 관리</p>
+                    </li>
+                    <li class="gnb_list">
+                        <p>일정 관리</p>
+                    </li>
+                </ul>
+            </nav> -->
+        </div>
+        <main id="main">
+            <div class="main_header">
+                <div class="search_box">
+                    <label for="search">
+                        <input type="text" id="search" placeholder="Search" class="search_input">
+                    </label> 
+                </div>
+                <div class="ui_box">
+                    <div class="alarm"></div>
+                    <div class="profile"></div>
+                    <p class="user_id">dev@korea.kr</p>
+                </div>
+            </div>
+            <section id="section">
+                <div class="title_box clearfix">
+                    <div class="title">
+                        <h2>데이터 검증</h2>
+                        <div class="sub_title">분석관리-데이터 검증</div>
+                    </div>
+                    <div class="btn_box">
+                        <button type="button">변경 이력</button>
+                    </div>
+                </div>
+                <div class="top container card">
+                    <div class="top_inner container_inner clearfix">
+                        <div class="content content1">
+                            <div class="conternt_title"><h3>Step 1 . 과제선택</h3></div>
+                            <div class="select_box">
+                                <select class="common_select" id="">
+                                    <option value="">밀과 트리티케일의 저장에 따른 품질 특성 검정 및 활용 기술 개발 (3공동)</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="content content2">
+                            <div class="conternt_title"><h3>Step 2 . 분석 항목 선택</h3></div>
+                            <div class="select_box">
+                                <select class="common_select" id="">
+                                    <option value="">수분 정량 (상압 가열 건조법) _ 트리티케일 & 밀</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="content content3">
+                            <div class="conternt_title"><h3>Step 3 . 시료 분석 선택</h3></div>
+                            <div class="table_box" style="min-height: 170px; max-height: 170px">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>분석 번호</th>
+                                            <th>작목명</th>
+                                            <th>품종/유전자원명</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="">dt-groupcode-21-00000</a></td>
+                                            <td>밀</td>
+                                            <td>새금강,곡우,신영,조성,세영,조영,신성,민풍,광영,다얼</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="">dt-groupcode-21-00000</a></td>
+                                            <td>밀</td>
+                                            <td>새금강,곡우,신영,조성,세영,조영,신성,민풍,광영,다얼</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="content content4">
+                            <div class="conternt_title"><h3>Step 4 . 분석 샘플 선택</h3></div>
+                            <div class="right_btn">
+                                <span class="gray_title">#결과값</span>
+                                <div class="select_box">
+                                    <select class="common_select" id="" style="width:120px !important">
+                                        <option value="">1</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design"></div>
+                                        <span>Blank</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design"></div>
+                                        <span>Blank</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox">
+                                        <div class="checkbox_design"></div>
+                                        <span>Blank</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="table_box">
+                                <table style="border: 1px solid #D9D9D9">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design" id="checkAll"></label>
+                                            </th>
+                                            <th>작목</th>
+                                            <th>품종/유전자원</th>
+                                            <th>Sample ID</th>
+                                            <th>Test ID</th>
+                                            <th>Well No</th>
+                                            <th>결과 값</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design"></label>
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design"></label>
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox"> <!--  -->
+                                                <label class="checkbox_design"></label> 
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design"></label> 
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design"></label> 
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox">
+                                                <label class="checkbox_design"></label> 
+                                            </td>
+                                            <td>밀</td>
+                                            <td>새금강</td>
+                                            <td>1-1</td>
+                                            <td>b1-01</td>
+                                            <td>11</td>
+                                            <td>11.06</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="choi_btn" style="text-align: right; padding-top: 20px;">
+                                <button type="button">선택</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container bottom_container">
+                    <div class="container_inner bottom_container_inner clearfix">
+                        <div class="conternt_title"><h3>선택 샘플 리스트</h3></div>
+                        <div class="table_box">
+                            <table style="border: 1px solid #D9D9D9">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design" id="checkAll"></label>
+                                        </th>
+                                        <th>분석 번호</th>
+                                        <th>작목명</th>
+                                        <th>품종/유전자원</th>
+                                        <th>Sample ID</th>
+                                        <th>Test ID</th>
+                                        <th>Well No</th>
+                                        <th>결과 값</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                            <label class="checkbox_design"></label>
+                                        </td>
+                                        <td>dt-groupcode-21-00000</td>
+                                        <td>밀</td>
+                                        <td>새금강</td>
+                                        <td>1-1</td>
+                                        <td>b1-01</td>
+                                        <td>11.06</td>
+                                        <td>11.06</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bottom_this_btn clearfix">
+                            <div class="left_btn">
+                                <button type="button">제거</button>
+                            </div>
+                            <div class="right_btn">
+                                <button type="button" class="common_btn1 modal_on_btn" data-modal="minMax">검증</button>
+                                <button type="button" class="class="common_btn1"">저장</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit_btn clearfix">
+                    <div class="left_btn">
+                        <button type="button">목록</button>
+                    </div>
+                    <div class="right_btn">
+                        <button type="button" style="background: #768BF5;" class=" date_task modal_on_btn" data-modal="_taskTable">나르다전송</button>
+                    </div>
+                </div>
+            </section>
+            <div class="modal harvesting_modal" id="_taskTable">
+                <div class="modal_box on">
+                    <div class="modal_header">
+                        <h2 class="modal_title">나르다 전송</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="send_btn_box">
+                        <div class="send_list">
+                            <table class="send_list_table">
+                                <thead>
+                                    <tr>
+                                        <th>전송일자</th>
+                                        <th>전송파일</th>
+                                        <th>전송상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span>2021.11.19</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span>성공</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>2021.11.14</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span class="fail">실패</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="common_btn1 send_list_btn">전송이력</button>
+                    </div>
+                    <div class="modal_date_box">
+                        <div class="card_cont_box">
+                            <div class="an_list_box an_list_box2">
+                                <div class="cont_search_box">
+                                    <div class="conternt_title"><h3>Step 1 . 과제선택</h3></div>
+                                    <div class="select_box">
+                                        <select class="common_select" id="">
+                                            <option value="">밀과 트리티케일의 저장에 따른 품질 특성 검정 및 활용 기술 개발 (3공동)</option>
+                                            <option value="">1</option>
+                                            <option value="">2</option>
+                                            <option value="">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conternt_title"><h3>Step 2 . 분석항목 선택</h3></div>
+                                <div class="list_table_box switch_table_box">
+                                    <table class="list_table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>분석항목번호</th>
+                                                <th>작목명</th>
+                                                <th>품종/유전자원명</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-id="id_1">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_1" class="common_checkBox">
+                                                    <label for="analysis2_1" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00001</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_2">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_2" class="common_checkBox">
+                                                    <label for="analysis2_2" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00002</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_3">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_3" class="common_checkBox">
+                                                    <label for="analysis2_3" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00003</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_4">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_4" class="common_checkBox">
+                                                    <label for="analysis2_4" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00004</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                            <tr data-id="id_5">
+                                                <td><span>
+                                                    <input type="checkbox" id="analysis2_5" class="common_checkBox">
+                                                    <label for="analysis2_5" class="common_check_label"></label> 
+                                                </span></td>
+                                                <td><span>ai-groupcode-21-00005</span></td>
+                                                <td><span>옥수수</span></td>
+                                                <td><span>장다옥,광평옥,강일옥,수원229호,강원55호,강원58호,수원234호,강원59호,강원60호,수원237호,수원238호,강원63호,강원64호,강원66호</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           </div>
+                           <div class="switch_btn_box">
+                            <button type="button" class="switch_btn switch_right_btn">오른쪽</button>
+                            <button type="button" class="switch_btn switch_left_btn">왼쪽</button>
+                            </div>
+                           <div class="an_list_box an_list_box2">
+                               <ul class="list_add_box switch_right_box">
+                                <div data-id="id_0" class="right_list right_header">
+                                    <div class="list_in_wrap">
+                                       
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">분석항목번호</span>
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">작목명</span>
+                                    </div>
+                                    <div class="list_in_wrap">
+                                        <span class="right_data">품종/유전자원명</span>
+                                    </div>
+                                </div>
+                                   <span class="none">선택 항목을 추가해주세요.</span>
+                               </ul>
+                           </div>
+                        </div>
+                    </div>
+                  
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn send_next_btn">전송</button>
+                    </div>
+                </div>
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">나르다 전송</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="send_btn_box">
+                        <div class="send_list">
+                            <table class="send_list_table">
+                                <thead>
+                                    <tr>
+                                        <th>전송일자</th>
+                                        <th>전송파일</th>
+                                        <th>전송상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span>2021.11.19</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span>성공</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>2021.11.14</span></td>
+                                        <td><a href="#">다운로드</a></td>
+                                        <td><span class="fail">실패</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="common_btn1 send_list_btn">전송이력</button>
+                    </div>
+                    <div class="modal_date_box">
+                        <table class="card_table">
+                            <thead>
+                                <tr>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                    <th>text</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="method_id_list">text</td>
+                                    <td class="ana_list">text</td>
+                                    <td class="ex_list">text</td>
+                                    <td class="step_no_list">text</td>
+                                    <td class="status_list">text</td>
+                                    <td class="apply_step_list">text</td>
+                                    <td class="regist_list">text</td>
+                                    <td class="regist_date_list">text</td>
+                                </tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <tr></tr>
+                            </tbody>
+                        </table> 
+                    </div>
+                    <div class="modal_file_box">
+                        <span>전송파일 :</span><a href="#">나르다전송.pdf</a><button class="common_btn1 send_pdf_btn">전송</button>
+                    </div>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn">닫기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal harvesting_modal" id="minMax">
+                <div class="modal_box on">
+                    <div class="modal_header">
+                        <h2 class="modal_title">데이터 검증</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <form class="minMax_box common_form">
+                        <div class="form_box">
+                            <label for="" class="file_title">최소값(Min)</label>
+                            <input type="number" value="0">
+                        </div> 
+                        <div class="form_box">
+                            <label for="" class="file_title">최대값(Max)</label>
+                            <input type="number" value="0">
+                        </div> 
+                    </form>
+                    <div class="modal_footer">
+                        <button class="common_btn1 modal_btn">적용</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    </body>
+<script>
+
+
+    cehckbox();
+    function cehckbox(){
+        const check = document.getElementsByClassName("checkbox_design");
+        const checkAll= document.getElementById("checkAll");
+        for(let i=0; i<check.length; i++){
+            check[i].addEventListener("click", () =>{
+                let check_box = check[i].previousElementSibling;
+                check[i].classList.toggle("active");
+
+                if(check[i].classList.contains("active") == true){
+                    check_box.checked = true;
+                } else {
+                    check_box.checked = false;
+                }
+            });
+        }
+        
+        
+    }
+
+
+
+     // first card, sec card - table
+     const leftbox = document.querySelectorAll('.switch_table_box');
+    const rightbox = document.querySelectorAll('.switch_right_box')
+    const rightBtn = document.querySelectorAll('.switch_right_btn');
+    const leftBtn = document.querySelectorAll('.switch_left_btn');
+    const none = document.querySelectorAll('.none');
+    let forNum = 0;
+
+
+    // right 이동 기능 함수(tr의 data-id의 순서로 sort됨)
+    function rightSwichFuc() {
+        let tbody = leftbox[0].lastElementChild.lastElementChild;
+        let tr = tbody.querySelectorAll('tr');
+        
+        tr.forEach(item => {
+
+            let check = item.getElementsByTagName('input')[0];
+            if(check.checked) {
+                // input - id 값
+                let inputId = check.getAttribute('id');
+
+                // tr - data-id 값
+                let trId = item.getAttribute('data-id');
+
+                // list 생성, listd의 data-id값 적용
+                let rightList = document.createElement('li');
+                rightList.setAttribute('data-id', trId);
+                rightList.setAttribute('class', 'right_list');
+
+                // input, label box 요소
+                let inputBox = document.createElement('div');
+                inputBox.setAttribute('class', 'list_in_wrap');
+                
+                // list - input, label 생성(class, id, type 적용)
+                let rightCheck = document.createElement('input');
+                rightCheck.setAttribute('type', 'checkbox');
+                rightCheck.setAttribute('class', 'common_checkBox');
+                rightCheck.setAttribute('id', inputId);
+
+                let rightlabel = document.createElement('label');
+                rightlabel.setAttribute('for', inputId);
+                rightlabel.setAttribute('class', 'common_check_label');
+
+                // list - list안에 input, label append
+                inputBox.append(rightCheck, rightlabel);
+                rightList.append(inputBox);
+
+                
+                // tr - td 선택
+                let data = item.querySelectorAll('td');
+
+                data.forEach((items, idx) => {
+                    if(idx !== 0) {
+                        
+                        let val = items.innerText;
+                        let textBox = document.createElement('div');
+                        textBox.setAttribute('class', 'list_in_wrap');
+
+                        let span = document.createElement('span');
+                        span.setAttribute('class', 'right_data');
+                        span.innerText = val;
+                        textBox.append(span);
+                        rightList.append(textBox);
+                    };
+                });
+
+
+                let rightWarp = rightbox[0];
+                let rightHas = rightbox[0].querySelectorAll('.right_list');
+
+                if(rightHas.length === 0) {
+                    rightbox[0].append(rightList);
+                    item.remove();
+                } else {
+                    let sortArr = [];
+                    let thisData = trId.split('_');
+
+                    for(let i of rightHas) {
+                        let sortData = i.getAttribute('data-id');
+                        let spData = sortData.split('_');
+
+                        sortArr.push(parseInt(spData[1]));
+                    };
+
+                    sortArr.push(parseInt(thisData[1]));
+
+                    sortArr.sort(function(a, b)  {
+                        if(a > b) return 1;
+                        if(a === b) return 0;
+                        if(a < b) return -1;
+                    });
+                    let pos = sortArr.indexOf(parseInt(thisData[1]));
+                    if(pos === 0) {
+                        rightHas[pos].insertAdjacentElement('beforebegin', rightList);
+                        item.remove();
+                    } else {
+                        rightHas[pos - 1].insertAdjacentElement('afterend', rightList);
+                        item.remove();
+                    };
+                };
+            };
+        });
+
+        let not = rightbox[0].querySelectorAll('li');
+
+        let notJ = not.length === 0 ? none[0].classList.remove('has') : none[0].classList.add('has');
+    };
+
+    // left 이동 기능 함수(list의 data-id의 순서로 sort됨)
+    function leftSwichFuc() {
+        let ul = rightbox[0];
+        let li = ul.querySelectorAll('.right_list');
+        
+        li.forEach((item, idx) => {
+            if(idx !== 0) {
+                let check = item.getElementsByTagName('input')[0];
+
+                if(check.checked) {
+                    // input - id 값
+                    let inputId = check.getAttribute('id');
+    
+                    // tr - data-id 값
+                    let liId = item.getAttribute('data-id');
+    
+                    // tr 생성, list의 data-id값 적용
+                    let leftTr = document.createElement('tr');
+                    leftTr.setAttribute('data-id', liId);
+    
+                    // input, label box 요소
+                    let inputBox = document.createElement('td');
+                    let spanBox = document.createElement('span');
+    
+                    // tr - input, label 생성(class, id, type 적용)
+                    let rightCheck = document.createElement('input');
+                    rightCheck.setAttribute('type', 'checkbox');
+                    rightCheck.setAttribute('class', 'common_checkBox');
+                    rightCheck.setAttribute('id', inputId);
+    
+                    let rightlabel = document.createElement('label');
+                    rightlabel.setAttribute('for', inputId);
+                    rightlabel.setAttribute('class', 'common_check_label');
+    
+                    // list - list안에 input, label append
+                    spanBox.append(rightCheck, rightlabel);
+                    inputBox.append(spanBox);
+                    leftTr.append(inputBox);
+    
+                    
+                    // tr - td 선택
+                    let data = item.querySelectorAll('.list_in_wrap > span');
+    
+                    data.forEach((items) => {
+                        let val = items.innerText;
+                        let textBox = document.createElement('td');
+    
+                        let span = document.createElement('span');
+                        span.innerText = val;
+    
+                        textBox.append(span);
+                        leftTr.append(textBox);
+                    });
+    
+    
+                    let leftWarp = leftbox[0].lastElementChild.lastElementChild;
+                    let leftHas = leftWarp.querySelectorAll('tr');
+    
+                    if(leftHas.length === 0) {
+                        leftWarp.append(leftTr);
+                        item.remove();
+                    } else {
+                        let sortArr = [];
+                        let thisData = liId.split('_');
+    
+                        for(let i of leftHas) {
+                            let sortData = i.getAttribute('data-id');
+                            let spData = sortData.split('_');
+    
+                            sortArr.push(parseInt(spData[1]));
+                        };
+    
+                        sortArr.push(parseInt(thisData[1]));
+    
+                        sortArr.sort(function(a, b)  {
+                            if(a > b) return 1;
+                            if(a === b) return 0;
+                            if(a < b) return -1;
+                        });
+                        let pos = sortArr.indexOf(parseInt(thisData[1]));
+                        if(pos === 0) {
+                            leftHas[pos].insertAdjacentElement('beforebegin', leftTr);
+                            item.remove();
+                        } else {
+                            leftHas[pos - 1].insertAdjacentElement('afterend', leftTr);
+                            item.remove();
+                        };
+                    };
+            };
+            };
+        });
+
+        let not = rightbox[0].querySelectorAll('li');
+
+        let notJ = not.length === 0 ? none[0].classList.remove('has') : none[0].classList.add('has');
+    };
+
+    rightBtn[0].addEventListener('click', rightSwichFuc);
+    leftBtn[0].addEventListener('click', leftSwichFuc);
+    
+    
+    const sendnext = document.querySelector('.send_next_btn');
+
+    sendnext.addEventListener('click', (e) => {
+        let target = e.target;
+        let par = target.parentNode.parentNode;
+        let nextPar = par.nextElementSibling;
+        
+        par.classList.remove('on');
+        nextPar.classList.add('on');
+
+        console.log(par);
+    });
+    
+</script>
+</html>

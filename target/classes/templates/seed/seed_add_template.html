@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:include="./fragments/header.html"></th:block>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 시료 관리</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+<link rel="stylesheet" href="../../static/toastGrid/tui-grid.min.css" />
+<link rel="stylesheet" href="../../static/toastGrid/tui-pagination.css" />
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+<style>
+.harvesting_form>.top_form_box {
+	width: 100%;
+}
+
+#main .harvesting_form>.form_box>textarea {
+	height: 150px;
+}
+
+#wrap #main .top_task_use {
+	justify-content: left;
+	margin-bottom: 40px;
+	padding: 0;
+}
+
+
+#wrap #main .card_sect_footer span {
+	font-size: 1.4rem;
+	color: darkgray;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">시료 관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">시료 관리 -</li>
+						<li class="card_inner_list">탬플릿 등록</li>
+					</ul>
+				</div>
+                <div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<div class="card_sect_footer top_task_use">
+							<input type="checkbox" id="task_unrelated"
+								class="common_checkBox task_unrelated_check"> <label
+								for="task_unrelated"
+								class="common_check_label task_unrelated_label"></label> <span>과제
+								비연계</span>
+						</div>
+						<form id="seedForm" action="" class="harvesting_form common_form">
+							<div class="form_box task_box select_box">
+								<label for="" class="file_title">과제 정보</label> <select
+									name="report_id" id="report_id"
+									class="task_select common_select report_id">
+									<option value="-1" hidden>과제 정보 선택</option>
+									<th:block th:each="item : ${reportList.list}">
+										<option th:value="${item.report_id}" ><span th:text="${item.tot_rsch_start_year}+' - ('+${item.prj_dtl_no}+') '+${item.prj_dtl_nm}"></span></option>
+									</th:block>
+								</select>
+							</div>
+							<div class="form_box explane_box seed_explane_box">
+								<label for="" class="file_title">원과제 설명</label>
+								<textarea name=report_comment id="report_comment"
+									class="report_comment"></textarea>
+							</div>
+							
+							<input type="hidden" name="template_head" value=""/>
+							<input type="hidden" name="template_body" value=""/>
+						</form>
+
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<form action="" class="harvesting_form common_form">
+							<div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input
+										type="file" name="excelFile" id="file_select2"
+										class="file_select_input" data-none="false"
+										accept=".xlsx, .xls"><label for="file_select2"
+										class="form_btn common_btn1">파일 선택</label>
+								</div>
+								<span class="ex_text"><span class="star">* </span> 엑셀 파일만
+									등록 가능합니다</span>
+							</div>
+						</form>
+						<div class="card_sect_footer">
+							<button type="button" class="common_btn1 template_btn">탬플릿등록</button>
+						</div>
+					</div>
+				</div>
+
+				<div id="gridView" class="card save_table_card" style="display: none">
+					<div class="card_cont_box">
+						<div id="grid"></div>
+					</div>
+				</div>
+
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<button type="button" class="save_btn common_btn1" onclick="onClickRegist();">등록</button>
+				</div>
+			</section>
+
+		</main>
+		<th:block th:include="./fragments/commonjs.html"></th:block>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script>
+	// toast- grid
+	let coldata = [{},{},{},{},{},{},{},{}];
+	let rowdata = [{},{},{},{},{}];
+	let checkRow = [];
+	let rowLength;
+	
+	// row key
+	let rowKey = 4;
+	
+	const Grid = tui.Grid;
+	let instance;
+
+	function grid(){
+		
+		$('#gridView').css('display' , '');	
+		
+	instance = new Grid({
+		el : document.getElementById('grid'), // Container element
+		minBodyHeight : 5,
+		scrollX : false,
+		scrollY : false,
+		rowHeaders : [ 'rowNum' ],
+		data : rowdata,
+		columns : coldata
+		});
+	
+		//instance.resetData(newData); // Call API of instance's public method
+		Grid.applyTheme('clean'); // Call API of static method
+	}
+
+	
+		// 엑셀 불러오기
+		$('.template_btn').on('click', function(){
+
+			if (!validateFunction('file_select2', '파일을')) {
+				return false;
+			}
+
+			$("#grid").children().remove();
+			
+			var formData = new FormData();
+			
+			let excelFile = $('input[name="excelFile"]')[0];
+			
+			for (var i=0; i<excelFile.files.length; i++) {
+				formData.append("excelFile", excelFile.files[i]);
+			}
+
+			for (var key of formData.keys()) {
+				console.log(key);
+			}
+			
+			for (var value of formData.values()) {
+				console.log(value);
+			}
+			
+			$.ajax({
+				type : "POST",
+				enctype : "multipart/form-data",
+				url : "/api/seed_excel_add",
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					
+	                coldata = data.head
+					rowdata = data.body;
+	                
+	                $('input[name="template_head"]').val(JSON.stringify(data.head));
+	                $('input[name="template_body"]').val(JSON.stringify(data.body));
+	                
+					grid();
+				},
+				error : function(err) {
+					alert("템플릿을 등록할 수 없습니다. xls, xlsx 파일을 확인해주세요.");
+				}
+			});
+		})
+		
+		// 파일 등록 확장자 체크
+   	 	$('#file_select2').on('change' , function(){
+    	
+    	 if( $("#file_select2").val() != "" ){
+             let ext = $('#file_select2').val().split('.').pop().toLowerCase();
+     	  if($.inArray(ext, ['xls','xlsx']) == -1) {
+     	     alert('다른 형식의 파일입니다. 엑셀 형식만 업로드 가능 합니다');
+     	     $("#file_select2").val(""); // input file 파일명을 다시 지워준다.
+     	     return;
+    	  	}
+         }
+   		 })
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+			
+			let chk = $('#task_unrelated').is(':checked');
+			console.log("chk:" + chk);
+			if (!chk) {
+				let selected = $('#report_id').val();
+				if (selected == -1) {
+					alert("과제를 선택해주세요");
+					return;
+				}
+			}
+
+			if (!validateFunction('file_select2', '파일을')) {
+				return false;
+			}
+
+			if ($('input[name="template_head"]').val() == '' ||
+					$('input[name="template_head"]').val() == '[]') {
+				alert("템플릿을 추가해주세요.")
+				return false;
+			}
+
+			if ($('input[name="template_body"]').val() == '' ||
+					$('input[name="template_body"]').val() == '[]') {
+				alert("템플릿을 추가해주세요.")
+				return false;
+			}
+
+			return true;
+		}
+
+		function onClickRegist() {
+
+			const rowLength =  $('.tui-grid-cell-row-header').length-1;
+			let template_head = [];
+			let template_body = [];
+			// 컬럼 헤드
+			for(let i = 0; i<rowLength; i++){
+
+				let body = {};
+
+				let row = $('td[data-row-key="'+i+'"]');
+
+				for(let j = 1; j<row.length; j++){
+
+					let key = row[j].attributes[1].value;
+					let value = row[j].textContent;
+
+					if(i == 0){
+						let head = { header: `${key}`,
+							name: `${key}`
+						}
+						template_head.push(head);
+					}
+					body[key] = value;
+
+				}
+				template_body.push(body);
+			}
+
+			$('input[name="template_head"]').val(JSON.stringify(template_head));
+			$('input[name="template_body"]').val(JSON.stringify(template_body));
+
+			if (!checkForm()) {
+				return;
+			}
+
+			let seedForm = $('#seedForm')[0];
+			let formData = new FormData(seedForm);
+
+			let chk = $('#task_unrelated').is(':checked');
+			formData.append('report_chk',chk);
+
+			$.ajax({
+				url : "/seed/seed_template_add",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					
+					console.log(data , "data")
+					
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("시료가 등록되었습니다");
+						location.href = "/seed/seed_list";
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+		
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+
+		$('.list_btn').on('click', function() {
+			location.href = `/reagent/reagent_list`;
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* card */
+#wrap .new_user_sect {position: relative;  padding-bottom: 80px;}
+#wrap .new_user_sect .card {height: auto; padding: 40px 100px;}
+
+.card_box .card_title_box .print_box > .common_btn1 {display: none;}
+.card_box .card_title_box .print_box.on > .common_btn1 {display: inline-block; margin-left: 40px; width: 150px; position: relative;}
+.card_box .card_title_box .print_box.on > .common_btn1:before {content: ''; position: absolute; left: -25px; top: 50%; transform: translateY(-50%); width: 1px; height: 25px; background-color: #E6E6E6;}
+
+
+/* form */
+.user_data_box {width: 100%; display: flex;}
+.new_user_form .user_data_box .form_box {width: calc(50% - 10px); padding: 0;}
+.user_data_box .form_box:not(:nth-child(2n)) {margin-right: 20px;}
+.user_data_box .user_info_box {justify-content: flex-end;}
+
+
+
+
+
+/* card footer btn */
+#wrap .new_user_sect .card_footer {display: flex; justify-content: space-between; position: absolute; left: 0; padding: 0 18px 0 3px; width: 100%; bottom: 10px;}
+#wrap .new_user_sect .card_footer > .common_btn1 {width: 150px; display: inline-block;}
+#wrap .new_user_sect .card_footer > .list_btn {background-color: #7C8798;}
+
+#wrap .new_user_sect .card_footer.off .appl_regist_btn {display: none;}
+
+
+
+
+
+
+

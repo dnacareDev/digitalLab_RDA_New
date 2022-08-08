@@ -1,0 +1,269 @@
+@charset "utf-8";
+
+/* 헤더 검색바 */
+/* 
+<div class="search_box">
+<label for="search">
+    <input type="text" id="search" placeholder="Search" class="search_input">
+</label> 
+*/
+.search_box {display: flex;}
+.search_box > label > .search_input {width: 293px; height: 40px; border-radius: 20px; padding: 10px 30px; color: #666666; font-weight: 500; font-size: 1.5rem; box-shadow: 0px 3px 4px #d8dfe99a; background: #fff url("../../images/search.png") no-repeat right 25px center; background-size: 20px;}
+.search_box > label > .search_input::placeholder {color: #B8C3D5;}
+
+
+/* 카드 검색바 */
+/* 
+<div class="cont_search_box">
+    <label for="card_search">
+        <input type="text" id="card_search" placeholder="Search" class="cont_search_input">
+    </label>    
+</div> 
+*/
+.cont_search_box > label > .cont_search_input { border-radius: 5px; -webkit-border-radius: 5px; width: 293px; height: 40px; padding: 10px 30px; color: #666666; font-weight: 500; font-size: 1.5rem; background: #fff url("../../images/search.png") no-repeat right 25px center; background-size: 20px; border: 1px solid #D9D9D9;}
+.cont_search_box > label > .cont_search_input::placeholder {color: #7C8798;}
+
+
+/* select */
+/* 
+<div class="select_box">
+    <select class="common_select" id="">
+        <option value="" hidden></option>
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+    </select>
+</div>
+*/
+.select_box .common_select {width: 300px; height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; background: url('../../images/Y_arrow.png') no-repeat right 20px center; padding: 5px 20px;} 
+.common_select {width: 300px; height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; background: url('../../images/Y_arrow.png') no-repeat right 20px center; padding: 5px 20px;} 
+
+
+/* common btn1 */
+/* 
+<button class="common_btn1"></button>
+*/
+.common_btn1 {height: 40px; width: 100px; border-radius: 5px; -webkit-border-radius: 5px; background-color: #6875E9; color: #fff; font-weight: 500; font-size: 1.6rem; transition: 0.1s all;}
+#wrap .common_btn1:active:focus {background-color: #525ec7;}
+
+
+/* 인쇄 버튼 */
+/* 
+<button class="print_btn">인쇄</button>
+*/
+.print_btn {width: 31px; height: 29px; background: url('../../images/print.png') no-repeat; background-size: 100%; text-indent: -999999999px;}
+
+
+
+/* table1 */
+/* 
+<table class="card_table">
+    <thead>
+        <tr>
+            <th></th>
+            <th> ID</th>
+            <th> 항목</th>
+            <th></th>
+            <th> No</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="list_check"></td>
+            <td class="method_id_list"></td>
+            <td class="ana_list"></td>
+            <td class="ex_list"></td>
+            <td class="step_no_list"></td>
+            <td class="status_list"></td>
+            <td class="apply_step_list"></td>
+            <td class="regist_list"></td>
+            <td class="regist_date_list"></td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+    </tbody>
+</table> 
+*/
+
+
+.card_cont_box .card_table {width: 100%;}
+
+/* 공통 */
+#wrap .card_cont_box .card_table td,
+#wrap .card_cont_box .card_table th {text-align: center; line-height: 40px; font-size: 1.4rem; display: inline-block; width: 100%;}
+
+/* th, td */
+#wrap .card_cont_box .card_table th:nth-child(1),
+#wrap .card_cont_box .card_table tr > td:nth-child(1) {flex: 2;}
+#wrap .card_cont_box .card_table th:nth-child(2),
+#wrap .card_cont_box .card_table tr > td:nth-child(2) {flex: 2.3 ;}
+.card_cont_box .card_table th:nth-child(3),
+.card_cont_box .card_table tr > td:nth-child(3) { flex: 3.2;}
+.card_cont_box .card_table th:nth-child(4),
+.card_cont_box .card_table tr > td:nth-child(4) { flex: 4;}
+.card_cont_box .card_table th:nth-child(5),
+.card_cont_box .card_table tr > td:nth-child(5) { flex: 2.2;}
+.card_cont_box .card_table th:nth-child(6),
+.card_cont_box .card_table tr > td:nth-child(6) { flex: 2.6;}
+.card_cont_box .card_table th:nth-child(7),
+.card_cont_box .card_table tr > td:nth-child(7) {flex: 2.35;}
+.card_cont_box .card_table th:nth-child(8),
+.card_cont_box .card_table tr > td:nth-child(8) {flex: 2.1;}
+.card_cont_box .card_table th:nth-child(9),
+.card_cont_box .card_table tr > td:nth-child(9) { flex: 3;}
+.card_cont_box .card_table th:nth-child(10),
+.card_cont_box .card_table tr > td:nth-child(10),
+.card_cont_box .card_table th:nth-child(11),
+.card_cont_box .card_table tr > td:nth-child(11) {flex: 2;}
+.card_cont_box .card_table th:nth-child(12),
+.card_cont_box .card_table tr > td:nth-child(12) {flex: 2;}
+
+/* tr */
+.card_cont_box .card_table tr {display: flex; height: 40px; width: 100%; border-top: 1px solid #d6dce2b7;  border-bottom: 1px solid #d6dce2b7;}
+.card_cont_box .card_table > tbody > tr:nth-child(2n-1) {background-color: #F4F8FB;}
+.card_cont_box .card_table > tbody > tr {border-top: none;}
+
+/* th */
+.card_cont_box .card_table > thead > tr {height: 45px;}
+.card_cont_box .card_table th {position: relative; line-height: 50px;}
+.card_cont_box .card_table th:not(:first-child):before {content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: url('../../images/sort.png') no-repeat;}
+
+/* td */
+.card_cont_box .card_table td {padding: 0 15px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+
+/* td - check box */
+.card_table > tbody > tr > td:first-child .common_checkBox[type="checkbox"] {display: none;} 
+.card_table > tbody > tr > td:first-child .common_check_label {width: 20px; height: 20px; background-color: #fff; border: 1px solid #D9D9D9; display: inline-block; margin-top: -3px; border-radius: 3px; -webkit-border-radius: 3px;}
+
+
+
+
+
+/* check box */
+/* 
+<input type="checkbox" id="methodList" class="common_checkBox">
+<label for="methodList" class="common_check_label"></label> 
+*/
+
+.common_checkBox[type="checkbox"] {display: none;} 
+.common_check_label {width: 20px; height: 20px; background-color: #fff; border: 1px solid #D9D9D9; display: inline-block; margin-top: -3px; border-radius: 3px; -webkit-border-radius: 3px; transition: 0.1s all; position: relative; cursor: pointer;}
+.common_check_label:before {content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 12px; height: 10px; background: url('../../images/checkBox.png') no-repeat; background-size: 100%; transition: 0.5s all; opacity: 0;}
+ 
+/* :checked */
+.common_checkBox[type="checkbox"]:checked + .common_check_label {background-color: #788DEE; border: none;}
+.common_checkBox[type="checkbox"]:checked + .common_check_label:before {opacity: 1;}
+
+
+/* radi 박스 */
+/* 
+ <div class="raido_box_wrap">
+    <div class="radio_box">
+        <input type="radio" name="" id=""> 
+        <label for=""></label>
+    </div>
+</div>
+ */
+
+ .raido_box_wrap {display: flex;}
+.radio_box > input[type="radio"] {display: none;} 
+.radio_box > label {width: 20px; height: 20px; background-color: #fff; border: 1px solid #D9D9D9; display: inline-block; margin-top: -3px; border-radius: 3px; -webkit-border-radius: 3px; transition: 0.1s all; position: relative;}
+.radio_box > label:before {content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 12px; height: 10px; background: url('../../images/checkBox.png') no-repeat; background-size: 100%; transition: 0.5s all; opacity: 0;}
+  
+ /* :checked */
+ .radio_box > input[type="radio"]:checked + label{background-color: #788DEE; border: none;}
+ .radio_box > input[type="radio"]:checked + label:before {opacity: 1;}
+ 
+
+
+
+/***** 공통 form 요소 *****/
+
+/*** 부모 form box ***/
+/* <form action="" class="common_form"></form> */
+
+/*** 조회 form ***/
+/* 
+<div class="form_box">
+    <label for="" class="file_title"></label>
+    <div class="lookup_input form_inner_box">
+        <input type="text" id="">
+        <button class="form_btn list_lookup_btn common_btn1"></button>
+    </div>
+</div> 
+*/
+
+/*** select form ***/
+/* 
+<div class="form_box select_box">
+    <label for="" class="file_title"></label>
+    <select name="" id="" class=" common_select">
+        <option value="none" hidden></option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+    </select>
+</div> 
+*/
+
+/*** textarea form ***/
+/* 
+<div class="form_box">
+    <label for="" class="file_title"></label>
+    <textarea name="" id="" class=""></textarea>
+</div> 
+*/
+
+/*** flie form ***/
+/* 
+<div class="form_box">
+    <span class="file_title"></span>
+    <div class="file_input form_inner_box">
+        <input type="text" class="file_name" readonly><input type="file" name="" id="" class="file_select_input"><label for="" class="form_btn common_btn1">파일 선택</label>
+    </div>
+</div> 
+*/
+
+
+.common_form { display: flex; flex-wrap: wrap;}
+.common_form .form_box {width: 50%; display: flex; flex-direction: column; margin-bottom: 30px;}
+
+.common_form .form_box:nth-child(2n) {padding-left: 10px;}
+.common_form .form_box:nth-child(2n-1) {padding-right: 10px;}
+
+.common_form .form_box > select,
+.common_form .form_box > textarea {width: 100%;}
+
+.common_form .form_box > select,
+.common_form .form_box > textarea,
+.common_form .form_box > .form_inner_box > input[type="text"] {border: 1px solid #D9D9D9; border-radius: 5px; height: 40px; padding: 3px 20px;}
+
+.common_form .form_box > textarea {padding-top: 9px;}
+.common_form .form_box > .file_title {color: #7C8798; font-weight: 700; margin-bottom: 8px; padding-left: 3px;}
+
+.common_form .form_box > .form_inner_box > input[type="text"] {max-width: 590px; width: 80%; border-radius: 5px 0 0 5px;}
+.common_form .form_box > .form_inner_box > .form_btn {display: inline-block; vertical-align: bottom; border-radius: 0 5px 5px 0; line-height: 40px; text-align: center; width: 20%;}
+
+.common_form .form_box > .form_inner_box > input[type="file"] {display: none;}
+
+.file_title {color: #7C8798; font-weight: 700; margin-bottom: 8px; padding-left: 3px;}
+
+/* 
+    <label for="" class="check_wrap">
+        <input type="checkbox" name="" id="" class="checkbox">
+    </label> 
+*/
+

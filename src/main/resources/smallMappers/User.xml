@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Small.Mapper.RdaUserMapper">
+
+    <select id="selectUserList"  resultType="Users">
+       	SELECT * FROM RDAEKP.RDAUSER_DIC
+    </select>
+    
+    <select id="selectUserByAccount" resultType="Users">
+        SELECT * FROM RDAEKP.RDAUSER_DIC WHERE account = #{account}
+    </select>
+    
+</mapper>

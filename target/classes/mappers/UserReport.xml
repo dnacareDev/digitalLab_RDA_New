@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.UserReportMapper">
+	
+<!--	&lt;!&ndash; 과제 등록 &ndash;&gt;-->
+<!--	<insert id="insertReport" parameterType="map">-->
+<!--		INSERT-->
+<!--		INTO user_report-->
+<!--		(-->
+<!--		user_report_id,-->
+<!--		report_status,-->
+<!--		usee_at_code,-->
+<!--		ATCH_FILE_NM,-->
+<!--		ORIG_FILE_NM,-->
+<!--		tamplate_head,-->
+<!--		template_body,-->
+<!--		report_comment-->
+<!--		)-->
+<!--		VALUES-->
+<!--		(-->
+<!--		#{user_report_id},-->
+<!--		#{report_status} ,-->
+<!--		#{usee_at_code},-->
+<!--		#{ATCH_FILE_NM , jdbcType=VARCHAR},-->
+<!--		#{ORIG_FILE_NM , jdbcType=VARCHAR},-->
+<!--		#{tamplate_head , jdbcType=VARCHAR},-->
+<!--		#{template_body , jdbcType=VARCHAR},-->
+<!--		#{report_comment , jdbcType=VARCHAR}-->
+<!--		)-->
+<!--	</insert>-->
+<!--	-->
+<!--	&lt;!&ndash; 과제 업데이트 &ndash;&gt;-->
+<!--	<update id="updateReport" parameterType="map">-->
+<!--		UPDATE-->
+<!--		user_report-->
+<!--		SET-->
+<!--		WHERE prj_dtl_no = #{PRJ_DTL_NO}-->
+<!--	</update>-->
+<!--	-->
+<!--	&lt;!&ndash; 과제 리스트 &ndash;&gt;-->
+<!--	<select id="selectReportList" parameterType="Users" resultType="Report">-->
+<!--		SELECT *-->
+<!--		FROM user_report-->
+<!--		WHERE STATUS = 1-->
+<!--		<if test="authority != 'pulpelune'">-->
+<!--		AND prtcp_mp_dic_code_list LIKE '%'||#{digitalCode}||'%'-->
+<!--		OR prj_dtl_rspr_dic_code LIKE '%'||#{digitalCode}||'%'-->
+<!--		</if>-->
+
+<!--	</select>-->
+<!--	-->
+<!--	<update id="updateReportComment">-->
+<!--		UPDATE-->
+<!--		user_report-->
+<!--		SET-->
+<!--		report_comment = #{report_comment , jdbcType=VARCHAR}-->
+<!--		WHERE report_id = #{report_id}-->
+<!--	</update>-->
+<!--	-->
+<!--	&lt;!&ndash; 과제 중복체크 &ndash;&gt;-->
+<!--	<select id="checkPrj" parameterType="String" resultType="Report">-->
+<!--		SELECT-->
+<!--		*-->
+<!--		FROM user_report-->
+<!--		WHERE prj_dtl_no = #{prj_dtl_no}-->
+<!--	</select>-->
+<!--	-->
+<!--	&lt;!&ndash; 시퀀스 값 &ndash;&gt;-->
+<!--	<select id="getSeqId" resultType="int">-->
+<!--		SELECT user_report_seq_id.NEXTVAL FROM DUAL;-->
+<!--	</select>-->
+
+
+<!--	<select id="getUserReportIdCount" resultType="int">-->
+<!--		SELECT (SELECT count(*) FROM seed s WHERE s.user_report_id = se.USER_REPORT_ID AND s.status = 1)-->
+<!--		FROM seed se-->
+<!--		WHERE se.seed_id = #{seed_id}-->
+<!--	</select>-->
+
+</mapper>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.SeedMapper">
+	
+	<!-- 시료 등록 -->
+    <insert id="registSeed" parameterType="Seed">
+        INSERT INTO seed(
+            seed_id,
+            seed_code,
+           	user_report_id,
+            seed_sender,
+            seed_receiver,
+            send_date,
+            receive_date,
+            genetic_id,
+            seed_amount,
+            each_id,
+            seed_type,
+            place_id,
+            seed_temp,
+            seed_manager,
+            seed_comment,
+            USEE_AT_CODE,
+            create_date
+        )
+        VALUES(
+            #{seed_id},
+            #{seed_code},
+            #{user_report_id},
+            #{seed_sender , jdbcType=VARCHAR},
+            #{seed_receiver , jdbcType=VARCHAR},
+            #{send_date , jdbcType=DATE},
+            #{receive_date , jdbcType=DATE},
+            #{genetic_id},
+            #{seed_amount},
+            #{each_id},
+            #{seed_type},
+            #{place_id},
+            #{seed_temp , jdbcType=VARCHAR},
+            #{seed_manager , jdbcType=VARCHAR},
+            #{seed_comment , jdbcType=VARCHAR},
+            #{USEE_AT_CODE},
+            SYSDATE
+        )
+    </insert>
+	
+	<!-- 시료 간단 등록 -->
+    <insert id="registSeedEasy" parameterType="SeedEasyParam">
+        INSERT INTO seed(
+            seed_id,
+            seed_code,
+            user_report_id,
+            genetic_id,
+            USEE_AT_CODE,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            create_date
+        )
+        VALUES(
+            #{seed_id},
+            #{seed_code},
+            #{user_report_id},
+            #{genetic_id},
+            #{USEE_AT_CODE},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            sysdate
+        )
+    </insert>
+
+    <!-- 시드 수정 -->
+    <update id="updateSeed">
+        UPDATE seed SET
+                        seed_sender = #{seed_sender} ,
+                        seed_receiver = #{seed_receiver},
+                        send_date = #{send_date},
+                        receive_date = #{receive_date},
+                        genetic_id = #{genetic_id},
+                        seed_amount = #{seed_amount},
+                        each_id = #{each_id},
+                        seed_type = #{seed_type},
+                        place_id = #{place_id},
+                        seed_temp = #{seed_temp},
+                        seed_manager = #{seed_manager},
+                        seed_comment = #{seed_comment},
+                        modify_date = sysdate
+        WHERE seed_id = #{seed_id}
+
+    </update>
+
+    <update id="updateEasySeed">
+        UPDATE seed SET
+        genetic_id = #{genetic_id},
+        USEE_AT_CODE = #{USEE_AT_CODE},
+        <if test="ATCH_FILE_NM != null">
+            <if test="ATCH_FILE_NM != ''">
+                ATCH_FILE_NM = #{ATCH_FILE_NM},
+                ORIG_FILE_NM = #{ORIG_FILE_NM},
+            </if>
+        </if>
+        MODIFY_DATE = sysdate
+        WHERE SEED_ID = #{seed_id}
+
+    </update>
+
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (
+                 SELECT seed_code
+                 FROM seed
+                 WHERE seed_code LIKE '%'||#{group_code}||'%'
+                 ORDER BY seed_id DESC
+             )
+        WHERE ROWNUM = 1
+    </select>
+
+<!--    sender, receiver 유저 테이블 조인 필요-->
+<!--    report name Column 없어서 Select시 미적용-->
+    <select id="selectSeedList" parameterType="SearchParam" resultType="Seed">
+        SELECT TO_CHAR(s.send_date , 'YYYY-MM-DD hh24:mm') as send_date , TO_CHAR(s.receive_date , 'YYYY-MM-DD hh24:mm') as receive_date , s.*, p.place_name, g2.genetic genetic_depth2, g1.genetic genetic_depth1, r.prj_nm report_name, r.report_id , u.name as sender_name, r.prj_dtl_no
+        FROM seed s
+        LEFT OUTER JOIN place p on p.place_id = s.place_id
+        LEFT OUTER JOIN user_report sr on sr.user_report_id = s.user_report_id
+        LEFT OUTER JOIN report r on sr.report_id = r.report_id
+        LEFT OUTER JOIN genetic g2 on s.genetic_id = g2.genetic_id
+        LEFT OUTER JOIN genetic g1 on g2.genetic_parents = g1.genetic_id
+        LEFT OUTER JOIN users u ON s.seed_receiver = u.account
+        <where>
+        	<if test="param.type == 'analysis' ">
+        		AND s.USEE_AT_CODE = 0
+        		AND r.prj_nm IS NOT NULL
+        		AND r.prtcp_mp_dic_code_list LIKE '%'||#{user.digitalCode}||'%'
+        	</if>
+       		<if test="user.authority != 'ADMIN'">
+       			<if test="user.authority != 'MANAGER' ">
+				AND s.seed_code LIKE '%'||#{user.groupCode}||'%'
+				</if>
+        	</if>
+        	AND s.status = 1
+        </where> 
+        ORDER BY create_date DESC
+    </select>
+    
+    <!-- 시료 과제 리스트 -->
+    <select id="selectReportSeedList" parameterType="Users" resultType="UserReport">
+       SELECT *
+       FROM user_report usr_r
+            JOIN report r ON usr_r.report_id = r.report_id
+            JOIN users u ON usr_r.account = u.account
+            JOIN (SELECT DISTINCT USER_REPORT_ID FROM SEED WHERE STATUS = 1) seed ON seed.USER_REPORT_ID = usr_r.USER_REPORT_ID
+       <where> 
+       		<if test="authority != 'ADMIN'">
+       			<if test="authority != 'MANAGER' ">
+	       		r.prtcp_mp_dic_code_list LIKE '%'||#{digitalCode}||'%'
+	       		AND (usr_r.account = #{account} OR u.groupCode LIKE '%'||#{groupCode}||'%')
+	       		</if>
+       		</if>
+       </where>
+       ORDER BY usr_r.USER_REPORT_ID DESC
+    </select>
+
+    <select id="getSeqId" resultType="int">
+        SELECT seed_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="checkDuplicateName" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM reagent
+        WHERE seed_name = #{seed_name}
+    </select>
+
+    <select id="selectSeedByGenetic" parameterType="int" resultType="seed">
+        SELECT * FROM seed s
+        WHERE genetic_id = #{genetic_id}
+    </select>
+
+    <select id="selectSeedById" parameterType="int" resultType="seed">
+        SELECT s.*, g2.genetic as genetic_depth2, g1.genetic as genetic_depth1 , g1.genetic_id as genetic_parents , g2.genetic_type as genetic_type
+        FROM seed s
+            left outer join genetic g2 on s.genetic_id = g2.genetic_id
+            left outer join genetic g1 on g2.genetic_parents = g1.genetic_id
+        WHERE seed_id = #{seed_id}
+    </select>
+    
+    <!-- 시료 상세보기 시료 리스트 -->
+   <!--  <select id="selectSeedByReportId" parameterType="int" resultType="seed">
+        SELECT TO_CHAR(s.send_date , 'YYYY-MM-DD hh:mm') as send_date , TO_CHAR(s.receive_date , 'YYYY-MM-DD hh:mm') as receive_date,
+        		NVL(s.seed_sender , '-') as seed_sender , 
+        		s.* <if test="USEE_AT_CODE != 2">, g2.genetic as genetic_depth2, g1.genetic as genetic_depth1  , g1.genetic_id as genetic_parents , g2.genetic_type as genetic_type</if>
+        			<if test="USEE_AT_CODE == 0">, p.place_name</if>,
+               (SELECT count(*) FROM seed se
+                LEFT JOIN plan_seed plse ON se.seed_id = plse.seed_id
+                WHERE se.seed_id = s.seed_id) AS seed_join_count
+        FROM seed s
+        	<if test="USEE_AT_CODE != 2">
+           	 LEFT OUTER JOIN genetic g2 ON s.genetic_id = g2.genetic_id
+           	 LEFT OUTER JOIN genetic g1 ON g2.genetic_parents = g1.genetic_id
+        	</if>
+            <if test="USEE_AT_CODE == 0">
+           	 LEFT OUTER JOIN place p ON s.place_id = p.place_id
+            </if>
+            LEFT OUTER JOIN user_report usr_r ON s.user_report_id = usr_r.user_report_id
+        WHERE s.user_report_id = #{user_report_id} AND s.status = 1
+    </select> -->
+    
+     <select id="selectSeedByReportId" parameterType="int" resultType="seed">
+        SELECT NVL(TO_CHAR(s.send_date , 'YYYY-MM-DD hh24:mm') , '-') as send_date , NVL(TO_CHAR(s.receive_date , 'YYYY-MM-DD hh24:mm') , '-') as receive_date ,
+        		NVL(s.seed_sender , '-') as seed_sender , 
+        		s.* , NVL(g2.genetic , '-') as genetic_depth2 , NVL(g1.genetic , '-') as genetic_depth1  , g1.genetic_id as genetic_parents , g2.genetic_type as genetic_type ,
+        		NVL(p.place_name , '-') as place_name ,
+               (SELECT count(*) FROM seed se
+                LEFT JOIN plan_seed plse ON se.seed_id = plse.seed_id
+                WHERE se.seed_id = s.seed_id) AS seed_join_count
+        FROM seed s
+           	 LEFT OUTER JOIN genetic g2 ON s.genetic_id = g2.genetic_id
+           	 LEFT OUTER JOIN genetic g1 ON g2.genetic_parents = g1.genetic_id
+           	 LEFT OUTER JOIN place p ON s.place_id = p.place_id
+            LEFT OUTER JOIN user_report usr_r ON s.user_report_id = usr_r.user_report_id
+        WHERE s.user_report_id = #{user_report_id} AND s.status = 1
+        ORDER BY s.create_date ASC
+    </select>
+
+    <select id="getSeedListByUserReportId" resultType="Integer">
+        SELECT seed_id FROM SEED WHERE USER_REPORT_ID = #{user_report_id}
+    </select>
+
+    <update id="deleteSeed">
+        UPDATE seed SET status = -1 WHERE seed_id = #{seed_id}
+    </update>
+    
+    <!-- 홈 시료 품종 데이터 -->
+  <!--   <select id="selectSeedAnalysis" resultType="Seed">
+    	
+    	SELECT g.genetic , (SELECT count(*) as count
+    						FROM seed se LEFT JOIN plan_seed plse
+    							ON se.seed_id = plse.seed_id
+        					WHERE se.seed_id = s.seed_id) AS seed_join_count) as count
+    	FROM schedule sc JOIN plan p
+    		ON sc.plan_id = p.plan_id
+    		JOIN plan_seed ps ON p.plan_id = ps.plan_id
+    		JOIN seed s ON ps.seed_id = s.seed_id
+    		JOIN genetic g2 ON s.genetic_id = g2.genetic_id
+    		JOIN genetic g1 ON g2.genetic_parents = g1.division_id
+    		
+    	WHERE s.seed_code LIKE '%'||#{group_code}||'%'
+  			
+    	
+	  </select> -->
+
+</mapper>

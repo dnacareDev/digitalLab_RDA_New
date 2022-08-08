@@ -1,0 +1,291 @@
+@charset "utf-8";
+/* card - 공통 */
+#wrap #main .card {height: auto; padding-bottom: 40px;}
+
+
+/********* first_card *********/
+.sample_analysis_sect .first_card {}
+.sample_analysis_sect .card .card_header {align-items: center; margin-bottom: 50px;}
+.sample_analysis_sect .card .card_header .header_title {font-weight: 700; }
+
+/* first_card - place_date_box */
+.sample_analysis_sect .first_card .place_date_box {margin-bottom: 30px;}
+.first_card .place_date_box > .place_date_text {color: #FF5858; margin-bottom: 10px; padding-left: 2px;}
+.first_card .place_date_box .place_date_list_box {border: 1px solid #D9D9D9; border-radius: 5px; height: 130px; width: 100%; overflow-y: auto; overflow-x: hidden; padding: 10px 15px;}
+.first_card .place_date_box .place_date_list_box .place_date_list {margin-bottom: 5px; font-size: 1.4rem;}
+
+/* first_card - step_list_box */
+.sample_analysis_sect .first_card .step_list_box {display: flex; width: 100%; margin-bottom: 30px;}
+.first_card .step_list_box .step_list {width: 90px; line-height: 42px; border: 2px solid #BAC3D3; text-align: center; margin-right: 30px; font-size: 1.4rem; border-radius: 21px; position: relative; cursor: pointer;}
+
+.first_card .step_list_box .step_list:not(:last-child):before {content: ''; position: absolute; left: 88px; top: 50%; transform: translateY(-50%); width: 32px; height: 2px; background-color: #BAC3D3;}
+
+/* ready */
+.first_card .step_list_box .step_list.ready {border: 2px solid #788DEE;}
+
+/* done */
+.first_card .step_list_box .step_list.done {background-color: #788DEE; border: 2px solid #788DEE; color: #fff;}
+.first_card .step_list_box .step_list.done:before {background-color: #788DEE;}
+
+
+/* first_card - sample_analysis_box */
+.sample_analysis_sect .first_card .sample_analysis_table_box {margin-bottom: 40px;}
+.sample_analysis_sect .first_card .bottom_setting {display: none;}
+.sample_analysis_sect .first_card .sample_analysis_box {width: 100%; overflow-x: scroll; overflow-y: hidden; padding-bottom: 10px; border: 1px solid #C8D2DB; border-radius: 5px;} 
+
+/* sample_analysis_table */
+.first_card .sample_analysis_box .sample_analysis_table { border-bottom: 1px solid #C8D2DB; width: 2315px; display: inline-block;}
+
+/* sample_analysis_table - col */
+.sample_analysis_table colgroup > col:nth-child(1),
+.sample_analysis_table > tbody > tr > th > span {width: 40px;}
+.sample_analysis_table colgroup > col:nth-child(3),
+.sample_analysis_table > tbody > tr > td:nth-child(3) > span {width: 250px;}
+
+.sample_analysis_table colgroup > col:nth-child(2),
+.sample_analysis_table > tbody > tr > td:nth-child(2) > span,
+.sample_analysis_table colgroup > col:nth-child(4),
+.sample_analysis_table > tbody > tr > td:nth-child(4) > span,
+.sample_analysis_table colgroup > col:nth-child(5),
+.sample_analysis_table > tbody > tr > td:nth-child(5) > span,
+.sample_analysis_table colgroup > col:nth-child(6),
+.sample_analysis_table > tbody > tr > td:nth-child(6) > span {width: 110px;}
+
+.sample_analysis_table colgroup > col:nth-child(7),
+.sample_analysis_table > tbody > tr > td:nth-child(7) > span,
+.sample_analysis_table colgroup > col:nth-child(8),
+.sample_analysis_table > tbody > tr > td:nth-child(8) > span {width: 160px;}
+
+.sample_analysis_table colgroup > col:nth-child(9),
+.sample_analysis_table > tbody > tr > td:nth-child(9) > span,
+.sample_analysis_table colgroup > col:nth-child(10),
+.sample_analysis_table > tbody > tr > td:nth-child(10) > span,
+.sample_analysis_table colgroup > col:nth-child(11),
+.sample_analysis_table > tbody > tr > td:nth-child(11) > span {background-color: #F7F7F8; width: 425px;}
+
+/* tr */
+.sample_analysis_box .sample_analysis_table > thead > tr,
+.sample_analysis_box .sample_analysis_table tr:not(:last-child) {border-bottom: 1px solid #C8D2DB;}
+
+/* th, td */
+.first_card .sample_analysis_box .sample_analysis_table tr > th,
+.first_card .sample_analysis_box .sample_analysis_table tr > td {width: auto; line-height: 40px; text-align: center; font-size: 1.4rem;}
+
+.sample_analysis_box .sample_analysis_table > thead > tr > th:not(:last-child),
+.sample_analysis_box .sample_analysis_table > tbody > tr > td:not(:last-child),
+.sample_analysis_box .sample_analysis_table > tbody > tr > th {border-right: 1px solid #C8D2DB;}
+
+/* th */
+.first_card .sample_analysis_box .sample_analysis_table tr > th {background-color: #F4F8FB;}
+
+/* td */
+.sample_analysis_table > tbody > tr > th > span,
+.sample_analysis_table > tbody > tr > td > span {padding: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; display: block; line-height: 40px;}
+
+
+/* first_card - card_sect_footer */
+.sample_analysis_sect .first_card .card_sect_footer {text-align: right;}
+.sample_analysis_sect .first_card .card_sect_footer .common_btn1 {width: 150px;}
+.sample_analysis_sect .first_card .card_sect_footer .batch_done_brn {border: 1px solid #768BF4; background-color: #fff; color: #768BF4; margin-left: 5px;}
+#wrap #main .first_card .card_sect_footer .batch_done_brn:active:focus {background-color: rgb(240, 240, 240);}
+
+
+
+
+/********* step_1_card *********/
+#wrap #main .sample_analysis_sect .step_1_card {display: none; height: 90px; transition: 0.5s all; overflow: hidden;}
+#wrap #main .sample_analysis_sect .step_1_card.on {display: block; height: 90px;}
+#wrap #main .sample_analysis_sect .step_1_card.on.active {height: 900px;}
+
+.sample_analysis_sect .step_1_card .card_header {background: url('../../images/down_arrow.png') no-repeat right 60px center; line-height: 40px; cursor: pointer;}
+.sample_analysis_sect .step_1_card.active .card_header {background-image: url('../../images/up_arrow.png');}
+
+/* step_1_card - sample_analysis_form */
+.sample_analysis_form .analysis_box {width: 100%; display: flex; flex-wrap: wrap;}
+
+.sample_analysis_form .analysis_box .list_box {width: calc(100% + 5px); padding-right: 0; margin-left: -5px;}
+.sample_analysis_form .analysis_box .info_list_wrap {width: 100%; display: flex; flex-wrap: wrap;}
+.analysis_box .info_list_wrap .info_list {width: 290px; text-align: center; line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; margin-left: 5px; margin-bottom: 10px;}
+
+.disabled_box > input[type="text"] {line-height: 40px; border: 1px solid #D9D9D9; border-radius: 5px; padding: 0px 20px; background-color: #F7F7F8;}
+
+.sample_analysis_form .analysis_box .bottom_form_box {width: 100%; display: flex; flex-wrap: wrap;}
+.sample_analysis_form .analysis_box .bottom_form_box .form_box {width: calc(33.3333% - 0px);}
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(1),
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(4) {padding-left: 0; padding-right: 10px;}
+
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(2),
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(5) {padding-left: 5px; padding-right: 5px;}
+
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(3),
+#main .sample_analysis_form .bottom_form_box .form_box:nth-child(6) {padding-left: 10px; padding-right: 0px;}
+
+
+
+
+/********* step_2_card *********/
+#wrap #main .sample_analysis_sect .step_2_card {display: none; height: 90px; transition: 0.3s all; overflow: hidden;}
+#wrap #main .sample_analysis_sect .step_2_card.on {display: block; height: 90px;}
+#wrap #main .sample_analysis_sect .step_2_card.on.active {height: 265px;}
+
+.sample_analysis_sect .step_2_card .card_header {background: url('../../images/down_arrow.png') no-repeat right 60px center; line-height: 40px; cursor: pointer;}
+.sample_analysis_sect .step_2_card.active .card_header {background-image: url('../../images/up_arrow.png');}
+
+.step_2_card .card_cont_box .batch_info_table {width: 100%; border-top: 1px solid #D1DADF;}
+.step_2_card .card_cont_box .batch_info_table tr {border-bottom: 1px solid #D1DADF;}
+.step_2_card .card_cont_box .batch_info_table tr > th {color: #7C8798; font-weight: 700;}
+
+.step_2_card .card_cont_box .batch_info_table tr > th,
+.step_2_card .card_cont_box .batch_info_table tr > td {text-align: center; line-height: 50px;}
+
+.step_2_card .card_cont_box .batch_info_table tr > td {background-color:#768BF5 ; color: #fff;}
+
+
+
+
+
+
+/******* step_3_card *******/
+#wrap #main .sample_analysis_sect .step_3_card {display: none; margin-bottom: 50px; display: none;}
+
+/* on */
+#wrap #main .sample_analysis_sect .step_3_card.on {display: block; margin-bottom: 50px;}
+
+.step_3_card .common_form .form_box {width: 100%;}
+.step_3_card .common_form .form_box > textarea {height: 200px;}
+#main .step_3_card  .card_header {margin-bottom: 20px;}
+
+
+
+/* card_footer */
+#wrap .card_footer {display: flex; justify-content: space-between; padding: 0; width: 100%;}
+#wrap .card_footer > .common_btn1 {width: 150px; display: inline-block;}
+#wrap .list_btn {background-color: #7C8798;}
+
+#wrap .list_btn:active:focus {
+    background-color: #656e7a;
+}
+
+
+
+.method_comment_box .form_box {width: 100%;}
+.method_comment_box .form_box > textarea {height: 110px;}
+#main .photo_btn {display: inline-block; width: 35px; height: 20px; font-size: 1.1rem; line-height: 15px; margin-left: 5px; font-weight: 400; transform: translateY(-1px);}
+
+
+
+
+#main .method_footer_btnbox {position: relative; padding: 0 10px;}
+#main .method_footer_btnbox .enroll_btn {margin-right: 0;}
+#main .method_footer_btnbox .add_list_box {width: 150px; text-align: center; box-shadow: 0 0 6px rgba(0, 0, 0, 0.15); position: absolute; background-color: #fff; right: 10px; bottom: auto; top: 60px; border-radius: 5px; transition: 0.5s all; overflow: hidden; height: 0; opacity: 0;}
+#main .method_footer_btnbox .add_list_box .add_list {transition: 0.2s all;}
+#main .method_footer_btnbox .add_list_box .add_list > a {display: block; line-height: 40px;}
+
+/* hover */
+#main .method_footer_btnbox .add_list_box .add_list:hover {background-color: #F7F7F8;}
+
+/* active */
+#main .method_footer_btnbox .enroll_btn.active + .add_list_box {height: 120px; opacity: 1;}
+
+
+
+
+
+/* #_photoModal */
+#main.modal_on #_photoModal.on .modal_box {
+    max-width: 700px;
+}
+
+#_photoModal .photo_box {
+    margin: 0 30px 20px;
+    height: 450px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+#_photoModal .photo_box .photo_list {
+    position: relative;
+    width: calc(50% - 10px);
+    margin-right: 15px;
+    height: 390px;
+    padding: 50px 15px;
+    border: 1px solid #D9D9D9;
+    background-color: #fff;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+#_photoModal .photo_box .photo_list .del_btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    line-height: 1;
+    padding-bottom: 4px;
+    background-color: #FF5858;
+}
+
+#_photoModal .photo_box .photo_list:nth-child(2n) {
+    margin-right: 0;
+}
+
+#_photoModal .photo_box .photo_list .photo_win {
+    background-color: #BAC3D3;
+    height: 200px;
+    margin-bottom: 10px;
+    width: 258px;
+}
+
+#_photoModal .photo_box .photo_list .photo_win > img {
+    width: 100%;
+}
+
+
+#_photoModal .photo_box .photo_list > label textarea {
+    border: 1px solid #D9D9D9;
+    width: 100%;
+    height: 110px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+#_photoModal .modal_footer > label {
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: top;
+}
+
+#_photoModal .modal_footer .modal_btn {
+    font-size: 14px;
+}
+
+
+
+
+/* .cont_footer_btnbox */
+.cont_footer_btnbox {
+    display: none;
+    justify-content: right;
+
+}
+
+.cont_footer_btnbox .download_btn,
+.cont_footer_btnbox .list_btn {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* list_btn */
+#main .cont_footer_btnbox .list_btn {
+    width: 110px;
+}
+
+.cont_footer_btnbox .download_btn.off,
+.cont_footer_btnbox .list_btn.off {
+    display: none;
+}

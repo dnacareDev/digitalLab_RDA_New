@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.GeneticMapper">
+
+    <select id="selectGeneticBySeed" parameterType="Map" resultType="Genetic">
+        SELECT g2.*, g1.genetic parents_name
+        FROM seed s
+                 LEFT OUTER JOIN genetic g2 ON g2.genetic_id  = s.genetic_id
+                 LEFT OUTER JOIN genetic g1 ON g1.genetic_id = g2.GENETIC_PARENTS
+        WHERE s.SEED_ID IN
+        <foreach collection="list" item="item" index="index" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectGeneticIdByPlan" resultType="Genetic" parameterType="int">
+        SELECT g2.genetic_id,g2.GENETIC, g2.GENETIC_TYPE, g2.GENETIC_DEPTH, g2.GENETIC_PARENTS, g1.genetic parents_name,s.seed_id,s.seed_code,s.seed_amount
+        FROM seed s
+                 JOIN genetic g2 ON g2.genetic_id  = s.genetic_id
+                 JOIN genetic g1 ON g1.genetic_id = g2.GENETIC_PARENTS
+        WHERE s.SEED_ID IN (
+            SELECT seed_id
+            FROM plan_seed
+            where plan_id = #{plan_id}
+        )
+
+    </select>
+    
+    <!-- 품종 리스트 가져오기 -->
+    <select id="selectGeneticDepth" resultType="Genetic">
+    	SELECT
+    	*
+    	FROM genetic 
+    	<where>
+    		<if test="genetic_parents != -1">
+    			AND genetic_parents = #{genetic_parents}
+    		</if>
+    			AND genetic_depth = #{genetic_depth}
+    			AND genetic_type = #{genetic_type}
+    			
+    	</where>
+    </select>
+    
+    <!-- 품종 신규등록 -->
+    <insert id="insertGenetic" parameterType="Genetic">
+    	INSERT
+    	INTO genetic (genetic_id , genetic , genetic_type , genetic_depth , genetic_parents)
+    	VALUES (#{genetic_id} , #{genetic} , #{genetic_type} , #{genetic_depth} , #{genetic_parents})
+    </insert>
+    
+    <!-- 시퀀스번호 -->
+    <select id="getSeqId" resultType="int">
+        SELECT genetic_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="getGeneticChartData" resultType="GeneticChart">
+        SELECT G1.GENETIC,  PL.PLAN_STATUS, count(*) AS genetic_count
+        FROM PLAN PL
+                 JOIN PLAN_SEED PS on PL.PLAN_ID = PS.PLAN_ID
+                 JOIN SEED S on PS.SEED_ID = S.SEED_ID
+                 JOIN GENETIC G2 on S.GENETIC_ID = G2.GENETIC_ID
+                 JOIN GENETIC G1 ON G2.GENETIC_PARENTS = G1.GENETIC_ID
+        <where>
+	        <if test="user.authority != 'ADMIN'">
+	        	<if test="user.authority != 'MANAGER' ">
+				AND PL.plan_code LIKE '%'||#{user.groupCode}||'%'
+				</if>
+       		</if>
+        </where>
+        GROUP BY G1.GENETIC, PL.PLAN_STATUS
+    </select>
+</mapper>
+

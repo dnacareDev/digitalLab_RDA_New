@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.InstrumentMapper">
+    
+    <!-- 기구 등록 -->
+    <insert id="registInstrument" parameterType="Instrument">
+    	INSERT
+    	INTO instrument (instrument_id , account , instrument_code , instrument_name , instrument_status, create_date)
+    	VALUES (#{instrument_id} , #{account} , #{instrument_code} , #{instrument_name} , 1 , SYSDATE)
+    </insert>
+    
+    <!-- 기구 수정 -->
+    <update	id="modifyInstrument" parameterType="Instrument">
+    	UPDATE
+    	instrument
+    	SET
+    	<if test="instrument_name != ''">
+    		instrument_name = #{instrument_name},
+    		modify_date = SYSDATE
+    	</if>
+    	WHERE instrument_id = #{instrument_id}
+    </update>
+
+	<!-- 기구 검색 목록 -->
+	<select id="selectInstrumentList" resultType="Instrument">
+        SELECT
+        TO_CHAR(i.create_date , 'YYYY-MM-DD hh24:mm') as create_date, i.* , u.name as registrant 
+        FROM instrument i LEFT OUTER JOIN users u
+        	ON i.account = u.account
+        WHERE STATUS = 1
+        	<if test="authority != 'ADMIN'">
+        		<if test="authority != 'MANAGER' ">
+				AND i.instrument_code LIKE '%'||#{groupCode}||'%' 
+				</if>
+        	</if>
+        ORDER BY i.create_date DESC
+    </select>
+	
+	<!-- 장비명 중복체크 -->
+    <select id="checkDuplicateName" parameterType="String" resultType="Instrument">
+        SELECT instrument_id , instrument_name
+        FROM instrument
+        WHERE instrument_name = #{instrument_name}
+    </select>
+	
+	<!-- 일련번호 -->
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (SELECT instrument_code
+              FROM instrument
+              WHERE instrument_code LIKE '%'||#{group_code}||'%'
+              ORDER BY instrument_id DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+	
+	<!-- 시퀀스번호 -->
+    <select id="getSeqId" resultType="int">
+        SELECT instrument_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="selectInstrumentById" parameterType="int" resultType="Instrument">
+        SELECT ins.*,
+               (SELECT count(*) FROM instrument ins
+                LEFT JOIN step s on ins.instrument_id = s.instrument_id
+                WHERE ins.instrument_id = #{instrument_id}) as instrument_join_count
+               from instrument ins
+        where ins.instrument_id = #{instrument_id}
+    </select>
+
+    <update id="deleteInstrument">
+        UPDATE instrument
+        SET status = -1
+        WHERE instrument_id = #{instrument_id}
+    </update>
+
+</mapper>

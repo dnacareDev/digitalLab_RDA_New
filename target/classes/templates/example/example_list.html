@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:include="./fragments/header.html"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 데이터 검증</title>
+    <link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/common.css">
+    <link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+    <link type="text/css" rel="stylesheet" href="/css/style/sample_analysis.css">
+    
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/sample analysis.css">
+    
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+        #wrap .card_cont_box .card_table th {padding: 0 10px;}
+        #main .cont_footer_box.card_table_footer {
+            bottom: 0px;
+        }
+        #main .cont_footer_box.card_table_footer {
+            justify-content: right;
+        }
+        #main .method_footer_btnbox .enroll_btn {
+                display: inline-block;
+                text-align: center;
+                line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box sample_analysis_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">데이터 검증</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">데이터 검증</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <div class="col_select_box select_box">
+                            <span>show</span>
+                            <select id="limit_select" class="col_select common_select">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                        <div class="right_head_box">
+                            <div class="sec_select_box select_box">
+                                <select class="sec_select common_select">
+                                    <option value="none" hidden>전체</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_cont_box">
+                    
+                    	<div id="exampleGrid"></div>
+                    	
+                        <div class="cont_footer_box card_table_footer">
+                            <div class="cont_footer_btnbox method_footer_btnbox" >
+                                <div class="add_btn_box" >
+                                    <a class="common_btn1 method_btn enroll_btn"
+                                        href="/example/example_regist">신규 등록</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <th:block th:include="./fragments/commonjs.html"></th:block>
+        <!-- 공통 구조 - main end -->
+    </div>
+    <script th:inline="javascript" type="text/javascript">
+	let currentPageNo = 0;
+    let recordsPerPage = 0;
+    let pageSize = 0;
+    let maxCount = 0;
+    let maxPage = 0;
+    
+    $(document).ready(function(){
+    	searchExampleGrid(1);
+    })
+
+    let exampleGrid = null;
+    
+    function searchExampleGrid(pageNo){
+        let limit = $('#limit_select').val();
+        exampleGrid = new tui.Grid({
+            el: document.getElementById('exampleGrid'),
+            scrollX: true,
+            scrollY: false,
+            rowHeaders: [
+                {
+                    type: 'rowNum',
+                    renderer: RowNumRenderer
+                }
+            ],
+            editingEvent: 'click',
+            columns: [],
+            columnOptions: {
+                resizable: true
+              },
+            pageOptions: {
+                useClient: true,
+                perPage: limit,
+            }
+        });
+
+        const headerArr = [
+            {
+                "header" : "과제 번호",
+                "name" : "prj_dtl_no",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+            {
+                "header" : "과제명",
+                "name" : "prj_dtl_nm",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+            {
+                "header" : "작목명",
+                "name" : "crop_list",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+            {
+                "header" : "품종/유전자원명",
+                "name" : "kind_list",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+            {
+                "header" : "분석 항목",
+                "name" : "division",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+            {
+                "header" : "등록일",
+                "name" : "create_date",
+                sortable: true,
+                filter: {type: 'text', showApplyBtn: true, showClearBtn: true}
+            },
+        ]
+        exampleGrid.setColumns(headerArr);
+        exampleGrid.resetData([[${result.list}]]);
+
+        exampleGrid.on('click',(ev) => {
+            if(ev.columnName === 'prj_dtl_no'){
+                let id = exampleGrid.getRow(ev.rowKey).verification_id;
+                location.href=`/example/example_modify?verification_id=${id}`;
+            }
+        });
+    }
+    $('#limit_select').change(function(){
+        if(exampleGrid != null){
+        	exampleGrid.destroy();
+        	searchExampleGrid(1);
+        }
+    })
+
+    </script>
+</body>
+</html>

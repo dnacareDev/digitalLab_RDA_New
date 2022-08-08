@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 파비콘 -->
+	<link rel="icon" href="/favicon.ico">
+	<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+	<title>Digital Lab - 시료 관리</title>
+	<link rel="stylesheet" href="/css/common/reset.css">
+	<link rel="stylesheet" href="/css/common/common.css">
+	<link rel="stylesheet" href="/css/common/ui.css">
+	<link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+	<script src="/js/common/jquery-3.6.0.js"></script>
+	<script src="/js/common/loadHeader.js"></script>
+	<script src="/js/common/common.js"></script>
+	<script src="/js/harvesting_after.js"></script>
+
+	<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+	<link rel="stylesheet" href="../../static/css/common/common.css">
+	<link rel="stylesheet" href="../../static/css/common/ui.css">
+	<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+
+	<script src="../../static/js/common/jquery-3.6.0.js"></script>
+	<script src="../../static/js/common/loadHeader.js"></script>
+	<script src="../../static/js/common/common.js"></script>
+	<script src="../../static/js/harvesting_after.js"></script> -->
+	<style>
+		#wrap #main .card {
+			padding-top: 30px;
+		}
+
+		#wrap #main .top_task_use {
+			justify-content: left;
+			margin-bottom: 40px;
+		}
+
+		#wrap #main .card_sect_footer span {
+			font-size: 1.4rem;
+			color: darkgray;
+		}
+
+		.caution {
+			margin-bottom: 30px;
+			font-size: 1.4rem;
+			color: red;
+			padding-left: 60px;
+		}
+
+		.appl_regist_box {
+			display: flex;
+			justify-content: right;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+			<!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">시료관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">시료 관리 -</li>
+						<li class="card_inner_list">고급 상세보기 (<th:block th:each=" value : ${result.reportList}">
+								<span th:text="${value.prj_dtl_no}"
+									th:if="${value.report_id} == ${result.report.report_id}"></span>
+							</th:block>)
+						</li>
+					</ul>
+					<div class="print_box on">
+						<button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<div class="card_sect_footer top_task_use">
+							<input type="checkbox" id="task_unrelated" class="common_checkBox task_unrelated_check"
+								disabled th:checked="${result.report.rnd_phase_nm == null}"> <label id="report_chk"
+								for="task_unrelated" class="common_check_label task_unrelated_label"></label> <span>과제
+								비연계</span>
+						</div>
+						<form class="harvesting_form common_form">
+							<input id="report_chk" name="report_chk" type="hidden" value="false" />
+							<div class="form_box task_box select_box">
+								<label class="file_title">과제 정보</label> <select class="task_select common_select"
+									disabled="true">
+									<option value="-1" hidden>과제 정보 선택</option>
+									<th:block th:each=" item : ${result.reportList}">
+										<option th:value="${item.report_id}"
+											th:selected="${item.report_id} == ${result.report.report_id}">
+											(<span th:text="${item.prj_dtl_no}"></span>)<span
+												th:text="${item.prj_nm}"></span>
+										</option>
+									</th:block>
+								</select>
+								<input type="hidden" name="report_id" th:value="${result.report.report_id}" />
+							</div>
+							<div class="form_box explane_box">
+								<label class="file_title">원과제 설명</label>
+								<textarea name="report_comment" th:text="${result.report.report_comment}"
+									id="report_comment" class=""></textarea>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<th:block th:each=" seed : ${result.seedList}">
+					<div class="card has_file_card">
+						<div class="card_cont_box join_count" th:data-count="${seed.seed_join_count}">
+							<span th:if="${seed.seed_join_count} != 1" class="caution">사용중인 시료로 수정,삭제가 불가 합니다.</span>
+							<form id="seedForm" class="common_form harvesting_file_form seedForm">
+								<div class="appl_regist_box">
+									<button type="button" class="appl_regist_btn common_btn1" th:onclick="onClickDeleteSeed([[${seed.seed_id}]]);" th:disabled="${seed.seed_join_count != 1}">시료 삭제</button>
+								</div>
+								<div class="select_box form_box harvesting_input_box hidden_box sample_box">
+									<label class="harvesting_form_title">샘플 ID</label>
+									<div class="form_inner_box">
+										<input type="text" id="" th:value="${seed.seed_code}" readonly="readonly">
+									</div>
+								</div>
+								<div class="harvest_form_box">
+									<div class="select_box harvesting_input_box hidden_box hidden">
+										<label class="harvesting_form_title">생성 일자</label> <input type="text"
+											id="">
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>발송인
+											정보</label> <input type="text" id="seed_sender" name="seed_sender"
+											th:value="${seed.seed_sender}" th:readonly="${seed.seed_join_count != 1}">
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>수취인
+											정보</label> <select class="common_select" id="seed_receiver"
+											name="seed_receiver" th:disabled="${seed.seed_join_count != 1}">
+											<option value="-1" hidden>수취인 선택</option>
+											<th:block th:each=" user : ${userList}">
+												<option th:value="${user.account}" th:text="${user.name}"
+													th:selected="${user.account} == ${seed.seed_receiver}"></option>
+											</th:block>
+										</select>
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>발송
+											일자</label> <input type="date" id="" name="send_date" th:value="${#strings.substring(seed.send_date,0,10)}" th:readonly="${seed.seed_join_count != 1}">
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>수취
+											일자</label> <input type="date" id=""
+											name="receive_date" th:value="${#strings.substring(seed.receive_date,0,10)}" th:readonly="${seed.seed_join_count != 1}">
+									</div>
+									<div class="select_box form_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>품종/유전자원
+											정보</label>
+										<div class="form_inner_box">
+											<input type="text" id="" name="genetic_text" class="viewText"
+												readonly th:value="${seed.genetic_depth1}+' < '+${seed.genetic_depth2}"><button type="button"
+												class="form_btn common_btn1 modal_on_btn viewBtn" onclick="onClickView(this)"
+												data-modal="kindSelect" th:disabled="${seed.seed_join_count != 1}">조회</button>
+											<input type="hidden" id="genetic_id" name="genetic_id" class="genetic_id" th:value="${seed.genetic_id}" />
+											<input type="hidden" id="genetic_parents" name="genetic_parents" class="genetic_parents" th:value="${seed.genetic_parents}"/>
+											<input type="hidden" id="genetic_type" name="genetic_type" class="genetic_type" th:value="${seed.genetic_type}"/>
+											<input type="hidden" id="genetic_top" name="genetic_top" class="genetic_top"/>
+											<input type="hidden" id="genetic" name="genetic" class="genetic" th:value="${seed.genetic}"/>
+										</div>
+									</div>
+								</div>
+								<div class="harvest_form_box">
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>시료량</label>
+										<div class="harvesting_inner_box">
+											<input type="text" id="seed_amount" name="seed_amount"
+												th:value="${seed.seed_amount}" th:readonly="${seed.seed_join_count != 1}"> <select
+												class="common_select" id="" name="each_id">
+												<option value="-1" hidden>단위 선택</option>
+												<th:block th:each="each : ${eachList}">
+													<option th:value="${each.each_id}" th:text="${each.each}"
+														th:selected="${each.each_id} == ${seed.each_id}"
+															th:disabled="${seed.seed_join_count != 1}"
+													></option>
+												</th:block>
+											</select>
+										</div>
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>시료
+											형태</label> <select class="common_select" id="seed_type"
+											name="seed_type" th:disabled="${seed.seed_join_count != 1}">
+											<option value="-1" th:selected="${seed.seed_type == -1}" hidden>시료 형태 선택</option>
+											<option value="1" th:selected="${seed.seed_type == 1}">원재료(row)</option>
+											<option value="2" th:selected="${seed.seed_type == 2}">정선(clean)</option>
+											<option value="3" th:selected="${seed.seed_type == 3}">분말(powder)</option>
+											<option value="4" th:selected="${seed.seed_type == 4}">액상(liquid)</option>
+											<option value="5" th:selected="${seed.seed_type == 5}">기타(etc)</option>
+										</select>
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title"><span>*</span>저장
+											장소</label> <select class="common_select" id="place_id"
+											name="place_id">
+											<option value="-1" hidden>저장 장소 선택</option>
+											<th:block th:each=" place : ${placeList}">
+												<option th:value="${place.place_id}"
+													th:text="${place.place_name}"
+													th:selected="${place.place_id} == ${seed.place_id}"
+													th:disabled="${seed.seed_join_count != 1}"
+												></option>
+											</th:block>
+										</select>
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title">저장 온도/습도</label> <input
+											type="text" id="seed_temp" name="seed_temp"
+											th:value="${seed.seed_temp}" th:readonly="${seed.seed_join_count != 1}">
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title">담당자</label> <select
+											class="common_select" id="seed_manager" name="seed_manager" readonly>
+											<option value="-1" hidden>담당자 선택</option>
+											<th:block th:each=" user : ${userList}">
+												<option th:value="${user.account}"
+													th:text="${user.name}"
+													th:selected="${seed.seed_manager} == ${user.account}"
+													th:disabled="${seed.seed_join_count != 1}"
+												></option>
+											</th:block>
+										</select>
+									</div>
+									<div class="select_box harvesting_input_box">
+										<label class="harvesting_form_title">Comment</label>
+										<textarea name="seed_comment" id="seed_comment"
+											th:text="${seed.seed_comment}" th:readonly="${seed.seed_join_count != 1}"></textarea>
+									</div>
+								</div>
+								<input th:if="${seed.seed_join_count == 1}" type="hidden" class="seed_id" name="seed_id" th:value="${seed.seed_id}">
+								<input type="hidden" name="create_date" th:value="${seed.create_date}">
+							</form>
+							<div class="card_sect_footer">
+								<button type="button" class="common_btn1 info_add_btn">추가</button>
+							</div>
+						</div>
+					</div>
+				</th:block>
+
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<div class="re_btn_box">
+						<button th:if="${session.LOGIN_MEMBER.account == result.report.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="save_btn common_btn1" onclick="onClickRegist();">수정</button>
+						<button th:if="${session.LOGIN_MEMBER.account == result.report.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickDelete();">삭제</button>
+					</div>
+				</div>
+					
+
+			</section>
+			
+			<!-- 변경 이력 -->
+			 <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+                            	
+                            	<th:block th:each=" log : ${result.logList}">
+	                                <li class="change_list">
+	                                    <span class="change_check"></span>
+	                                    <div class="chang_text_box">
+	                                        <p class="change_text"><span th:text="${log.data_code}"></span> 
+	                                        <th:block th:switch="${log.action_type}">
+	                                        	<span th:case="1">등록</span>
+	                                        	<span th:case="2">수정</span>
+	                                        	<span th:case="3">삭제</span>
+	                                        	<span th:case="4">추가</span>
+	                                        </th:block>
+	                                        </p>
+	                                        <span class="change_date" th:text="${log.log_date}"></span>
+	                                    </div>
+	                                </li>
+                            	</th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<!-- 분석항목 -->
+			<div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<p class="modal_form_title">품종/유전정보</p>
+							<div class="raido_box_wrap">
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_kind" value="1"> <label
+										for="_kind"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_genetic" value="2"> <label
+										for="_genetic"></label>
+								</div>
+								<div class="radio_box">
+									<input type="radio" name="kindInfo" id="_etc" value="3"> <label
+										for="_etc"></label>
+								</div>
+							</div>
+						</div>
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">작목</label> <select
+								class="common_select" id="genetic_main"
+								onchange="onChangeGenetic(event);">
+								<option value="-1" hidden>작목 선택</option>
+								<th:block th:each=" genetic : ${geneticList}">
+									<option th:value="${genetic.genetic_id}"
+										th:text="${genetic.genetic}"></option>
+								</th:block>
+								<option value="-2">신규등록</option>
+							</select>
+						</div>
+						
+						<div class="form_box modal_input_box off new_input_form_1" style="width: 100%;
+																						    padding-right: 0px;
+																						    flex-direction: row;
+																						    align-items: center;">
+							<label class="modal_form_title">신규 항목</label> <input
+								type="text" id="new_text_1">
+						</div>
+						
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title" id="genetic_name">품종</label>
+							<select class="common_select" id="genetic_sub">
+								<option value="-1" id="selectBox_type_text" hidden>품종선택</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off new_input_form_2">
+							<label class="modal_form_title">신규 항목</label> <input
+								type="text" id="new_text_2">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn">사용</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script th:inline="javascript" type="text/javascript">
+		let user_report_id = `[[${result.report.user_report_id}]]`;
+		
+		let result = [[${result}]];
+		
+		console.log(result , "result")
+	</script>
+	<script>
+		
+		$('.list_btn').on('click' , function(){
+			location.href=`/seed/seed_list`;
+		})
+		
+		// 원과제 설명
+		$('#report_id').on('change', function(e) {
+			let report_id = e.target.value;
+
+			$('#report_comment').val('');
+
+			$.ajax({
+				url : `/api/report/${report_id}`,
+				type : "GET",
+				success : function(data) {
+
+					$('#report_comment').val(data.report_comment);
+				}
+			})
+		})
+		
+		// form data object 변환
+		function convertToObject(arrayData) {
+			var object = {};
+			for (var i = 0; i < arrayData.length; i++) {
+				object[arrayData[i]['name']] = arrayData[i]['value'];
+			}
+				
+			return object;
+		}
+		
+		let genetic_type = 1;
+		
+		$('input[name="kindInfo"]').on('click' , function(e){
+			$('#selectBox_type_text').nextAll().remove();
+			
+			if(e.target.id == '_kind'){
+				genetic_type = 1;
+				$('#selectBox_type_text').text("품종을 선택해주세요");
+				$('#genetic_name').text("품종");
+				removeForm(2);
+			}
+			
+			if(e.target.id == '_genetic'){
+				genetic_type = 2;
+				$('#selectBox_type_text').text("유전자원명을 선택해주세요");
+				$('#genetic_name').text("유전자원명");
+				removeForm(2);
+			}
+			
+			if(e.target.id == '_etc'){
+				genetic_type = 3;
+				$('#selectBox_type_text').text("기타를 선택해주세요");
+				$('#genetic_name').text("기타");
+				removeForm(2);
+			}
+			let geneticParentsVal = $("#genetic_main option:selected").val();
+			$.ajax({
+				url : `/api/genetic/genetic_depth?genetic_parents=${geneticParentsVal}&genetic_depth=2&genetic_type=${genetic_type}`,
+				type : "GET",
+				success : function(data){
+
+					$('#selectBox_type_text').nextAll().remove();
+
+					for(i of data){
+						let display = `<option value="${i.genetic_id}" >${i.genetic}</option>`;
+
+						$('#genetic_sub').append(display);
+					}
+					let display = `<option value="-2">신규등록</option>`;
+					$('#genetic_sub').append(display);
+				}
+			})
+
+		})
+
+		//체인지
+		function onChangeGenetic(event){
+			
+			let genetic_parents = event.target.value;
+			
+			$('#selectBox_type_text').nextAll().remove();
+			
+			if(genetic_parents == -2){
+				
+				$('.new_input_form_1').removeClass('off');
+				$('#new_text').val("");
+			}else{
+				removeForm(1);
+				removeForm(2);
+			}
+			
+			$.ajax({
+				url : `/api/genetic/genetic_depth?genetic_parents=${genetic_parents}&genetic_depth=2&genetic_type=${genetic_type}`,
+				type : "GET",
+				success : function(data){
+
+					for(i of data){
+						let display = `<option value="${i.genetic_id}" >${i.genetic}</option>`;
+					
+						$('#genetic_sub').append(display);
+					}
+
+					let display = `<option value="-2">신규등록</option>`;
+					$('#genetic_sub').append(display);
+				}
+			})
+		}
+		
+		$('#genetic_sub').on('change' , function(e){
+			
+			if(e.target.value == -2){
+				$('.new_input_form_2').removeClass('off');
+				$('#new_text_2').val("");
+
+			}else{
+				removeForm(2);
+			}
+		})
+		
+		function removeForm(depth){
+			$('.new_input_form_'+depth).addClass('off');
+			$('.new_input_form_'+depth).val('');
+		}
+
+		//사용 버튼
+		$('.modal_btn').on('click' , function(){
+			
+			let genetic_main_id = $('#genetic_main').val();
+			let genetic_sub_id = $('#genetic_sub').val();
+			let genetic_main = $('#genetic_main option:checked').text();
+			let genetic_text = $('#genetic_sub option:checked').text();
+			if(genetic_main_id == -1){
+				alert("용도를 선택해주세요.")
+				return;
+			}
+			
+			if(genetic_sub_id == -1){
+				alert("서브카테고리를 선택해주세요.");
+				return;
+			}
+			
+			if(genetic_main_id == -2){
+				let new_text = $('#new_text_1').val();
+				if(new_text != ''){
+					genetic_main = new_text;
+				}else{
+					alert("신규 세부 항목을 입력해주세요");
+					return;
+				}
+				document.querySelectorAll(".genetic_top")[clickIndex].value = new_text;
+			}
+
+			if(genetic_sub_id == -2){
+				let new_text = $('#new_text_2').val();
+				if(new_text != ''){
+					genetic_text = new_text;
+				}else{
+					alert("신규 세부 항목을 입력해주세요");
+					return;
+				}
+				document.querySelectorAll(".genetic")[clickIndex].value = new_text;
+			}
+			
+			const geneticType = document.querySelectorAll(".genetic_type")[clickIndex];
+			const geneticParents = document.querySelectorAll(".genetic_parents")[clickIndex];
+			const geneticId = document.querySelectorAll(".genetic_id")[clickIndex];
+
+			const viewText = document.querySelectorAll(".viewText")[clickIndex];
+
+			geneticType.value = genetic_type;
+			geneticParents.value = genetic_main_id;
+			geneticId.value = genetic_sub_id;
+
+			viewText.value = `${genetic_main} < ${genetic_text}`
+
+			document.getElementById('main').classList.remove('modal_on');
+		})
+
+		function onClickDeleteSeed(seed_id){
+			if(!confirm("해당 시료를 삭제하시겠습니까")){
+				return;
+			}
+			$.ajax({
+				url : "/seed/delete/" + seed_id,
+				type : "POST",
+				success : function(data) {
+
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("삭제되었습니다");
+						location.reload();
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		function onClickDelete(){
+			const countEl = document.querySelectorAll('.join_count');
+			let countChk = true;
+			countEl.forEach(el =>{
+				const count = el.dataset.count;
+				if(count != 1){
+					alert("삭제가 불가능합니다");
+					countChk = false;
+					return;
+				}
+			})
+
+			if(!countChk){
+				return;
+			}
+
+			if(!confirm("전체 시료를삭제하시겠습니까")){
+				return;
+			}
+			
+			$.ajax({
+				url : `/seed/deleteAll/${user_report_id}`,
+				type : "POST",
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("삭제되었습니다");
+						location.href = `/seed/seed_list`
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+
+		}
+
+		function validateFunction(name, title, type) {
+
+			let len = 0;
+
+			if(type == 1 || type == 3){
+				len = $('input[name="'+name+'"]').length;
+			}else if(type == 2){
+				len = $('select[name="'+name+'"]').length;
+			}
+			for (let i = 0; i < len; i++) {
+
+				let value;
+				if(type == 1 || type == 3){
+					value = $('input[name="'+name+'"]').eq(i).val();
+				}else if(type == 2){
+					value = $('select[name="'+name+'"]').eq(i).val();
+				}
+
+				if(type == 1){
+					if (value == '') {
+						alert(title + ' 입력해주세요');
+						return false;
+					}
+				}else if(type == 2){
+					if (value == -1) {
+						alert(title + ' 입력해주세요');
+						return false;
+					}
+				}else if(type == 3){
+					if(!Date.parse(value)){
+						alert(title + ' 입력해주세요');
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		function checkForm() {
+			let chk = $('#task_unrelated').is(':checked');
+
+			if (!chk) {
+
+				let selected = $('#report_id').val();
+
+				if (selected == '-1') {
+					alert("과제를 선택해주세요");
+					return false;
+				}
+			}
+
+			if (!validateFunction('seed_sender', '발송인 정보를', 1)) {
+				return false;
+			}
+
+			if (!validateFunction('seed_receiver', '수취인 정보를', 2)) {
+				return false;
+			}
+
+			if (!validateFunction('send_date', '발송 일자를', 3)) {
+				return false;
+			}
+
+			if (!validateFunction('receive_date', '수취 일자를를', 3)) {
+				return false;
+			}
+
+			if (!validateFunction('genetic_text', '품종/유전자원 정보를', 1)) {
+				return false;
+			}
+
+			if (!validateFunction('seed_amount', '시료량을', 1)) {
+				return false;
+			}
+
+			if (!validateFunction('each_id', '단위를', 2)) {
+				return false;
+			}
+
+			if (!validateFunction('seed_type', '시료 형태를', 2)) {
+				return false;
+			}
+
+			if (!validateFunction('place_id', '저장 장소를', 2)) {
+				return false;
+			}
+
+			return true;
+		}
+
+		function onClickRegist() {
+			if (!checkForm()) {
+				return;
+			}
+
+			let seedList = [];
+
+			for(let i = 0; i<$('.seedForm').length; i++){
+				let seedForm = $($('.seedForm')[i]).serializeArray();
+				seedList.push(convertToObject(seedForm));
+			}
+
+			console.log(seedList , "seedList")
+
+			let report_comment = $('textarea[name="report_comment"]').val();
+			
+			$.ajax({
+				url : "/seed/seed_update",
+				type : "POST",
+				contentType: 'application/json; charset=utf-8',
+				data : JSON.stringify({
+					"report_comment" : report_comment,
+					"seedList" : seedList,
+					"user_report_id" : user_report_id
+				}),
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("시료가 수정되었습니다");
+						location.reload();
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		let clickIndex = null;
+		const onClickView = e => {
+			const viewBtnEls = document.querySelectorAll(".viewBtn");
+			clickIndex = Array.from(viewBtnEls).indexOf(e)
+			console.log("clickIndex : " + clickIndex)
+
+			setModalCheck();
+		}
+
+		function setModalCheck(){
+
+			let geneticTypeVal = document.querySelectorAll(".genetic_type")[clickIndex].value;
+			let geneticParentsVal = document.querySelectorAll(".genetic_parents")[clickIndex].value;
+			let geneticIdVal = document.querySelectorAll(".genetic_id")[clickIndex].value;
+
+			let getModalCheck = document.querySelectorAll("#kindSelect .raido_box_wrap input");
+			getModalCheck[geneticTypeVal - 1].checked = true;
+
+			$('#genetic_main').val(geneticParentsVal).prop("selected",true);
+
+			$.ajax({
+				url : `/api/genetic/genetic_depth?genetic_parents=${geneticParentsVal}&genetic_depth=2&genetic_type=${geneticTypeVal}`,
+				type : "GET",
+				success : function(data){
+
+					$('#selectBox_type_text').nextAll().remove();
+
+					for(i of data){
+						let display = `<option value="${i.genetic_id}" >${i.genetic}</option>`;
+
+						$('#genetic_sub').append(display);
+					}
+					let display = `<option value="-2">신규등록</option>`;
+					$('#genetic_sub').append(display);
+
+					$('#genetic_sub').val(geneticIdVal).prop("selected",true);
+				}
+			})
+
+			if(geneticIdVal == -2){
+				$('.new_input_form').removeClass('off');
+				$('#new_text').val(document.querySelectorAll(".genetic")[clickIndex].value);
+			}else{
+				removeForm(2);
+			}
+
+		}
+
+	</script>
+</body>
+</html>

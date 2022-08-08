@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.EquipmentMapper">
+    
+     <!-- 장비 등록 -->
+    <insert id="registEquipment" parameterType="equipment">
+        INSERT INTO equipment(
+            equipment_id,
+            account,
+            equipment_code,
+           	equipment_name,
+            equipment_date,
+            equipment_price,
+            equipment_range,
+            equipment_public,
+            equipment_purpose,
+            equipment_place,
+            equipment_regist,
+            equipment_manage,
+            equipment_method,
+            equipment_model,
+            equipment_status,
+            USEE_AT_CODE,
+            create_date
+        )
+        VALUES(
+			#{equipment_id},
+			#{account},
+            #{equipment_code},
+            #{equipment_name},
+           	#{equipment_date , jdbcType=DATE},
+            #{equipment_price},
+            #{equipment_range , jdbcType=VARCHAR},
+            #{equipment_public , jdbcType=VARCHAR},
+            #{equipment_purpose , jdbcType=VARCHAR},
+            #{equipment_place , jdbcType=VARCHAR},
+            #{equipment_regist , jdbcType=VARCHAR},
+            #{equipment_manage , jdbcType=VARCHAR},
+            #{equipment_method},
+            #{equipment_model , jdbcType=VARCHAR},
+            #{equipment_status},
+            #{USEE_AT_CODE},
+            SYSDATE
+        )
+    </insert>
+    
+    <!-- 장비 간편등록 -->
+    <insert id="registEquipmentEasy" parameterType="equipment">
+        INSERT INTO equipment(
+            equipment_id,
+            account,
+            equipment_code,
+            equipment_name,
+            USEE_AT_CODE,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            create_date
+        )
+        VALUES(
+            #{equipment_id},
+            #{account},
+            #{equipment_code},
+            #{equipment_name},
+            #{USEE_AT_CODE},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            SYSDATE
+        )
+    </insert>
+    
+    <!-- 장비 수정 -->
+    <update id="equipmentModify" parameterType="equipment">
+    	UPDATE
+    	equipment
+    	SET
+    	equipment_name = #{equipment_name},
+        equipment_date = #{equipment_date , jdbcType=DATE},
+        equipment_price = #{equipment_price},
+        equipment_range = #{equipment_range , jdbcType=VARCHAR},
+        equipment_public = #{equipment_public , jdbcType=VARCHAR},
+        equipment_purpose = #{equipment_purpose , jdbcType=VARCHAR},
+        equipment_place = #{equipment_place , jdbcType=VARCHAR},
+        equipment_regist = #{equipment_regist , jdbcType=VARCHAR},
+        equipment_manage = #{equipment_manage , jdbcType=VARCHAR},
+        equipment_method = #{equipment_method},
+        equipment_model = #{equipment_model , jdbcType=VARCHAR},
+        equipment_status = #{equipment_status},
+        modify_date = SYSDATE
+        WHERE equipment_id = #{equipment_id}
+    </update>
+    
+    <!-- 장비 간편 수정 -->
+    <update id="equipmentModifyEasy" parameterType="equipment">
+    	UPDATE
+    	equipment
+    	SET
+    	equipment_name = #{equipment_name},
+    	<if test="ATCH_FILE_NM != null">
+       	 	ATCH_FILE_NM = #{ATCH_FILE_NM},
+       	 	ORIG_FILE_NM = #{ORIG_FILE_NM},
+    	</if>
+        modify_date = SYSDATE
+        WHERE equipment_id = #{equipment_id}
+    </update>
+	
+	<!-- 장비명 중복체크 -->
+    <select id="checkDuplicateName" parameterType="String" resultType="Equipment">
+        SELECT equipment_id , equipment_name
+        FROM equipment
+        WHERE equipment_name = #{equipment_name}
+    </select>
+	
+	<!-- 권한체크 -->
+	<select id="checkAuth" resultType="int">
+		SELECT COUNT(*)
+		FROM equipment e 
+		WHERE equipment_id = #{equipment_id}
+			AND account = #{user.account}
+			OR (equipment_code LIKE '%'||#{user.groupCode}||'%' AND #{user.authority} = 'MANAGER')
+			OR #{user.authority} = 'ADMIN'  
+	</select>
+	
+	<!-- 일련번호 -->
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (SELECT equipment_code
+              FROM equipment
+              WHERE equipment_code LIKE '%'||#{code}||'%'
+              ORDER BY equipment_id DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+	
+	<!-- 시퀀스번호 -->
+    <select id="getSeqId" resultType="int">
+        SELECT equipment_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+	
+    <select id="searchEquipment" resultType="Equipment">
+            SELECT TO_CHAR(e.create_date , 'YYYY-MM-DD hh24:mm') as create_date , NVL(e.equipment_model , '-') as equipment_model ,
+            	 	NVL(TO_CHAR(e.equipment_date , 'YYYY-MM-DD hh24:mm') , '') as equipment_date , e.*
+            FROM equipment e	
+            WHERE STATUS = 1
+            	<if test="authority != 'ADMIN'">
+            		<if test="authority != 'MANAGER' ">
+	            	AND equipment_code LIKE '%'||#{user_code}||'%'
+	            	</if>
+            	</if>
+        	ORDER BY 
+        	<if test="searchType == 'step' ">
+        		e.equipment_name ASC ,
+        	</if> 
+        	e.create_date DESC , e.equipment_id DESC
+    </select>
+
+    <select id="getCountEquipment" parameterType="SearchParam" resultType="int">
+        SELECT COUNT(*)
+        FROM equipment e
+    </select>
+
+    <select id="selectEquipmentById" parameterType="int" resultType="equipment">
+        SELECT e.*,
+               (SELECT count(*) FROM equipment e
+                LEFT JOIN step s on e.equipment_id = s.equipment_id
+                WHERE e.equipment_id = #{equipment_id}) as equipment_join_count
+        FROM equipment e
+        WHERE e.equipment_id = #{equipment_id}
+    </select>
+
+    <update id="deleteEquipment">
+        UPDATE equipment
+        SET status = -1
+        WHERE equipment_id = #{equipment_id}
+    </update>
+
+</mapper>

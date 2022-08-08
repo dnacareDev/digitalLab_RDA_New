@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.ReagentMapper">
+
+	<insert id="registReagent" parameterType="Reagent">
+        INSERT INTO reagent(
+            reagent_id,
+            account,
+            reagent_code,
+            reagent_name,
+            reagent_cas,
+            reagent_standard,
+            reagent_density,
+            reagent_formula,
+            reagent_nick_k,
+            reagent_nick_e,
+            reagent_production,
+            reagent_amount,
+            each_id,
+            reagent_purpose,
+            place_id,
+            reagent_comment,
+            USEE_AT_CODE,
+            reagent_use,
+            create_date
+        )
+        VALUES(
+            #{reagent_id},
+            #{account},
+            #{reagent_code},
+            #{reagent_name},
+            #{reagent_cas , jdbcType=VARCHAR},
+            #{reagent_standard , jdbcType=VARCHAR},
+            #{reagent_density , jdbcType=VARCHAR},
+            #{reagent_formula , jdbcType=VARCHAR},
+            #{reagent_nick_k , jdbcType=VARCHAR},
+            #{reagent_nick_e , jdbcType=VARCHAR},
+            #{reagent_production , jdbcType=VARCHAR},
+            #{reagent_amount},
+            #{each_id},
+            #{reagent_purpose , jdbcType=VARCHAR},
+            #{place_id},
+            #{reagent_comment , jdbcType=VARCHAR},
+            #{USEE_AT_CODE},
+            #{reagent_use , jdbcType=VARCHAR},
+            SYSDATE
+        )
+    </insert>
+	
+    <insert id="registReagentEasy" parameterType="ReagentEasyParam">
+        INSERT INTO reagent(
+            reagent_id,
+            account,
+            reagent_code,
+            reagent_name,
+            reagent_comment,
+            USEE_AT_CODE,
+            ATCH_FILE_NM,
+            ORIG_FILE_NM,
+            create_date
+        )
+        VALUES(
+            #{reagent_id},
+            #{account},
+            #{reagent_code},
+            #{reagent_name},
+            #{reagent_comment},
+            #{USEE_AT_CODE},
+            #{ATCH_FILE_NM},
+            #{ORIG_FILE_NM},
+            SYSDATE
+        )
+    </insert>
+    
+    <update id="reagentModify" parameterType="Reagent">
+        UPDATE
+        reagent
+        SET
+        reagent_name = #{reagent_name},
+        reagent_cas = #{reagent_cas , jdbcType=VARCHAR},
+        reagent_standard = #{reagent_standard , jdbcType=VARCHAR},
+        reagent_density = #{reagent_density , jdbcType=VARCHAR},
+        reagent_formula = #{reagent_formula , jdbcType=VARCHAR},
+        reagent_nick_e = #{reagent_nick_e , jdbcType=VARCHAR},
+        reagent_nick_k = #{reagent_nick_k , jdbcType=VARCHAR},
+        reagent_production = #{reagent_production , jdbcType=VARCHAR},
+        reagent_amount = #{reagent_amount},
+        each_id = #{each_id},
+        reagent_purpose = #{reagent_purpose , jdbcType=VARCHAR},
+        place_id = #{place_id},
+        reagent_comment = #{reagent_comment}
+        WHERE reagent_id = #{reagent_id}
+    </update>
+    
+    <update id="reagentModifyEasy" parameterType="Reagent">
+        UPDATE
+        reagent
+        SET
+        reagent_name = #{reagent_name},
+        reagent_comment = #{reagent_comment},
+        <if test="ATCH_FILE_NM != null">
+        	<if test="ATCH_FILE_NM != ''">
+       			ATCH_FILE_NM = #{ATCH_FILE_NM},	
+        		ORIG_FILE_NM = #{ORIG_FILE_NM},
+        	</if>
+        </if>
+        modify_date = SYSDATE
+        WHERE reagent_id = #{reagent_id}
+    </update>
+    
+    <select id="checkDuplicateName" parameterType="String" resultType="Reagent">
+        SELECT reagent_id , reagent_name
+        FROM reagent
+        WHERE reagent_name = #{reagent_name}
+    </select>
+
+    <select id="getSeqId" resultType="int">
+        SELECT reagent_seq_id.NEXTVAL
+        FROM DUAL
+    </select>
+
+    <select id="selectReagentList" resultType="Reagent">
+        SELECT
+        re.REAGENT_ID , re.reagent_code , re.usee_at_code , re.reagent_name , NVL(re.reagent_standard , '-') as reagent_standard , NVL(re.reagent_nick_e , '-') as reagent_nick_e , NVL(re.reagent_nick_k , '-') as reagent_nick_k ,
+        NVL(re.reagent_production , '-') as reagent_production , NVL(re.reagent_density , '-') as reagent_density , account , TO_CHAR(create_date , 'YYYY-MM-DD hh24:mm') as create_date ,
+        (SELECT count(*)
+        FROM reagent r LEFT JOIN step s 
+        	on r.reagent_id = s.reagent_id
+        WHERE r.reagent_id = re.REAGENT_ID) as reagent_join_count
+        FROM reagent re
+        WHERE STATUS = 1
+        	<if test="authority != 'ADMIN'">
+        		<if test="authority != 'MANAGER' ">
+	        	AND reagent_code LIKE '%'||#{groupCode}||'%'
+	        	</if>
+        	</if>
+        ORDER BY re.create_date DESC , re.reagent_id DESC
+    </select>
+
+    <select id="getCode" resultType="String">
+        SELECT *
+        FROM (
+              SELECT reagent_code
+              FROM reagent
+              WHERE reagent_code LIKE '%'||#{group_code}||'%'
+              ORDER BY reagent_id DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="selectReagentById" parameterType="int" resultType="Reagent">
+        SELECT re.*,
+               (SELECT count(*) FROM reagent re
+                LEFT JOIN step s on re.reagent_id = s.reagent_id
+                WHERE re.reagent_id = #{reagent_id}) as reagent_join_count
+        FROM reagent re
+        WHERE re.reagent_id = #{reagent_id}
+    </select>
+
+    <update id="deleteReagent">
+        UPDATE reagent
+        SET status = -1
+        WHERE reagent_id = #{reagent_id}
+    </update>
+</mapper>

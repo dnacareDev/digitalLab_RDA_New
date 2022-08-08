@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 기구 정보</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/js/harvesting_after.js"></script>
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script>
+<script src="../../static/js/harvesting_after.js"></script> -->
+<style>
+	.caution {
+		margin-bottom: 30px;
+		font-size: 1.4rem;
+		color: red;
+	}
+
+	#instrument_code {
+		margin-bottom: 10px;
+	}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">기구 정보</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">기구 정보 -</li>
+						<li class="card_inner_list">일반 상세보기</li>
+					</ul>
+					<div class="print_box on">
+                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+				</div>
+				<div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<form id="instrumentForm" action="" class="harvesting_form common_form">
+							<span th:if="${result.instrument.instrument_join_count} != 1" class="caution">사용중인 기구로 수정,삭제가 불가 합니다.</span>
+							<div class="form_box user_info_box">
+								<label for="" class="file_title"><span class="star">*</span>
+									기구 ID</label> <input type="text" id="instrument_code"
+									name="" th:value="${result.instrument.instrument_code}" readonly="readonly" disabled>
+									
+								<label for="" class="file_title"><span class="star">*</span>
+									항목명</label> <input type="text" id="instrument_name"
+									name="instrument_name" th:value="${result.instrument.instrument_name}">
+							</div>
+							
+							<input type="hidden" name="instrument_id" th:value="${result.instrument.instrument_id}">
+							<input type="hidden" name="instrument_code" th:value="${result.instrument.instrument_code}">
+						
+						</form>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<div class="re_btn_box">
+						<button th:if="${session.LOGIN_MEMBER.account == result.instrument.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="save_btn common_btn1" onclick="onClickRegist();">수정</button>
+						<button th:if="${session.LOGIN_MEMBER.account == result.instrument.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickDelete();">삭제</button>
+					</div>
+				</div>
+			</section>
+			
+			<!-- 변경 이력 -->
+			 <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+                            	
+                            	<th:block th:each=" log : ${result.logList}">
+	                                <li class="change_list">
+	                                    <span class="change_check"></span>
+	                                    <div class="chang_text_box">
+	                                        <p class="change_text"><span th:text="${log.data_code}"></span> 
+	                                        <th:block th:switch="${log.action_type}">
+	                                        	<span th:case="1">등록</span>
+	                                        	<span th:case="2">수정</span>
+	                                        	<span th:case="3">삭제</span>
+	                                        	<span th:case="4">추가</span>
+	                                        </th:block>
+	                                        </p>
+	                                        <span class="change_date" th:text="${log.log_date}"></span>
+	                                    </div>
+	                                </li>
+                            	</th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+		let instrument_id = `[[${result.instrument.instrument_id}]]`
+		let join_count = `[[${result.instrument.instrument_join_count}]]`;
+	</script>
+	<script>
+	
+		$('.list_btn').on('click' , function(){
+			location.href=`/instrument/instrument_list`;
+		})
+	
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+			if (!validateFunction('instrument_name', '이름을')) {
+				return false;
+			}
+
+			return true;
+		}
+
+		function checkJoin(){
+
+			if(join_count != 1){
+				alert("수정,삭제가 불가능합니다");
+				return false;
+			}
+			return true;
+		}
+
+		function onClickRegist() {
+
+			if(!checkJoin()){
+				return;
+			}
+
+			if (!checkForm()) {
+				return;
+			}
+			
+			let instrumentForm = $('#instrumentForm')[0];
+			let formData = new FormData(instrumentForm);
+			
+			// FormData의 key 확인
+			for (let key of formData.keys()) {
+			  console.log(key);
+			}
+
+			// FormData의 value 확인
+			for (let value of formData.values()) {
+			  console.log(value);
+			}
+			
+			$.ajax({
+				url : "/instrument/instrument_modify",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("기구가 수정되었습니다");
+						location.href = `/instrument/instrument-detail/${instrument_id}`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		function onClickDelete() {
+
+			if(!checkJoin()){
+				return;
+			}
+
+			if(!confirm("삭제하시겠습니까")){
+				return;
+			}
+
+			$.ajax({
+				url : `/instrument/delete/${instrument_id}`,
+				type : "POST",
+				success : function(data) {
+
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("삭제되었습니다");
+						location.href = `/instrument/instrument_list`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 시약 정보</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/reagent_information2_normal.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+<style>
+#main .bpttom_form_box .form_box:last-child {
+	width: 100%;
+}
+
+#main .bpttom_form_box .form_box:last-child textarea {
+	height: 200px;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box new_user_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">시약 정보</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">시약 정보 -</li>
+						<li class="card_inner_list">고급 등록</li>
+					</ul>
+				</div>
+				<div class="card">
+					<div class="card_cont_box">
+						<form id="reagentForm" action="" class="new_user_form common_form">
+							<div class="user_data_box">
+								<div class="top_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"><span class="star">*</span>
+											품명</label> <input type="text" id="reagent_name" name="reagent_name">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title"> CAS No.</label> <input
+											type="text" id="reagent_cas" name="reagent_cas">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">규격</label> <input type="text"
+											id="reagent_standard" name="reagent_standard">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">순도/농도</label> <input
+											type="text" >
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">화학식</label> <input
+											type="text" id="reagent_formula" name="reagent_formula">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">영문별칭</label> <input
+											type="text" id="reagent_nick_e" name="reagent_nick_e">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">국문별칭</label> <input
+											type="text" id="reagent_nick_k" name="reagent_nick_k">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">제조사</label> <input
+											type="text" id="reagent_production" name="reagent_production">
+									</div>
+								</div>
+								<div class="adress_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">수량</label> <input
+											type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g	,'');" id="reagent_amount" placeholder="" name="reagent_amount">
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title"></label> <select
+											name="each_id" id="each_id" class=" common_select">
+											<option value="-1" hidden>단위 선택</option>
+											<th:block th:each="each : ${eachList}">
+												<option th:value="${each.each_id}" th:text="${each.each}"></option>
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="bpttom_form_box user_form_box">
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">용도</label> <input type="text"
+											id="reagent_purpose" name="reagent_purpose">
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">보관장소</label> <select
+											name="place_id" id="place_id" class=" common_select">
+											<option value="-1" hidden>보관장소 선택</option>
+											<th:block th:each=" place : ${placeList}">
+												<option th:value="${place.place_id}"
+													th:text="${place.place_name}"></option>
+											</th:block>
+										</select>
+									</div>
+									<div class="form_box">
+										<label for="" class="file_title">Comment</label>
+										<textarea name="reagent_comment" id="reagent_comment" class=""></textarea>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<button type="button" class="appl_regist_btn common_btn1"
+						onclick="onClickRegist();">등록</button>
+				</div>
+			</section>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script>
+		function validateFunction(id, title) {
+			let value = $('#' + id).val();
+			if (value == '') {
+				$('#' + id).focus();
+				alert(title + ' 입력해주세요');
+				return false;
+			}
+			return true;
+		}
+
+		function checkForm() {
+			if (!validateFunction('reagent_name', '품명을')) {
+				return false;
+			}
+			
+			let reagent_amount = $('#reagent_amount').val();
+			let each_id = $('#each_id').val();
+			if(reagent_amount != ''){
+				if(each_id == -1){
+					alert("단위를 선택해주세요.");
+					return;
+				}
+			}
+			
+			if (reagent_amount == ''){
+				$('#reagent_amount').val(0);
+			}
+			
+			return true;
+		}
+
+		function onClickRegist() {
+
+			if (!checkForm()) {
+				return;
+			}
+			
+			let reagentForm = $('#reagentForm')[0];
+			let formData = new FormData(reagentForm);
+
+			$.ajax({
+				url : "/reagent/reagent_add",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("시약이 등록되었습니다");
+						location.href = "/reagent/reagent_list";
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+		
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+
+		$('.list_btn').on('click', function() {
+			location.href = `/reagent/reagent_list`;
+		})
+	</script>
+</body>
+</html>

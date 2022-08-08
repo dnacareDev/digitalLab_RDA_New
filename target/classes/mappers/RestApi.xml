@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.RestApiMapper">
+	<select id="SelectUser" parameterType="String" resultType="Users">
+		SELECT * FROM users
+		WHERE name = #{name}	
+	</select>
+
+	<!-- 시약 갯수 조회 -->
+	<select id="SelectReagentCount" resultType="int">
+		SELECT COUNT(*) FROM REAGENT
+	</select>
+	
+	<!-- 시약 목록 조회 -->
+	<select id="SelectReagentList" parameterType="Users" resultType="Reagent">
+		SELECT
+		TO_CHAR(r.create_date , 'YYYY-MM-DD') as create_date  , r.*
+		FROM REAGENT r
+		<where>
+       	 	<if test="authority != 'ADMIN'">
+       	 		<if test="authority != 'MANAGER' ">
+       	 		AND (reagent_code LIKE '%'||#{groupCode}||'%'
+       	 		OR account = #{account})
+       	 		</if>
+       	 	</if>
+       	 </where>
+	</select>
+	
+	<!-- 시약 상세 조회 -->
+	<select id="SelectReagentDetail" parameterType="String" resultType="Reagent">
+		SELECT * FROM REAGENT
+		WHERE reagent_id = #{reagent_code}
+	</select>
+	
+	<!-- 장비 갯수 조회 -->
+	<select id="SelectEquipmentCount" resultType="int">
+		SELECT COUNT(*) FROM EQUIPMENT
+	</select>
+	
+	<!-- 장비 목록 조회 -->
+	<select id="SelectEquipmentList" parameterType="Users" resultType="Equipment">
+		SELECT
+		TO_CHAR(e.create_date , 'YYYY-MM-DD') as create_date , TO_CHAR(e.equipment_date , 'YYYY-MM-DD') as equipment_date , e.*
+		FROM EQUIPMENT e
+		<where>
+       	 	<if test="authority != 'ADMIN'">
+       	 		<if test="authority != 'MANAGER' ">
+       	 		AND (equipment_code LIKE '%'||#{groupCode}||'%'
+       	 		OR account = #{account})
+       	 		</if>
+       	 	</if>
+       	 </where>
+	</select>
+	
+	<!-- 장비 상세 조회 -->
+	<select id="SelectEquipmentDetail" parameterType="String" resultType="Equipment">
+		SELECT * FROM EQUIPMENT
+		WHERE equipment_id = #{equipment_code}
+	</select>
+
+	<!-- 메소드 갯수 조회 -->	
+	<select id="SelectMethodCount" resultType="int">
+		SELECT COUNT(*) FROM METHOD
+	</select>
+	
+	<!-- 메소드 목록 조회 -->
+	<select id="SelectMethodList" parameterType="String" resultType="Method">
+		SELECT
+		TO_CHAR(m.create_date , 'YYYY-MM-DD') as create_date , m.* , u.name as user_name
+		FROM METHOD m JOIN users u
+			ON m.account = u.account 
+		<where>
+       	 	<if test="word != null"> 
+       	 		<if test="word != '' ">
+       	 			AND (method_contents LIKE '%'||#{word}||'%' OR METHOD_THEORY LIKE '%'||#{word}||'%' OR METHOD_CODE LIKE '%'||#{word}||'%' OR METHOD_REFERENCE LIKE '%'||#{word}||'%')
+       	 		</if>
+       	 	</if>
+       	 	AND method_share = 1
+       	 </where>
+	</select>
+	
+	<!-- 메소드 상세 조회 -->
+	<select id="SelectMethodDetail" parameterType="String" resultType="Method">
+		SELECT * FROM METHOD
+		WHERE method_id = #{method_code}
+	</select>
+	
+	<select id="SelectReport" parameterType="int" resultType="Report">
+		SELECT * FROM PLAN P
+		LEFT JOIN REPORT R ON P.REPORT_ID = R.REPORT_ID
+		WHERE P.PLAN_ID = #{plan_id}
+	</select>
+	
+	<select id="SelectReportCode" parameterType="int" resultType="Report">
+		SELECT ROWNUM , PRJ_DTL_NO FROM PLAN P
+		LEFT JOIN PLAN_SEED PS ON PS.PLAN_ID = P.PLAN_ID
+		LEFT JOIN SEED S ON S.SEED_ID = PS.SEED_ID
+		LEFT JOIN USER_REPORT UR ON UR.USER_REPORT_ID = S.USER_REPORT_ID
+		LEFT JOIN REPORT R ON R.REPORT_ID = UR.REPORT_ID
+		WHERE P.PLAN_ID = #{plan_id}
+			AND ROWNUM = 1
+	</select>
+	
+	<select id="analysisScheduleList" parameterType="Users" resultType="AnalysisShedule">
+		SELECT DISTINCT sch.sch_id , sch.sch_type as sch_type , sch.sch_title as title , u.name , p.plan_id , p.plan_code , p.usee_at_code as regist_type ,
+						u.name as supervisor , TO_CHAR(sch.start_Date,'YYYY-MM-DD') as start_date , TO_CHAR(sch.end_date,'YYYY-MM-DD') as end_date , 
+						NVL(d2.division , easy_d2.DIVISION) as analysis_item
+		FROM schedule sch JOIN schedule_manager sch_m
+			ON sch.sch_id = sch_m.sch_id
+			LEFT OUTER JOIN plan p ON sch.plan_id = p.plan_id
+			LEFT OUTER JOIN plan_method pm ON pm.plan_id = p.plan_id
+			LEFT OUTER JOIN METHOD m ON pm.method_id = m.method_id
+			LEFT OUTER JOIN division d2 ON m.division_id = d2.division_id
+			LEFT OUTER JOIN division d1 ON d2.division_parents = d1.division_id
+			LEFT OUTER JOIN division easy_d2 on p.PLAN_DIVISION = easy_d2.DIVISION_ID
+			LEFT OUTER JOIN division easy_d1 on easy_d2.DIVISION_PARENTS = easy_d1.DIVISION_ID
+			LEFT OUTER JOIN users u ON sch.plan_supervisor = u.account
+		WHERE start_date IS NOT NULL
+				AND end_date IS NOT NULL
+				AND sch.sch_type != 3
+				AND start_date &lt;= SYSDATE
+				AND end_date &gt;= SYSDATE  
+			<if test="authority != 'ADMIN'">
+				<if test="authority != 'MANAGER' ">
+				AND (sch_m.account = #{account} or sch.plan_supervisor = #{account})
+				</if>
+			</if>
+	</select>
+</mapper>

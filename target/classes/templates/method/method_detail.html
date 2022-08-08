@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 실험 방법</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/vendor/css/dragula.min.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/new_enrollment.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/vendor/js/dragula.min.js"></script>
+<script src="/js/common/common.js"></script>
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="/ckeditor/ko.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+	let method = [[${result.method}]];
+	let division = [[${result}]];
+	let division_detail = [[${result.division_detail}]];
+	let method_id = [[${result.method.method_id}]];
+</script>
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/vendor/css/dragula.min.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/new_enrollment.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/vendor/js/dragula.min.js"></script>
+<script src="../../static/js/common/common.js"></script>
+
+<script src="../../static/ckeditor/ckeditor.js"></script>
+<script src="../../static/ckeditor/ko.js"></script> -->
+
+<style>
+/* form */
+.user_data_box {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.new_user_form .user_data_box .user_form_box {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 30px;
+}
+
+.new_user_form .user_data_box .form_box {
+	width: calc(50% - 5px);
+	padding: 0;
+}
+
+.user_data_box .form_box:not(:nth-child(2n)) {
+	margin-right: 10px;
+}
+
+.user_data_box .user_info_box {
+	justify-content: flex-end;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box {
+	width: calc(80% - 60px);
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:not(:first-child)
+	{
+	width: calc(20% + 40px);
+}
+
+.new_user_form .user_data_box .user_form_box {
+	margin-bottom: 0px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:not(:first-child),
+	.new_user_form .user_data_box .adress_form_box .user_info_box {
+	width: calc(33.333333% - 7px);
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:first-child
+	{
+	margin-right: 10px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:nth-child(2)
+	{
+	margin-right: 10px;
+}
+
+.new_user_form .user_data_box .adress_form_box .user_info_box:last-child
+	{
+	margin-right: 0;
+}
+
+.new_user_form .user_data_box .bpttom_form_box .user_info_box:last-child
+	{
+	margin-bottom: 5px;
+}
+
+.new_user_form .user_data_box .bpttom_form_box .user_info_box:nth-child(3)
+	{
+	margin-bottom: 26px;
+}
+
+.new_user_form .user_data_box .bpttom_form_box .user_info_box:last-child>span
+	{
+	font-size: 1.3rem;
+	color: lightgray;
+	display: block;
+	padding-top: 3px;
+}
+
+.modal.on .modal_form .modal_form_title {
+	font-size: 1.4rem;
+}
+
+.new_user_form .user_data_box .file_title {
+	font-size: 1.4rem;
+	margin-bottom: 5px;
+}
+
+#main.modal_on .modal.on .modal_box {
+	min-height: 200px;
+}
+
+.method_sharing {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+	padding: 20px 0 0 5px;
+}
+
+.method_sharing>.common_check_label {
+	margin-right: 5px;
+	display: inline-block;
+}
+
+.method_sharing>label:last-child {
+	display: inline-block;
+	margin-top: -6px;
+	font-size: 1.4rem;
+	color: rgb(100, 100, 100);
+}
+
+option.title {
+	color: #999;
+}
+
+.caution {
+	margin-bottom: 30px;
+	font-size: 1.4rem;
+	color: red;
+}
+
+
+#logModal .sec_card .change_list .chang_text_box {
+	padding-top: 0;
+}
+
+#wrap .explane_box {
+    padding-right: 10px;
+}
+
+.ck-editor__editable {
+	    min-height: 300px;
+	}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box new_enroll_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">실험 방법</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">실험 방법 -</li>
+						<li class="card_inner_list">고급 상세보기</li>
+					</ul>
+					<div class="print_box on">
+						<button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+					</div>
+				</div>
+				<div class="method_sharing">
+						
+					<select id="share_select_box" class="work_step_select common_select" th:disabled="${session.LOGIN_MEMBER.account != result.method.account}">
+						<option value="1" th:selected="${result.method.method_share} == 1">그룹공유</option>
+						<option value="2" th:selected="${result.method.method_share} == 2">공유안함</option>
+					</select>
+				</div>
+				
+				<div class="card">
+					<div class="card_cont_box">
+						<span th:if="${result.method.method_join_count} != 1" class="caution">사용중인 메소드로 수정,삭제가 불가 합니다.</span>
+						<form id="methodForm" action=""
+							class="new_enroll_form common_form">
+							<input type="hidden" name="method_share" th:value="${result.method.method_share}"/>
+							<div class="first_enroll_box">
+								<div class="form_box lookup_box" >
+									<label for="list_lookup" class="file_title">분석 항목</label>
+									<div class="lookup_input form_inner_box">
+										<input type="text" id="list_lookup" readonly="readonly" style="max-width : 100%; width: 100%; border-radius: 5px 5px 5px 5px;">
+											 <!-- <button type="button"
+												class=" form_btn list_lookup_btn modal_on_btn common_btn1"
+												data-modal="_lookup">항목 조회</button> -->
+									</div>
+								</div>
+
+								<div class="form_box lookup_box select_box">
+									<label for="work_step" class="file_title">작업 단계</label> <select
+										name="method_stage" id="work_step"
+										class="work_step_select common_select">
+										<option value="-1" hidden>작업 단계 선택</option>
+										<option value="1" th:selected="${result.method.method_stage} == 1">전처리</option>
+										<option value="2" th:selected="${result.method.method_stage} == 2">시료분석</option>
+									</select>
+								</div>
+							</div>
+							<div class="form_box explane_box">
+								<label for="method_explane" class="file_title">실험방법 설명</label>
+								<textarea name="method_contents" id="method_contents"
+									class="method_explane_box"
+									th:text="${result.method.method_contents}"></textarea>
+							</div>
+							<div class="has_file_box">
+								<div class="form_box">
+									<label for="editor_area" class="file_title">원리 및 적용범위</label>
+									<p class="editor_area_text">에디터 영역</p>
+									<textarea name="method_theory" id="method_theory"
+										class="editor_box" th:text="${result.method.method_theory}"
+										></textarea>
+								</div>
+								<div class="form_box">
+									<label for="protocol_area" class="file_title">Protocol</label>
+									<textarea name="method_protocol" id="method_protocol"
+										class="protocol_box" readonly="readonly" disabled="disabled"></textarea>
+								</div>
+								<div class="form_box">
+									<label for="calculation_area" class="file_title">Calculation</label>
+									<textarea name="method_calculation" id="method_calculation"
+										class="calculation_box"
+										th:text="${result.method.method_calculation}"
+										></textarea>
+								</div>
+								<div class="form_box">
+									<label for="reference_area" class="file_title">Reference</label>
+									<textarea name="method_reference" id="method_reference"
+										class="reference_box"
+										th:text="${result.method.method_reference}"
+										></textarea>
+								</div>
+								<div class="form_box">
+									<label for="result_leng_area" class="file_title">결과값 개수</label>
+									<input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g	,'');" name="method_result" id="method_result"
+										class="result_box" th:value="${result.method.method_result}"
+										/>
+								</div>
+							</div>
+							
+							<input type="hidden" name="method_id" th:value="${result.method.method_id}">
+							<input type="hidden" name="USEE_AT_CODE" th:value="${result.method.USEE_AT_CODE}">
+							<input type="hidden" name="method_code" th:value="${result.method.method_code}">
+							<input type="hidden" name="division_id" id="division_id" th:value="${result.division_detail.division_id}">
+							<input type="hidden" name="division" id="division" th:value="${result.division_detail.division}">
+							<input type="hidden" name="division_parents" id="division_parents" th:value="${result.division_detail.division_depth3_id}">
+						</form>
+					</div>
+				</div>
+
+				<div class="card has_file_card">
+					<div class="card_header">
+						<h2 class="header_title">Step 설정</h2>
+					</div>
+					<div class="step_setting_box">
+						<div class="setting_box">
+							<span class="set_add_btn set_add_remove">추가</span> <span
+								class="set_remove_btn set_add_remove">제거</span>
+							<div class="setting_top_box">
+								<ul class="setting_top_list_box">
+									<li class="setting_top_list active" data-setting="sample">시료</li>
+									<li class="setting_top_list" data-setting="reagent">시약</li>
+									<li class="setting_top_list" data-setting="equipment">장비</li>
+									<li class="setting_top_list" data-setting="instrument">기구</li>
+									<!-- <li class="setting_top_list" data-setting="etc">기타</li> -->
+								</ul>
+								<button class="setting_top_add_btn modal_on_btn"
+									data-modal="_reagent" data-add="reagent">추가</button>
+								<button class="setting_top_add_btn modal_on_btn"
+									data-modal="_reagent" data-add="equipment">추가</button>
+								<button class="setting_top_add_btn modal_on_btn"
+									data-modal="_reagent" data-add="instrument">추가</button>
+								<button class="setting_top_add_btn modal_on_btn"
+									data-modal="_reagent" data-add="etc">추가</button>
+							</div>
+							<div class="setting_bottom_box">
+								<div id="sample" class="bottom_setting">
+									<ul class="sample_box set_list_box">
+										<li class="sample_list set_list" data-type="1" data-id="1" data-name="원시료 (R)"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label>
+											<p class="set_list_text">원시료 (R)</p></li>
+
+										<li class="sample_list set_list"  data-type="1" data-id="2" data-name="정선시료 (C)"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label>
+											<p class="set_list_text">정선시료 (C)</p></li>
+
+										<li class="sample_list set_list" data-type="1" data-id="3" data-name="분쇄시료 (P)"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label>
+											<p class="set_list_text">분쇄시료 (P)</p></li>
+
+										<li class="sample_list set_list" data-type="1" data-id="4" data-name="추출(액상)시료 (L)"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label>
+											<p class="set_list_text">추출(액상)시료 (L)</p></li>
+										
+										<li class="sample_list set_list" data-type="1" data-id="5" data-name="기타 (E)"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label>
+											<p class="set_list_text">기타 (E)</p></li>
+									</ul>
+								</div>
+
+								<!-- 시약 리스트 -->
+								<div id="reagent" class="bottom_setting bot_set_common">
+									<div class="search_box setting_search_box">
+										<label for="set_search"> <input type="text"
+											id="set_search" placeholder="Search"
+											class="search_input reagent_keyword	">
+										</label>
+									</div>
+									<!-- 리스트 뷰 -->
+									<ul class="sample_box set_list_box" id="reagent_list_View">
+									</ul>
+								</div>
+
+								<!-- 장비 리스트 -->
+								<div id="equipment" class="bottom_setting bot_set_common">
+									<div class="search_box setting_search_box">
+										<label for="set_search"> <input type="text"
+											id="set_search" placeholder="Search"
+											class="search_input equipment_keyword">
+										</label>
+									</div>
+									<!-- 리스트 뷰 -->
+									<ul class="sample_box set_list_box" id="equipment_list_View">
+									</ul>
+								</div>
+
+								<!-- 기구 리스트 -->
+								<div id="instrument" class="bottom_setting bot_set_common">
+									<div class="search_box setting_search_box">
+										<label for="set_search"> <input type="text"
+											id="set_search" placeholder="Search"
+											class="search_input instrument_keyword">
+										</label>
+									</div>
+
+									<!-- 리스트 뷰 -->
+									<ul class="sample_box set_list_box" id="instrument_list_View">
+									</ul>
+								</div>
+
+								<!-- 기타 리스트 -->
+								<div id="etc" class="bottom_setting bot_set_common">
+									<div class="search_box setting_search_box">
+										<label for="set_search"> <input type="text"
+											id="set_search" class="search_input">
+										</label>
+									</div>
+									<ul class="sample_box set_list_box" id="etc_list_View">
+										<li class="sample_list set_list"><label for=""
+											class="check_wrap"> <input type="checkbox" name=""
+												id="" class="checkbox">
+										</label> <input type="text" class="etc_set_input"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="setting_area_box">
+							<ul class="setting_area_list_box" id="dragSettingArea">
+							</ul>
+							<span class="none_has on">선택 항목을 추가해주세요.</span>
+						</div>
+					</div>
+				</div>
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<div class="re_btn_box">
+						<button th:if="${session.LOGIN_MEMBER.account == result.method.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickRegist();">수정</button>
+						<button th:if="${session.LOGIN_MEMBER.account == result.method.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" type="button" class="appl_regist_btn common_btn1" onclick="onClickDelete();">삭제</button>
+					</div>
+				</div>
+			</section>
+			
+			<!-- 변경 이력 -->
+			 <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box on">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+                            	
+                            	<th:block th:each=" log : ${result.logList}">
+	                                <li class="change_list">
+	                                    <span class="change_check"></span>
+	                                    <div class="chang_text_box">
+	                                        <p class="change_text"><span th:text="${log.data_code}"></span> 
+	                                        <th:block th:switch="${log.action_type}">
+	                                        	<span th:case="1">등록</span>
+	                                        	<span th:case="2">수정</span>
+	                                        	<span th:case="3">삭제</span>
+	                                        	<span th:case="4">추가</span>
+	                                        </th:block>
+	                                        </p>
+	                                        <span class="change_date" th:text="${log.log_date}"></span>
+	                                    </div>
+	                                </li>
+                            	</th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<!-- 분석 항목 모달 -->
+			<div class="modal lookup_modal" id="_lookup">
+				<div class="modal_box on">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">용도</label> <select
+								class="common_select" id="modal_division_1"
+								onchange="onchangeDivisionDepth1()">
+								<option value="-1" hidden>용도 선택</option>
+								<th:block th:each="list : ${result.division.list}">
+                                    <option th:value="${list.division_id}" th:text="${list.division}" th:selected="${result.division_detail.division_depth1_id} == ${list.division_id}"></option>
+                                </th:block>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분류</label> <select
+								class="common_select" id="modal_division_2"
+								onchange="onChangeDivisionDepth2()">
+								<option value="-1" hidden>분류 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">분석 항목</label> <select
+								class="common_select" id="modal_division_parent"
+								onchange="onChangeDivisionDepth3()">
+								<option value="-1" hidden>분석 항목 선택</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">세부 항목</label> <select
+								class="common_select" id="detail_select"
+								onchange="onChangeDetailSelect()">
+								<option value="-1" hidden>세부 항목 선택</option>
+								<option value="-2">신규입력</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off" id="new_item_div">
+							<label for="" class="modal_form_title">신규 세부 항목</label> <input
+								type="text" id="new_item_input" onkeyup="onKeyupNewItemInput()"
+								class="">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button type="button" class="common_btn1 modal_btn off" id="_lookup_btn"
+							onclick="onClickModalUse()" data-dismiss="_lookup">사용</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- 시약 추가 모달 -->
+			<div class="modal reagent_add_modal" id="_reagent">
+				<div class="modal_box" data-tab="reagent">
+					<div class="modal_header">
+						<h2 class="modal_title">시약 추가</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form id="reagentForm" action="" class="modal_form common_form reagent_form">
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title"><span>*</span>품명</label> <input
+								type="text" id="reagent_name" name="reagent_name">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">CAS No.</label> <input
+								type="text" id="reagent_cas" name="reagent_cas">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">규격</label> <input
+								type="text" id="reagent_standard" name="reagent_standard">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">순도/농도</label> <input
+								type="text" id="">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">화학식</label> <input
+								type="text" id="reagent_formula" name="reagent_formula">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">영문 별칭</label> <input
+								type="text" id="reagent_nick_e" name="reagent_nick_e">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">국문 별칭</label> <input
+								type="text" id="reagent_nick_k" name="reagent_nick_k">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">제조사</label> <input
+								type="text" id="reagent_production" name="reagent_production">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">수량</label>
+							<div class="modal_inner_box">
+								<input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="reagent_amount" placeholder="" name="reagent_amount">
+								<select name="each_id" id="each_id" class=" common_select">
+									<option value="-1" hidden>단위 선택</option>
+									<th:block th:each="each : ${eachList}">
+										<option th:value="${each.each_id}" th:text="${each.each}"></option>
+									</th:block>
+								</select>
+							</div>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">용도</label> <input
+								type="text" id="reagent_purpose" name="reagent_purpose">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">보관 장소</label> <select
+								name="place_id" id="place_id" class=" common_select">
+								<option value="-1" hidden>보관장소 선택</option>
+								<th:block th:each=" place : ${placeList}">
+									<option th:value="${place.place_id}"
+													th:text="${place.place_name}"></option>
+								</th:block>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">Comment</label>
+							<textarea name="reagent_comment" id="reagent_comment" class=""></textarea>
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button type="button" class="common_btn1 modal_btn reagent_modal_btn" onclick="onClickReagent();">사용</button>
+					</div>
+				</div>
+				
+				<!-- 장비 추가 모달 -->
+				<div class="modal_box" data-tab="equipment">
+					<div class="modal_header">
+						<h2 class="modal_title">장비 추가</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form id="equipmentForm" action="" class="new_user_form modal_form common_form">
+						<div class="user_data_box">
+							<div class="top_form_box user_form_box">
+								<div class="form_box user_info_box">
+									<label for="" class="file_title"><span class="star">*</span>
+										한글장비명</label> <input type="text" id="equipment_name" name="equipment_name">
+								</div>
+								<div class="form_box user_info_box">
+									<label for="" class="file_title"> 모델명</label> <input
+										type="text" id="equipment_model" name="equipment_model">
+								</div>
+								<div class="form_box user_info_box">
+									<label for="" class="file_title">취득일자</label> <input
+										type="text" id="equipment_date" name="equipment_date"
+											disabled>
+								</div>
+								<div class="form_box user_info_box">
+									<label for="" class="file_title">취득금액</label> <input
+										type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="equipment_price" name="equipment_price">
+								</div>
+							</div>
+							<div class="adress_form_box user_form_box">
+								<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">활용범위</label> <select
+											name="equipment_range" id="" class=" common_select">
+											<option value="-1" hidden>활용범위 선택</option>
+											<option value="1">공동활용허용 가능</option>
+											<option value="2">단독활용만 가능</option>
+										</select>
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">공동활용 허용범위</label> <select
+											name="equipment_public" id="" class=" common_select">
+											<option value="-1" hidden>공동활용 허용범위 선택</option>
+											<option value="1">기관 내부 활용</option>
+											<option value="2">기관 외부 활용</option>
+										</select>
+									</div>
+									<div class="form_box user_info_box select_box">
+										<label for="" class="file_title">장비용도</label> <select
+											name="equipment_purpose" id="" class=" common_select">
+											<option value="-1" hidden>장비용도 선택</option>
+											<option value="1">계측</option>
+											<option value="2">시험</option>
+											<option value="3">분석</option>
+											<option value="4">기타</option>
+										</select>
+									</div>
+							</div>
+							<div class="bpttom_form_box user_form_box">
+								<div class="form_box user_info_box">
+										<label for="" class="file_title">설치장소</label> <input
+											type="text" id="equipment_place" name="equipment_place">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">등록번호</label> <input
+											type="text" id="equipment_regist" name="equipment_regist">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">고정자산관리번호</label> <input
+											type="text" id="equipment_manage" name="equipment_manage">
+									</div>
+									<div class="form_box user_info_box">
+										<label for="" class="file_title">메소드 스텝 개수</label> <input
+											type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"  id="equipment_method" value="1"
+											name="equipment_method"> <span>(Method의 서브 스텝이
+											자동으로 생성됩니다.)</span>
+									</div>
+							</div>
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button type="button" class="common_btn1 modal_btn reagent_modal_btn" onclick="onClickEquipment();">사용</button>
+					</div>
+				</div>
+
+				<!-- 기구 추가 모달 -->
+				<div class="modal_box" data-tab="instrument">
+					<div class="modal_header">
+						<h2 class="modal_title">기구 추가</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form id="instrumentForm" action="" class="modal_form common_form reagent_form">
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">항목명</label> <input
+								type="text" id="instrument_name"
+									name="instrument_name">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button type="button" class="common_btn1 modal_btn reagent_modal_btn" onclick="onClickInstrument();">사용</button>
+					</div>
+				</div>
+
+				<!-- 기타 추가 모달 -->
+				<div class="modal_box" data-tab="etc">
+					<div class="modal_header">
+						<h2 class="modal_title">기타 추가</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form action="" class="modal_form common_form reagent_form">
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">기타명</label> <input
+								type="text" id="">
+						</div>
+						<div class="select_box modal_input_box">
+							<label for="" class="modal_form_title">Comment</label>
+							<textarea name="" id=""></textarea>
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn reagent_modal_btn">사용</button>
+					</div>
+				</div>
+
+
+			</div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	
+	<script type="text/javascript" th:inline="javascript">
+		let join_count = `[[${result.method.method_join_count}]]`;
+	</script>
+
+	<script>
+		console.log(division_detail , "division")
+		let text = `${division_detail.division_depth1} > ${division_detail.division_depth2} > ${division_detail.division_depth3} > ${division_detail.division}`
+		$('#list_lookup').val(text);
+		
+		loadDivision(division_detail.division_depth1_id,2,'modal_division_2' , division_detail.division_depth2_id,3);
+		loadDivision(division_detail.division_depth2_id,3,"modal_division_parent" ,division_detail.division_depth3_id,4);
+		loadDivision(division_detail.division_depth3_id,4,"detail_select" , division_detail.division_id);
+		
+		// 시약 검색
+		$('.reagent_keyword').on('keyup' , function(e){
+			const value = e.target.value;
+			const datas = document.querySelectorAll('#reagent_list_View > li');
+			
+			datas.forEach(el => {
+				
+				const text = el.querySelector('.set_list_text').innerText;
+				
+				if (text.includes(value)) {
+					el.style.display = "";					
+				} else {
+					el.style.display = "none";
+				}
+			})
+		})
+		
+		// 기구 검색
+		$('.equipment_keyword').on('keyup' , function(e){
+			const value = e.target.value;
+			const datas = document.querySelectorAll('#equipment_list_View > li');
+			
+			datas.forEach(el => {
+				
+				const text = el.querySelector('.set_list_text').innerText;
+				
+				if (text.includes(value)) {
+					el.style.display = "";					
+				} else {
+					el.style.display = "none";
+				}
+			})
+		})
+		
+		// 기구 검색
+		$('.instrument_keyword').on('keyup' , function(e){
+			const value = e.target.value;
+			const datas = document.querySelectorAll('#instrument_list_View > li');
+			
+			datas.forEach(el => {
+				
+				const text = el.querySelector('.set_list_text').innerText;
+				
+				if (text.includes(value)) {
+					el.style.display = "";					
+				} else {
+					el.style.display = "none";
+				}
+			})
+		})
+		
+		
+		// 시약 리스트
+		async function reagentList() {
+			
+			$('#reagent_list_View > li').remove();
+			
+			$.ajax({
+				url : `/reagent/search-reagent`,
+				type : "GET",
+				success : function(data){
+					
+					if(data.list.length > 0){
+							
+						let display = '';
+						
+						for(i of data.list){
+							display += `<li class="sample_list set_list" data-type="2" data-id="${i.reagent_id}" data-name="${i.reagent_name}"><label for=""
+								class="check_wrap"> <input type="checkbox" name=""
+								id="" class="checkbox"></label>
+								<p class="set_list_text">${i.reagent_name} (${i.reagent_standard},${i.reagent_density},${i.reagent_production})</p></li>`
+						}
+						$('#reagent_list_View').append(display);
+					}
+					
+				}
+			})
+		}
+
+		// 장비 리스트
+		async function equipmentList() {
+			
+			$('#equipment_list_View > li').remove();
+			
+			$.ajax({
+				url : `/equipment/search-equipment`,
+				type : "GET",
+				async:false,
+				success : function(data){
+					
+					
+					if(data.list.length > 0){
+						
+						let display = '';
+						
+						for(i of data.list){
+							display += `<li class="sample_list set_list" data-type="3" data-id="${i.equipment_id}" data-name="${i.equipment_name}"><label for=""
+								class="check_wrap"> <input type="checkbox" name=""
+								id="" class="checkbox"></label>
+								<p class="set_list_text">${i.equipment_name}(${i.equipment_model})</p></li>`
+						}
+						
+						$('#equipment_list_View').append(display);
+					}
+				}
+			})
+		}
+		
+		// 기구 리스트
+		async function instrumentList() {
+			
+			$('#instrument_list_View > li').remove();
+			
+			$.ajax({
+				url : `/api/instrument/instrument_list`,
+				type : "GET",
+				async:false,
+				success : function(data){
+					if(data.length > 0){
+						
+						let display = '';
+						
+						for(i of data){
+					
+							display += `<li class="sample_list set_list" data-type="4" data-id="${i.instrument_id}" data-name="${i.instrument_name}"><label for=""
+								class="check_wrap"> <input type="checkbox" name=""
+								id="" class="checkbox"></label>
+								<p class="set_list_text">${i.instrument_name}</p></li>`
+						}
+						$('#instrument_list_View').append(display);
+					}
+				}
+			})
+		}
+		
+		// 리스트 호출
+	 	reagentList();
+		equipmentList();
+		instrumentList();
+		/////////
+		
+		// 유효성 체크
+		function validateFunction(id, title){
+            let value = $('#' + id).val();
+            if(value == '' || value == -1){
+                $('#'+id).focus();
+                alert(title + ' 입력해주세요');
+                return false;
+            }
+            return true;
+        }
+		
+		// 모달 인풋 초기화
+		function resetModalInput(id){
+			const inputList = document.querySelectorAll('#'+id+' input');
+			
+			inputList.forEach((el) => {
+				el.value = '';
+			})
+		}
+		
+		 // 시약 추가 등록
+        function checkFormReagent() {
+			if (!validateFunction('reagent_name', '품명을')) {
+				return false;
+			}
+			
+			let reagent_amount = $('#reagent_amount').val();
+			let each_id = $('#each_id').val();
+			if(reagent_amount != ''){
+				if(each_id == -1){
+					alert("단위를 선택해주세요.");
+					return;
+				}
+			}
+			
+			if (reagent_amount == ''){
+				$('#reagent_amount').val(0);
+			}
+			
+			return true;
+		}
+        
+		function onClickReagent() {
+
+			if (!checkFormReagent()) {
+				return;
+			}
+			
+			let reagentForm = $('#reagentForm')[0];
+			let formData = new FormData(reagentForm);
+
+			$.ajax({
+				url : "/reagent/reagent_add",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						$('.reagent_add_modal').removeClass('on');
+						$('main').removeClass("modal_on");
+						alert("시약이 등록되었습니다");
+						reagentList();
+						
+						resetModalInput("reagentForm");
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+        
+		// 장비 추가 등록
+		function checkFormEquipment() {
+			if (!validateFunction('equipment_name', '한글장비명을')) {
+				return false;
+			}
+
+			let equipment_price = $('#equipment_price').val();
+
+			if (equipment_price == '') {
+				$('#equipment_price').val(0);
+			}
+			
+			let equipment_method = $('#equipment_method').val();
+			
+			if(equipment_method == '' || equipment_method <= 0){
+				$('#equipment_method').val(1);
+			}
+			
+			return true;
+		}
+		function onClickEquipment() {
+
+			if (!checkFormEquipment()) {
+				return;
+			}
+
+			let equipmentForm = $('#equipmentForm')[0];
+			let formData = new FormData(equipmentForm);
+
+			$.ajax({
+				url : "/equipment/equipment_add",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				async:false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						$('.reagent_add_modal').removeClass('on');
+						$('main').removeClass("modal_on");
+						alert("장비가 등록되었습니다");
+						equipmentList();
+						
+						resetModalInput("equipmentForm");
+						
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+        
+		// 기구 추가 등록
+		function checkFormInstrument() {
+			if (!validateFunction('instrument_name', '항목명을')) {
+				return false;
+			}
+
+			return true;
+		}
+		function onClickInstrument() {
+
+			if (!checkFormInstrument()) {
+				return;
+			}
+	
+			let instrument_name = $('#instrument_name').val();
+			
+			$.ajax({
+				url : "/instrument/instrument_add",
+				type : "POST",
+				data : JSON.stringify({
+					"instrument_name" : instrument_name
+				}),
+				contentType: 'application/json; charset=utf-8',
+				success : function(data) {
+					
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						$('.reagent_add_modal').removeClass('on');
+						$('main').removeClass("modal_on");
+						alert("기구가 등록되었습니다");
+						instrumentList();
+						
+						$('#instrument_name').val('');
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+		
+		
+		$('.list_btn').on('click' , function(){
+			location.href=`/method/method_list`
+		})
+		
+		function onClickModalUse(){
+			let divisionParent =  $('#modal_division_parent').val();
+			let division_id = $('#detail_select').val();
+			let division = $('#new_item_input').val();
+
+			$('#division_parents').val(divisionParent);
+			$('#division_id').val(division_id);
+			$('#division').val(division);
+
+			let depth_text_1 = $('#modal_division_1 option:selected').text();
+			let depth_text_2 = $('#modal_division_2 option:selected').text();
+			let depth_text_3 = $('#modal_division_parent option:selected').text();
+			let depth_text_4 = "";
+			let selectedValue = $('#detail_select').val();
+			if(selectedValue == -2)
+				depth_text_4 = division;
+			else
+				depth_text_4 = $('#detail_select option:selected').text();
+			let text = depth_text_1 + " > " + depth_text_2 + " > " + depth_text_3 + " > " + depth_text_4;
+			$('#list_lookup').val(text);
+			$('#_lookup').removeClass('on');
+			$('#main').removeClass('modal_on');
+		}
+
+		function initSelect(id, text, isDetail){
+			$('#' + id).empty();
+			let defaultOption = `<option value="-1">${text}</option>`
+			$('#' + id).append(defaultOption);
+			$('#' + id).val(-1).prop("selected","true");
+
+			if(isDetail){
+				let newItem = `<option value="-2">신규 등록</option>`
+				$('#' + id).append(newItem);
+				onChangeDetailSelect();
+			}
+		}
+
+		function initDivisionSelect(depth){
+			switch (depth){
+				case 1: initSelect('modal_division_2','분류 선택', false);
+				case 2: initSelect('modal_division_parent','분석항목 선택', false);
+				case 3: initSelect('detail_select','세부 항목 선택', true);
+			}
+		}
+
+		function onchangeDivisionDepth1(){
+			let selectedValue = $('#modal_division_1').val();
+
+			initDivisionSelect(1);
+			if(selectedValue != -1){
+				searchDivision(selectedValue,2,'modal_division_2');
+			}
+		}
+
+		function onChangeDivisionDepth2(){
+			let selectedValue = $('#modal_division_2').val();
+
+			initDivisionSelect(2);
+			if(selectedValue != -1){
+				searchDivision(selectedValue,3,"modal_division_parent");
+			}
+		}
+
+		function onChangeDivisionDepth3(){
+			let selectedValue = $('#modal_division_parent').val();
+
+			initDivisionSelect(3);
+			if(selectedValue != -1){
+				searchDivision(selectedValue,4,"detail_select");
+			}
+		}
+
+		function onChangeDetailSelect(){
+			let selectedValue = $('#detail_select').val();
+			if(selectedValue == -2){
+				if($('#modal_division_parent').val() == -1){
+					alert("상위 항목을 먼저 선택해주세요.");
+					$('#detail_select').val(-1).prop("selected",true);
+					return;
+				}
+				$("#new_item_div").removeClass("off").addClass("on");
+				onKeyupNewItemInput();
+			}
+			else{
+				if(selectedValue != -1 ){
+					$('#_lookup_btn').removeClass("off").addClass('on');
+				}
+				else{
+					$('#_lookup_btn').removeClass("on").addClass('off');
+				}
+				$("#new_item_div").removeClass("on").addClass("off");
+			}
+		}
+
+		function onKeyupNewItemInput(){
+			let text = $('#new_item_input').val();
+			if(text != ''){
+				$('#_lookup_btn').removeClass("off").addClass('on');
+				$('#_lookup_btn').attr('disabled',false);
+			}
+			else{
+				$('#_lookup_btn').removeClass("on").addClass('off');
+				$('#_lookup_btn').attr('disabled',true);
+			}
+		}
+		function searchDivision(division_id, division_depth, select_id){
+			$.ajax({
+				url:'/search-division',
+				method:"GET",
+				dataType:"JSON",
+				async:false,
+				data : {
+					"division_id" : division_id,
+					"division_depth" : division_depth,
+					"USEE_AT_CODE" : 0
+				},
+				success : function(result){
+					if(result.state < 0){
+						getErrorMessage(result.state);
+					}
+					else{
+						const list = result.list;
+						console.log(list,"result");
+						list.forEach(e => {
+							let option = `<option value="${e.division_id}">${e.division}</option>`
+							$('#' + select_id).append(option);
+						})
+					}
+				}
+			})
+		}
+		
+		function loadDivision(division_id, division_depth, select_id , check_id){
+			$.ajax({
+				url:'/search-division',
+				method:"GET",
+				dataType:"JSON",
+				async:false,
+				data : {
+					"division_id" : division_id,
+					"division_depth" : division_depth,
+					"USEE_AT_CODE" : 0
+				},
+				success : function(result){
+					if(result.state < 0){
+						getErrorMessage(result.state);
+					}
+					else{
+						const list = result.list;
+						console.log(list,"result");
+						
+						let option = '';
+						
+						list.forEach(e => {
+							option += `<option value="${e.division_id}" ${e.division_id == `${check_id}` ? 'selected' : ''} >${e.division}</option>`
+						})
+						
+						$('#' + select_id).append(option);
+					}
+				}
+			})
+		}
+		
+		// 유효성 체크
+		function validateFunction(id, title){
+			
+            let value = $('#' + id).val();
+            
+            if(value == '' || value == -1){
+                alert(title + ' 입력해주세요');
+                let target = document.querySelector("#"+id);
+                target.scrollIntoView({behavior: "smooth", block: "end", inline: "start"})
+              /*  then(scrollEvent =>{
+	                $('#'+id).focus();
+	                alert("!23")
+                });
+                 */
+                return false;
+            }
+            return true;
+        }
+		
+        function checkFormMethod(){
+        	
+            if(!validateFunction('list_lookup','분석항목을')){
+                return false;
+            }
+            
+            let selectedValue = $('#work_step').val();
+            
+            if(selectedValue == 0){
+                alert("작업단계를 선택해주세요");
+                $('#work_step').focus();
+                return false;
+            }
+            
+            if(!validateFunction('method_contents','Method 설명을')){
+                return false;
+            }
+            /* if(!validateFunction('method_theory','원리 설명을')){
+                return false;
+            }
+            if(!validateFunction('method_calculation','Calculation을')){
+                return false;
+            }
+            if(!validateFunction('method_reference','Reference을')){
+                return false;
+            } */
+            if(!validateFunction('method_result','결과값을')){
+                return false;
+            }
+            
+            return true;
+        }
+		
+        function getFormData() {
+			const steps = document.querySelectorAll('.set_area_inner')
+			const data = [];
+			steps.forEach(function(el, idx){
+				
+				const sub = Number(el?.dataset?.sub ?? "");
+				
+				if(sub == 0){
+					
+					const step_group =Number(el?.dataset?.group ?? "");
+					const step_type = Number(el?.dataset?.type ?? "");
+					const data_id = Number(el?.dataset?.id ?? "");
+					const step_name = el.querySelector('.top_set_title').innerText;
+					const step_index = idx+1;
+					const step_comment = el.querySelector('.set_textarea_box > label > textarea').value;
+					const step_input = []; 
+					const step_each = []; 
+					const input_arr = el.querySelectorAll('.set_area_wrap');
+					const each_arr = el.querySelectorAll('.common_select');
+					const step_nickName = el.querySelector('.top_set_input').firstChild.nextSibling.children[0].value;
+					const sub_step_list = [];
+					
+					input_arr.forEach(function(item){
+						const value = item.firstChild.nextSibling.value;
+						step_input.push(value);
+					})
+					
+					if(step_type != 4){
+						each_arr.forEach(function(item){
+							const value = item.options[item.selectedIndex].value;
+							step_each.push(value);
+						}) 
+					}
+					
+					// 서브 스탭 리스트
+					steps.forEach(function(item){
+						
+						const step_group_sub =Number(item?.dataset?.group ?? "");
+						const step_index = Number(item?.dataset?.sub ?? "");
+
+						if(step_group_sub == step_group && step_index != 0){
+							
+							const data_id_sub = Number(item?.dataset?.id ?? "");
+							const step_type_sub = Number(item?.dataset?.type ?? "");
+							const step_name_sub = item.querySelector('.top_set_title').innerText;
+							const step_comment_sub = item.querySelector('.set_textarea_box > label > textarea').value;
+							const step_input_sub = []; 
+							const step_each_sub = []; 
+							const input_arr_sub = item.querySelectorAll('.set_area_wrap');
+							const each_arr_sub = item.querySelectorAll('.common_select');
+							const step_nickName_sub = item.querySelector('.top_set_input').firstChild.nextSibling.children[0].value;
+							
+							input_arr_sub.forEach(function(item){
+								const value = item.firstChild.nextSibling.value;
+								step_input_sub.push(value);
+							}) 
+							
+							if(step_type != 4){
+								each_arr_sub.forEach(function(item){
+									const value = item.options[item.selectedIndex].value;
+									step_each_sub.push(value);
+								}) 
+							}
+							
+							const obj_sub = {
+									"step_type" : step_type_sub,
+									"data_id" : data_id_sub,
+									"step_name" : step_name_sub,	
+									"step_comment" : step_comment_sub,
+									"step_each" : step_each_sub,
+									"step_input" : step_input_sub,
+									"step_nickName" : step_nickName_sub,
+									"step_index" : step_index
+							};
+							
+							sub_step_list.push(obj_sub);
+						
+						};
+					})
+					const obj = {
+						step_type,
+						data_id,
+						step_name,	
+						step_index,	
+						step_comment,
+						step_each,
+						step_input,
+						step_nickName,
+						sub_step_list
+					}
+					
+					data.push(obj);				
+				}
+			})
+			return data;	
+		}
+		
+		function checkJoin(){
+
+			if(join_count != 1){
+				alert("수정,삭제가 불가능합니다");
+				return false;
+			}
+			return true;
+		}
+
+		function onClickRegist() {
+
+			if(!checkJoin()){
+				return;
+			}
+			
+			if(!checkFormMethod()){
+                return;
+            }
+			const data = getFormData()
+			
+			if(data == ''){
+				alert("스탭을 등록해주세요");
+                $('#method_step').focus();
+                
+				return;
+			}
+			
+			let text = editor.getData();
+			
+            $('#method_theory').text(text)
+			
+            let methodForm = $('#methodForm')[0];
+            let formData = new FormData(methodForm);
+            
+			data.forEach(item => {
+				formData.append("step_data",JSON.stringify(item))
+			})
+
+          	for(let key of formData.entries()) {
+            	console.log(key[0], key[1])
+            } 
+            
+			
+			$.ajax({
+				url : "/method/updateMethod",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : formData,
+				success : function(data) {
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("실험방법이 수정되었습니다");
+						location.href = `/method/method-detail/${method_id}`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		function onClickDelete() {
+
+			if(!checkJoin()){
+				return;
+			}
+
+			if(!confirm("삭제하시겠습니까")){
+				return;
+			}
+
+			$.ajax({
+				url : `/method/delete/${method_id}`,
+				type : "POST",
+				success : function(data) {
+
+					if (data <= 0) {
+						getErrorMessage(data);
+					} else {
+						alert("삭제되었습니다");
+						location.href = `/method/method_list`;
+					}
+				},
+				error : function(xhr, status) {
+					alert(xhr + " : " + status);
+				}
+			})
+		}
+
+		// 에러 처리
+		function getErrorMessage(err_msg_id) {
+			$.ajax({
+				url : "/err-message",
+				type : "GET",
+				data : {
+					err_msg_id : err_msg_id
+				},
+				success : function(data) {
+					alert(data.msg);
+				}
+			})
+		}
+
+		$('#share_select_box').on('change' , function(e){
+			$('input[name="method_share"]').val(e.target.value);
+		})
+	</script> 
+	
+	<script>
+		
+		let editor;
+		
+	    // 3. CKEditor5를 생성할 textarea 지정
+	    ClassicEditor
+	        .create( document.querySelector('#method_theory') , {
+	        	 language: 'ko' // 언어설정
+	        })
+	        .then( newEditor => {
+	            editor = newEditor;
+	        })
+	        .catch( error => {
+	            console.error( error );
+	    } );
+	
+	</script>
+	<script src="/js/method_management2_new.js"></script>
+	<!-- <script src="../../static/js/method_management2_new.js"></script> -->
+</body>
+</html>

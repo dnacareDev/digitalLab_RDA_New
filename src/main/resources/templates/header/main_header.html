@@ -1,0 +1,205 @@
+<div class="main_header">
+	<div class="ui_box">
+		<div class="alarm">
+			<!-- 알람 갯수 => alarm_on에 on 클라스로 활성화 비활성화 -->
+			<span class="alarm_on on alarm_count"></span>
+			<div class="alarm_box">
+				<!-- 알람 팝업의 제목 => alarm_num에 alarm_on의 갯수 일치 -->
+				<h2 class="alarm_title">
+					오늘의 일정 &#40;<span class="alarm_num alarm_count"></span>&#41;
+				</h2>
+				<ul class="alram_list_box">
+					<!-- 알림 목록 리스트 요소 -->
+					<!-- <li class="alram_list">
+						리스트 클릭시 페이지 이동
+						<a class="alram_link" href="#">
+							<span class="alram_date">Today</span>
+							<p class="alram_title alram_text">분석일정</p>
+							<p class="alram_id alram_text">ai-o-001-00114</p>
+							<p class="alram_Ad alram_text">
+								담당자: <span class="alram_
+								chief">홍길동</span>
+							</p>
+							<p class="alram_cont alram_text">
+								<span class="alram_this">분석항목</span>: <span class="alram_this_cont">megazyme kit 이용 아밀로스/아밀로펙틴 측정법</span>
+							</p>
+						</a>
+					</li>
+					<li class="alram_list">
+						<a class="alram_link" href="#">
+							<span class="alram_date">Today</span>
+							<p class="alram_title alram_text">분석일정</p>
+							<p class="alram_id alram_text">ai-o-001-00114</p>
+							<p class="alram_Ad alram_text">
+								담당자: <span class="alram_
+								chief">홍길동</span>
+							</p>
+							<p class="alram_cont alram_text">
+								<span class="alram_this">분석항목</span>: <span class="alram_this_cont">megazyme kit 이용 아밀로스/아밀로펙틴 측정법</span>
+							</p>
+						</a>
+					</li>
+					<li class="alram_list">
+						<a class="alram_link" href="#">
+							<span class="alram_date">Today</span>
+							<p class="alram_title alram_text">분석일정</p>
+							<p class="alram_id alram_text">ai-o-001-00114</p>
+							<p class="alram_Ad alram_text">
+								담당자: <span class="alram_
+								chief">홍길동</span>
+							</p>
+							<p class="alram_cont alram_text">
+								<span class="alram_this">분석항목</span>: <span class="alram_this_cont">megazyme kit 이용 아밀로스/아밀로펙틴 측정법</span>
+							</p>
+						</a>
+					</li>
+					<li class="alram_list">
+						<a class="alram_link" href="#">
+							<span class="alram_date">Today</span>
+							<p class="alram_title alram_text">분석일정</p>
+							<p class="alram_id alram_text">ai-o-001-00114</p>
+							<p class="alram_Ad alram_text">
+								담당자: <span class="alram_
+								chief">홍길동</span>
+							</p>
+							<p class="alram_cont alram_text">
+								<span class="alram_this">분석항목</span>: <span class="alram_this_cont">megazyme kit 이용 아밀로스/아밀로펙틴 측정법</span>
+							</p>
+						</a>
+					</li> -->
+				</ul>
+				<div class="alram_footer">
+					<a class="sc_status" id="schedule_btn">일정 현황</a>
+				</div>
+			</div>
+		</div>
+		<div class="profile"></div>
+		<p class="user_id" th:if="${session.LOGIN_MEMBER} != null"><span th:text="${session.LOGIN_MEMBER.name}"></span><span th:text="${session.LOGIN_MEMBER.email}"></span></p>
+		<p class="user_id" th:unless="${session.LOGIN_MEMBER} != null">로그인을 해주세요</p>
+	</div>
+</div>
+
+<div class="modal harvesting_modal schedule_modal" id="_alarmTaskTable">
+	<div class="modal_box on">
+		<div class="modal_header">
+			<h2 class="modal_title">일정</h2>
+			<button class="modal_close" onclick="ScheduleModalClose();">닫기</button>
+		</div>
+		<div class="modal_date_box common_form">
+			<div class="form_box">
+				<label class="file_title">제목</label>
+				<input type="text" id="new_sch_title_pop">
+			</div>
+			<div class="form_box">
+				<label class="file_title">시작일</label>
+				<input type="date" id="new_start_date_pop">
+			</div>
+			<div class="form_box">
+				<label class="file_title">종료일</label>
+				<input type="date" id="new_end_date_pop">
+			</div>
+			<div class="form_box">
+				<label class="file_title">내용</label>
+				<textarea id="new_sch_contents_pop" ></textarea>
+			</div>
+			<!-- div class="form_box">
+                <span class="file_title">공유</span>
+                <div class="checkBoxWrap">
+                    <div class="checkbox_scroll_box">
+                        <th:block th:each="user : ${user}">
+                            <label class="check_wrap">
+                                <input type="checkbox" class="checkbox new_sch_share" th:id="${user.account}">
+                            </label>
+                            <label th:for="${user.account}" th:text="${user.name}"></label>
+                        </th:block>
+                    </div>
+                </div>
+            </div> -->
+		</div>
+		<input name="sch_id" type="hidden">
+		<div class="modal_footer">
+			<!-- <button class="common_btn1 modal_btn" onclick="">수정</button> -->
+		</div>
+	</div>
+</div>
+
+<script>
+
+	$.ajax({
+		url : '/notice/noticeSchedule', 
+		type : 'GET',
+		success : function(data){
+			
+			console.log(data, "notice")
+			
+			$('.alarm_count').text(data.length);
+			
+			data.map(item => {
+				if(item.sch_type == 2) {
+					if(item.plan_type != 0){
+						item.division = item.easy_division;
+						item.division_parents = item.easy_division_parents;
+					}
+					let display = '';
+					display =
+							`<li class="alram_list" onclick="location.href='/analysis/sample_analysis_detail?plan_id=${item.plan_id}&regist_type=${item.plan_type}'">
+								<!-- 리스트 클릭시 페이지 이동 -->
+								<a class="alram_link" href="#">
+									<span class="alram_date">Today</span>
+									<p class="alram_title alram_text">분석일정</p>
+									<p class="alram_id alram_text">${item.plan_code}</p>
+									<p class="alram_Ad alram_text">
+										담당자: <span class="alram_chief">${item.name == null ? '관리자' : item.name}</span>
+									</p>
+									<p class="alram_cont alram_text">
+										<span class="alram_this">분석항목</span>: <span class="alram_this_cont">${item.division_parents}/${item.division}</span>
+									</p>
+								</a>
+							</li>
+								`
+					$('.alram_list_box').append(display);
+				}
+				else if(item.sch_type == 1){
+					let display = `<li class="alram_list" onclick="onClickShareSchedule(${item.sch_id})">
+								<!-- 리스트 클릭시 페이지 이동 -->
+								<a class="alram_link modal_on_btn" data-modal="_alarmTaskTable" href="#">
+									<span class="alram_date">Today</span>
+									<p class="alram_title alram_text">공유일정</p>
+									<p class="alram_Ad alram_text">
+										담당자: <span class="alram_chief">${item.name == null ? '관리자' : item.name}, ${item.sch_contents}</span>
+									</p>
+									<p class="alram_cont alram_text">
+									</p>
+								</a>
+								</li>
+								`
+					$('.alram_list_box').append(display);
+				}
+			})
+			
+		}
+	});
+	
+	$('#schedule_btn').on('click' , function(){
+		location.href = `/month/month_schedule`;
+	})
+
+	function onClickShareSchedule(sch_id){
+		$.ajax({
+			url: `/schedule/${sch_id}/month`,
+			type: "GET",
+			success: function (data) {
+				if(data.type == 1){
+					let item = data.schedule;
+
+					$('#new_sch_title_pop').val(item.sch_title);
+					$('#new_start_date_pop').val(item.start_date);
+					$('#new_end_date_pop').val(item.end_date);
+					$('#new_sch_contents_pop').val(item.sch_contents);
+				}
+			}
+		})
+	}
+	
+</script>
+

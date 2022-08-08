@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:include="./fragments/header.html"></th:block>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 시료 관리</title>
+<link rel="stylesheet" href="/css/common/reset.css">
+<link rel="stylesheet" href="/css/common/common.css">
+<link rel="stylesheet" href="/css/common/ui.css">
+<link rel="stylesheet" href="/css/style/harvesting_after.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+
+
+<!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+<link rel="stylesheet" href="../../static/css/common/common.css">
+<link rel="stylesheet" href="../../static/css/common/ui.css">
+<link rel="stylesheet" href="../../static/css/style/harvesting_after.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+<style>
+.harvesting_form>.top_form_box {
+	width: 100%;
+}
+
+#main .harvesting_form>.form_box>textarea {
+	height: 150px;
+}
+
+#wrap #main .top_task_use {
+	justify-content: left;
+	margin-bottom: 40px;
+	padding: 0;
+}
+
+
+#wrap #main .card_sect_footer span {
+	font-size: 1.4rem;
+	color: darkgray;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box harvesting_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">시료 관리</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">재료 및 방법 -</li>
+						<li class="card_inner_list">시료 관리 -</li>
+						<li class="card_inner_list">탬플릿 등록</li>
+					</ul>
+					<div class="print_box on">
+                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+				</div>
+                <div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<div class="card_sect_footer top_task_use">
+							<input type="checkbox" id="task_unrelated"
+								class="common_checkBox task_unrelated_check"
+								   th:checked="${result.report.rnd_phase_nm == null}" disabled> <label
+								id="report_chk" for="task_unrelated"
+								class="common_check_label task_unrelated_label"></label> <span>과제
+								비연계</span>
+						</div>
+						<form id="seedForm" action="" class="harvesting_form common_form">
+							<input id="report_chk" name="report_chk" type="hidden" value="false" />
+							<div class="form_box task_box select_box">
+								<label for="" class="file_title">과제 정보</label> <select
+									class="task_select common_select" disabled="true">
+									<option value="-1" hidden>과제 정보 선택</option>
+									<th:block th:each="item : ${result.reportList}">
+										<option th:value="${item.report_id}" th:selected="${item.report_id} == ${result.report.report_id}">
+											<span th:text="${item.tot_rsch_start_year}+' - ('+${item.prj_dtl_no}+') '+${item.prj_dtl_nm}"></span>
+										</option>
+									</th:block>
+								</select>
+								<input type="hidden" name="report_id" th:value="${result.report.report_id}"/>
+							</div>
+							<div class="form_box explane_box seed_explane_box">
+								<label for="" class="file_title">원과제 설명</label>
+								<textarea name=report_comment id="report_comment"
+									class="report_comment" th:text="${result.report.report_comment}"></textarea>
+							</div>
+							<input type="hidden" name="seed_code" th:value="${result.seedList[0].seed_code}">
+							<input type="hidden" name="user_report_id" th:value="${result.seedList[0].user_report_id}">
+							<input type="hidden" name="template_head"/>
+							<input type="hidden" name="template_body"/>
+						</form>
+
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card_cont_box harvesting_add_box">
+						<form action="" class="harvesting_form common_form">
+							<div class="form_box file_box">
+								<span class="file_title">파일 선택</span>
+								<div class="file_input form_inner_box">
+									<input type="text" class="file_name" readonly><input
+										type="file" name="excelFile" id="file_select2"
+										class="file_select_input" data-none="false"
+										accept=".xlsx, .xls"><label for="file_select2"
+										class="form_btn common_btn1">파일 선택</label>
+								</div>
+								<span class="ex_text"><span class="star">* </span> 엑셀 파일만
+									등록 가능합니다</span>
+							</div>
+						</form>
+						<div class="card_sect_footer">
+							<button type="button" class="common_btn1 template_btn">탬플릿등록</button>
+						</div>
+					</div>
+				</div>
+
+				<div id="gridView" class="card save_table_card">
+					<div class="card_cont_box">
+						<div id="grid"></div>
+					</div>
+				</div>
+
+				<div class="card_footer">
+					<button type="button" class="list_btn common_btn1">목록</button>
+					<div class="re_btn_box">
+						<button type="button" th:if="${session.LOGIN_MEMBER.account == result.report.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" class="save_btn common_btn1" onclick="onClickRegist();">수정</button>
+						<button type="button" th:if="${session.LOGIN_MEMBER.account == result.report.account || session.LOGIN_MEMBER.authority == 'ADMIN'}" class="appl_regist_btn common_btn1" onclick="onClickDelete();">삭제</button>
+					</div>
+				</div>
+			</section>
+			
+			<!-- 변경 이력 -->
+			 <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+                            	
+                            	<th:block th:each=" log : ${result.logList}">
+	                                <li class="change_list">
+	                                    <span class="change_check"></span>
+	                                    <div class="chang_text_box">
+	                                        <p class="change_text"><span th:text="${log.data_code}"></span> 
+	                                        <th:block th:switch="${log.action_type}">
+	                                        	<span th:case="1">등록</span>
+	                                        	<span th:case="2">수정</span>
+	                                        	<span th:case="3">삭제</span>
+	                                        	<span th:case="4">추가</span>
+	                                        </th:block>
+	                                        </p>
+	                                        <span class="change_date" th:text="${log.log_date}"></span>
+	                                    </div>
+	                                </li>
+                            	</th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</main>
+		<th:block th:include="./fragments/commonjs.html"></th:block>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script th:inline="javascript" type="text/javascript">
+	let head = JSON.parse([[${result.seedList[0].template_head}]]);
+	let rowdata = JSON.parse([[${result.seedList[0].template_body}]]);
+	let coldata = [];
+	for(let i of head){
+
+		let obj = { header: `${i.header}`,
+			name: `${i.name}`,
+			editor: 'text'
+		}
+		coldata.push(obj);
+	}
+
+	let join_count = `[[${result.seedList[0].seed_join_count}]]`;
+	let seed_id = `[[${result.seedList[0].seed_id}]]`;
+	</script>
+	<script>
+	// toast- grid
+	
+	console.log(coldata)
+	console.log(rowdata)
+	
+	const Grid = tui.Grid;
+	let instance;
+
+	function grid(){
+		
+	instance = new Grid({
+		el : document.getElementById('grid'), // Container element
+		scrollX : true,
+		scrollY : false,
+		rowHeaders : [ 'rowNum' ],
+		data : rowdata,
+		columns : coldata,
+		});
+
+	//instance.resetData(newData); // Call API of instance's public method
+	Grid.applyTheme('clean'); // Call API of static method
+	}
+
+	grid();
+	
+	
+	$('.list_btn').on('click' , function(){
+		
+		location.href=`/seed/seed_list`
+	})
+
+	function checkJoin(){
+		if(join_count != 1){
+			alert("수정,삭제가 불가능합니다");
+			return false;
+		}
+		return true;
+	}
+
+	function onClickDelete(){
+		if(!checkJoin()){
+			return;
+		}
+
+		if(!confirm("삭제하시겠습니까")){
+			return;
+		}
+
+		$.ajax({
+			url : `/seed/delete/${seed_id}`,
+			type : "POST",
+			success : function(data) {
+
+				if (data <= 0) {
+					getErrorMessage(data);
+				} else {
+					alert("삭제되었습니다");
+					location.href = `/seed/seed_list`;
+				}
+			},
+			error : function(xhr, status) {
+				alert(xhr + " : " + status);
+			}
+		})
+	}
+
+	// 엑셀 불러오기
+	$('.template_btn').on('click', function(){
+		if (!validateFunction('file_select2', '파일을')) {
+			return false;
+		}
+		$("#grid").children().remove();
+
+		var formData = new FormData();
+
+		let excelFile = $('input[name="excelFile"]')[0];
+
+		for (var i=0; i<excelFile.files.length; i++) {
+			formData.append("excelFile", excelFile.files[i]);
+		}
+
+		for (var key of formData.keys()) {
+			console.log(key);
+		}
+
+		for (var value of formData.values()) {
+			console.log(value);
+		}
+
+		$.ajax({
+			type : "POST",
+			enctype : "multipart/form-data",
+			url : "/api/seed_excel_add",
+			data : formData,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+
+				coldata = data.head
+				rowdata = data.body;
+
+				$('input[name="template_head"]').val(JSON.stringify(data.head));
+				$('input[name="template_body"]').val(JSON.stringify(data.body));
+
+				grid();
+			},
+			error : function(err) {
+				alert("템플릿을 등록할 수 없습니다. xls, xlsx 파일을 확인해주세요.");
+			}
+		});
+	})
+
+	// 파일 등록 확장자 체크
+	$('#file_select2').on('change' , function(){
+
+		if( $("#file_select2").val() != "" ){
+			let ext = $('#file_select2').val().split('.').pop().toLowerCase();
+			if($.inArray(ext, ['xls','xlsx']) == -1) {
+				alert('다른 형식의 파일입니다. 엑셀 형식만 업로드 가능 합니다');
+				$("#file_select2").val(""); // input file 파일명을 다시 지워준다.
+				return;
+			}
+		}
+	})
+
+	function onClickRegist() {
+
+		const rowLength =  $('.tui-grid-cell-row-header').length-1;
+		let template_head = [];
+		let template_body = [];
+
+		// 컬럼 헤드
+		for(let i = 0; i<rowLength; i++){
+
+			let body = {};
+
+			let row = $('td[data-row-key="'+i+'"]');
+
+			for(let j = 1; j<row.length; j++){
+
+				let key = row[j].attributes[1].value;
+				let value = row[j].textContent;
+
+				if(i == 0){
+					let head = { header: `${key}`,
+						name: `${key}`
+					}
+					template_head.push(head);
+				}
+				body[key] = value;
+
+			}
+			template_body.push(body);
+		}
+
+		$('input[name="template_head"]').val(JSON.stringify(template_head));
+		$('input[name="template_body"]').val(JSON.stringify(template_body));
+
+		if (!checkForm()) {
+			return;
+		}
+
+		let seedForm = $('#seedForm')[0];
+		let formData = new FormData(seedForm);
+
+		$.ajax({
+			url : "/seed/seed_template_update",
+			type : "POST",
+			processData : false,
+			contentType : false,
+			data : formData,
+			success : function(data) {
+				if (data <= 0) {
+					getErrorMessage(data);
+				} else {
+					alert("시료가 수정되었습니다");
+					location.reload();
+				}
+			},
+			error : function(xhr, status) {
+				alert(xhr + " : " + status);
+			}
+		})
+	}
+
+	function getErrorMessage(err_msg_id){
+		$.ajax({
+			url:"/err-message",
+			type:"GET",
+			data:{
+				err_msg_id : err_msg_id
+			},
+			success:function(data){
+				alert(data.msg);
+			}
+		})
+	}
+
+</script>
+</body>
+</html>

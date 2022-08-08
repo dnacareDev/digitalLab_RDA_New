@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 파비콘 -->
+<link rel="icon" href="/favicon.ico">
+<!-- <link rel="icon" href="../../static/favicon.ico"> -->
+<title>Digital Lab - 분석 계획 등록</title>
+<link type="text/css" rel="stylesheet" href="/css/common/reset.css">
+<link type="text/css" rel="stylesheet" href="/css/common/common.css">
+<link type="text/css" rel="stylesheet" href="/css/common/ui.css">
+<link type="text/css" rel="stylesheet" href="/css/style/register_for_analysis.css">
+
+<script src="/js/common/jquery-3.6.0.js"></script>
+<script src="/js/common/loadHeader.js"></script>
+<script src="/js/common/common.js"></script>
+
+<!-- <link type="text/css" rel="stylesheet" href="../../static/css/common/reset.css">
+<link type="text/css" rel="stylesheet" href="../../static/css/common/common.css">
+<link type="text/css" rel="stylesheet" href="../../static/css/common/ui.css">
+<link type="text/css" rel="stylesheet" href="../../static/css/style/register_for_analysis.css">
+
+<script src="../../static/js/common/jquery-3.6.0.js"></script>
+<script src="../../static/js/common/loadHeader.js"></script>
+<script src="../../static/js/common/common.js"></script> -->
+<script th:inline="javascript" type="text/javascript">
+	const planDetailData = [[${result}]];			
+	</script>
+
+<style>
+.an_list_box2 .cont_search_box label {
+	width: 100%;
+	margin-right: 0;
+}
+
+.an_list_box .list_table_box .list_table tbody th, .an_list_box .list_table_box .list_table tbody td>span
+	{
+	padding: 0 10px;
+}
+
+.for_box_wrap {
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.for_box_wrap>p {
+	margin-right: 15px;
+	font-size: 1.4rem;
+}
+
+.for_box_wrap .for_box {
+	width: 75px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 30px;
+}
+
+.for_box_wrap_mb {
+	margin-bottom: 38px;
+}
+
+.for_box_wrap .for_box .for_btn {
+	line-height: 19px;
+	width: 19px;
+	font-size: 1.6rem;
+	font-weight: bold;
+	color: #fff;
+	background-color: #6875E9;
+	border-radius: 4px;
+}
+
+.first_card .switch_right_box {
+	height: calc(100% - 40px);
+	padding-top: 45px;
+}
+
+.first_card .switch_right_box .right_list {
+	width: 1200px;
+	padding-left: 10px;
+	flex: 1;
+}
+
+.right_list .list_in_wrap:nth-child(5), .right_list .list_in_wrap:nth-child(6)
+	{
+	width: 230px;
+}
+
+.list_add_box {
+	border: 1px solid #F7F7F8;
+}
+
+.step_1_card .list_add_box .right_list {
+	width: 1660px;
+}
+
+.step_1_card .right_list .list_in_wrap {
+	width: 230px;
+}
+
+.list_add_box .right_list .list_in_wrap:first-child {
+	width: 60px;
+}
+
+.first_card .list_add_box .right_list .list_in_wrap:nth-child(3) {
+	width: 200px;
+}
+
+.step_1_card .list_add_box .right_list .list_in_wrap:nth-child(2) {
+	width: 200px;
+}
+
+.an_list_box .list_table_box .list_table tbody tr>td:last-child>span {
+	min-width: 100px;
+	line-height: 40px;
+}
+
+.step_1_card .list_add_box {
+	padding-top: 45px;
+}
+
+.first_card .list_add_box .right_list.right_header {
+	position: absolute;
+	top: 5px;
+}
+
+.step_1_card .list_add_box .right_list.right_header {
+	position: absolute;
+	top: 5px;
+}
+
+.right_data {
+	cursor: pointer;
+}
+
+.cont_search_box>label>.cont_search_input[type="text"] {
+	font-size: 1.4rem;
+}
+
+.right_list .for_box_wrap {
+	height: 40px;
+	margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- 공통 구조 - header -->
+		<div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+		<!-- 공통 구조 - header end -->
+
+		<!-- 공통 구조 - main -->
+		<main id="main">
+			<!-- 공통 구조 - main_header -->
+			<th:block th:include="/../header/main_header.html"></th:block>
+			<!-- 공통 구조 - main_header end-->
+
+			<!-- 공통 구조 - quick menu -->
+			<th:block th:include="/../header/quick_menu.html"></th:block>
+			<!-- 공통 구조 - quick menu end -->
+
+			<section class="card_box 
+            register_analysis_sect">
+				<div class="card_title_box">
+					<h2 class="card_title">분석 계획 등록</h2>
+					<ul class="card_list_text">
+						<li class="card_top_list">분석 관리 - </li>
+						<li class="card_inner_list">분석 계획 등록 - </li>
+						<li class="card_inner_list">고급 수정</li>
+					</ul>
+					<div class="print_box on">
+						<button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+					</div>
+				</div>
+				<div class="card first_card">
+					<div class="card_header">
+						<h2 class="header_title">Step 1 . 분석 항목 선택</h2>
+					</div>
+					<div class="card_cont_box">
+						<div class="an_list_box">
+							<div class="cont_search_box">
+								<label for="card_search"> <input type="text"
+									id="card_search"
+									placeholder="분석 항목 명, 작업 단계, Method ID, Method 설명"
+									class="cont_search_input method_keyword">
+								</label>
+							</div>
+							<div class="list_table_box switch_table_box">
+								<table class="list_table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>실험방법 ID</th>
+											<th>작업 단계</th>
+											<th>분석 항목</th>
+											<th>실험방법 설명</th>
+											<!-- <th>반복수</th> -->
+										</tr>
+									</thead>
+									<tbody id="method_list_view">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="switch_btn_box">
+							<button type="button" class="switch_btn switch_right_btn">오른쪽</button>
+							<button type="button" class="switch_btn switch_left_btn">왼쪽</button>
+						</div>
+						<div class="an_list_box">
+							<div class="for_box_wrap for_box_wrap_mb">
+									<!--<p>반복수</p>
+							 <p>반복수</p>
+								<div class="for_box">
+									<button type="button" class="re_btn for_btn">-</button>
+									<span class="for_num">0</span>
+									<button type="button" class="add_btn for_btn">+</button>
+								</div> -->
+							</div>
+							<ul class="list_add_box switch_right_box" id="method_right_box">
+								<div data-id="id_0" class="right_list right_header">
+									<div class="list_in_wrap"></div>
+									<div class="list_in_wrap"></div>
+									<div class="list_in_wrap">
+										<span class="right_data">실험방법 ID</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">작업 단계</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">분석 항목</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">실험방법 설명</span>
+									</div>
+									<!-- <div class="list_in_wrap">
+										<span class="right_data">반복수</span>
+									</div> -->
+									<!-- <div class="list_in_wrap">
+										<span class="right_data">Comment</span>
+									</div> -->
+								</div>
+								<span class="none">선택 항목을 추가해주세요.</span>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- 숨겨진 card 섹션에 on 클라스 적용 -->
+				<div class="card step_1_card on">
+					<div class="card_header">
+						<h2 class="header_title">Step 2 . 시료 선택</h2>
+					</div>
+					<div class="card_cont_box">
+						<div class="an_list_box an_list_box2">
+							<div class="cont_search_box">
+								<label for="card_search1"> <input type="text"
+									id="card_search1" placeholder="과제번호, 과제명, 작목명, 품종/유전자원명"
+									class="cont_search_input seed_keyword">
+								</label>
+							</div>
+							<div class="list_table_box switch_table_box">
+								<table class="list_table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>시료ID</th>
+											<th>작목명</th>
+											<th>품종/유전자원명</th>
+											<th>시료상태</th>
+											<th>과제명</th>
+											<th>과제번호</th>
+											<th>시료량</th>
+										</tr>
+									</thead>
+									<tbody id="seed_list_view">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="switch_btn_box">
+							<button type="button" class="switch_btn switch_right_btn">오른쪽</button>
+							<button type="button" class="switch_btn switch_left_btn">왼쪽</button>
+						</div>
+						<div class="an_list_box an_list_box2">
+							<div class="cont_search_box">
+								<label for="card_search2"> <input type="text"
+									id="card_search2" placeholder="과제번호, 과제명, 작목명, 품종/유전자원명"
+									class="cont_search_input seed_keyword">
+								</label>
+							</div>
+							<ul class="list_add_box switch_right_box" id="seed_right_box">
+								<div data-id="id_0" class="right_list right_header">
+									<div class="list_in_wrap"></div>
+									<div class="list_in_wrap">
+										<span class="right_data">시료ID</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">작목명</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">품종/유전자원명</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">시료상태</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">과제명</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">과제번호</span>
+									</div>
+									<div class="list_in_wrap">
+										<span class="right_data">시료량</span>
+									</div>
+								</div>
+								<span class="none">선택 항목을 추가해주세요.</span>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="card step_2_card on">
+					<div class="card_header">
+						<h2 class="header_title">Step 3 . 최종 확인</h2>
+					</div>
+					<div class="card_cont_box">
+						<div class="card3_cont_box">
+							<p class="card3_cont_title">분석 정보</p>
+							<table class="card3_cont_table">
+								<thead>
+									<tr>
+										<th>실험방법 ID</th>
+										<th>작업 단계</th>
+										<th>분석 항목</th>
+										<th>실험방법 설명</th>
+										<th>반복수</th>
+										<!-- <th>Comment</th> -->
+									</tr>
+								</thead>
+								<tbody id="method_tbody">
+									<tr>
+										<td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                       <!--  <td><span></span></td> -->
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="card3_cont_box">
+							<p class="card3_cont_title">시료 정보</p>
+							<table class="card3_cont_table">
+								<thead>
+									<tr>
+										<th>시료 ID</th>
+										<th>작목명</th>
+										<th>품종/유전자원명</th>
+										<th>시료 상태</th>
+										<th>과제명</th>
+										<th>과제 번호</th>
+										<th>시료량</th>
+									</tr>
+								</thead>
+								<tbody id="seed_tbody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card_footer not_padd_footer">
+					<button class="list_btn common_btn1" onclick="location.href='/regist_analysis_list'">목록</button>
+					<button th:if="${session.LOGIN_MEMBER.account == result.plan.account}" class="appl_regist_btn common_btn1" onclick="onClickRegist()">저장</button>
+				</div>
+			</section>
+			<div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">용도</label> <select
+								class="common_select">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">분류</label> <select
+								class="common_select">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성 관련 성분</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off">
+							<label class="modal_form_title">신규 세부 항목</label> <input
+								type="text" class="">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn off">사용</button>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="modal harvesting_modal" id="kindSelect">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">분석 항목 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<form class="modal_form common_form lookup_form">
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">용도</label> <select
+								class="common_select">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성</option>
+								<option value="">2</option>
+								<option value="">3</option>
+							</select>
+						</div>
+						<div class="select_box modal_input_box">
+							<label class="modal_form_title">분류</label> <select
+								class="common_select">
+								<option value="" hidden>용도 선택</option>
+								<option value="">기능성 관련 성분</option>
+								<option value="">2</option>
+								<option value="">3</option>
+							</select>
+						</div>
+						<div class="form_box modal_input_box off">
+							<label class="modal_form_title">신규 세부 항목</label> <input
+								type="text" class="">
+						</div>
+					</form>
+					<div class="modal_footer">
+						<button class="common_btn1 modal_btn off">사용</button>
+					</div>
+				</div>
+			</div> -->
+			<div class="modal harvesting_modal" id="logModal">
+				<div class="modal_box">
+					<div class="modal_header">
+						<h2 class="modal_title">변경 이력 조회</h2>
+						<button class="modal_close">닫기</button>
+					</div>
+					<div class="card sec_card">
+						<div class="card_cont_box">
+							<ul class="change_list_box">
+
+								<th:block th:each=" log : ${result.logList}">
+									<li class="change_list">
+										<span class="change_check"></span>
+										<div class="chang_text_box">
+											<p class="change_text"><span th:text="${log.data_code}"></span>
+												<th:block th:switch="${log.action_type}">
+													<span th:case="1">등록</span>
+													<span th:case="2">수정</span>
+													<span th:case="3">삭제</span>
+													<span th:case="4">추가</span>
+												</th:block>
+											</p>
+											<span class="change_date" th:text="${log.log_date}"></span>
+										</div>
+									</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- 공통 구조 - main end -->
+	</div>
+	<script>	
+		// $('.method_keyword').on('keyup' , function(e){
+			
+		// 	let method_keyword = e.target.value;
+			
+		// 	$('#method_list_view > tr').css('display' , 'none');
+
+		// 	if(method_keyword == ''){
+		// 		$('#method_list_view > tr').css('display' , '');
+		// 	}
+			
+		// 	let keywords = [];
+				
+		// 	keywords.push($('.keyword_0'));
+		// 	keywords.push($('.keyword_1'));
+		// 	keywords.push($('.keyword_2'));
+		// 	keywords.push($('.keyword_3'));
+		// 	let num = 0;
+		// 	// 전체 컬럼
+		// 	for(let i of keywords){
+		// 		let check = false;
+		// 		// 각 로우의 컬럼
+		// 		for(let j of i){
+		// 			let text = j.textContent;
+		// 			if(method_keyword.indexOf(text) != -1){
+		// 				console.log(text);
+		// 				check = true;
+		// 			}
+		// 			//console.log(num)
+		// 		if(check){	
+		// 			$('tr[data-id="id_'+num+'"]').css('display' , '')
+		// 			console.log(num)
+		// 		}
+		// 		num++;
+		// 		}
+		// 	}
+		// })
+
+		$('#card_search').on('keyup', function(e){
+			const value = e.target.value; 
+			const datas = document.querySelectorAll('#method_list_view > tr');
+			datas.forEach(el => {
+				const spans = el.querySelectorAll('span');
+				const infos = []
+				
+				spans.forEach(span => infos.push(span.innerText))
+				if (infos.some(info => info.includes(value))) {
+					el.style.display = "block";					
+				} else {
+					el.style.display = "none";
+				}
+				
+			})
+			
+		})
+
+		$('#card_search1').on('keyup', function(e){
+			const value = e.target.value; 
+			const datas = document.querySelectorAll('#seed_list_view > tr');
+			datas.forEach(el => {
+				const spans = el.querySelectorAll('span');
+				const infos = []
+				
+				spans.forEach(span => infos.push(span.innerText))
+				if (infos.some(info => info.includes(value))) {
+					el.style.display = "block";					
+				} else {
+					el.style.display = "none";
+				}
+			})
+			
+		})
+
+		$('#card_search2').on('keyup', function(e){
+			const value = e.target.value; 
+			const datas = document.querySelectorAll('#seed_right_box > li');
+			datas.forEach(el => {
+				const spans = el.querySelectorAll('span');
+				const infos = []
+				
+				spans.forEach(span => infos.push(span.innerText))
+				if (infos.some(info => info.includes(value))) {
+					el.style.display = "block";					
+				} else {
+					el.style.display = "none";
+				}
+			})
+			
+		})
+
+
+		// $('.seed_keyword').on('keyup' , function(e) {
+		// 	console.log("test");
+		// 	let seed_keyword = e.target.value;
+		// 	$('#seed_list_view > tr').css('display' , 'none');
+		// 	if(seed_keyword == ''){
+		// 		$('#seed_list_view > tr').css('display', '');
+		// 	}
+
+		// 	let keywords = [];
+		// 	keywords.push($('.keyword_crop'));
+		// 	keywords.push($('.keyword_breed'));
+		// 	keywords.push($('.keyword_report_name'));
+		// 	keywords.push($('.keyword_id'));
+		// 	let num = 0;
+		// 	//전체 컬럼
+		// 	for(let allColumn of keywords){
+		// 		let check = false;
+		// 		//각 로우의 컬럼
+		// 		for(let rowColumn of allColumn){
+		// 			let text = rowColumn.textContent;
+		// 			if(seed_keyword.indexOf(text) != -1) {
+		// 				console.log(text);
+		// 				check = true;
+		// 			}
+		// 			if(check){
+		// 				$(`tr[data-id="id_${num}"`).css('display','');
+		// 			}
+		// 			num++;
+		// 		}
+		// 	}
+		// });
+		
+		function searchMethod() {
+			
+			$('#method_list_view > tr').remove();
+			
+			$.ajax({
+				url : `/method/search-method`,
+				method : "GET",
+				dataType : "JSON",
+				async: false,
+				data : {
+
+				},
+				success : function(result) {
+					let list = result.list;
+					console.log(list, "리스트");
+					
+						for(var i = 0 ; i<list.length; i++){
+						
+						let display = `<tr data-id="id_${i}">
+										<td class="td_chk">
+											<span>
+												<input type="checkbox" id="analysis_${i}" class="common_checkBox" name="analysis_item"><label
+												for="analysis_${i}" class="common_check_label" data-pk="${list[i].method_id}"></label>
+											</span>
+										</td>
+										<td data-pk="${list[i].method_id}" class="method_pk"><span class="keyword_0">${list[i].method_code}</span></td>
+										<td><span class="keyword_1">${list[i].method_stage == 1 ? '시료분석' : '전처리'}</span></td>
+										<td><span class="keyword_2">${list[i].division}</span></td>
+										<td><span class="keyword_3">${list[i].method_contents}</span></td>
+										</tr>`;
+										/* <td><span>0</span></td> */
+						
+						$('#method_list_view').append(display);
+						$('#method_list_view input[type="checkbox"]').on('change', function() {
+						    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+						});
+					}
+					
+				}
+			})
+		}
+
+		function getErrorMessage(err_msg_id){
+			$.ajax({
+				url:"/err-message",
+				type:"GET",
+				data:{
+					err_msg_id : err_msg_id
+				},
+				success:function(data){
+					alert(data.msg);
+				}
+			})
+		}
+		
+		function searchSeed() {
+			
+			$('#seed_list_view > tr').remove();
+			
+			$.ajax({
+				url : `/seed/search-seed?type=analysis`,
+				method : "GET",
+				dataType : "JSON",
+				async: false,
+				data : {
+
+				},
+				success : function(result) {
+					
+					let list = result.list;
+					console.log(list);
+					for(var i = 0 ; i<list.length; i++){
+
+						let report_id = list[i].report_id;
+						let report_name = list[i].report_name;
+						if(report_id == -1){
+							report_id ="";
+							report_name ="";
+						}
+
+						let display = `<tr data-id="id_${i}" id="pk_${list[i].seed_id}">
+										<td class="td_chk"><span> <input type="checkbox" id="analysis2_${i}" class="common_checkBox"> <label
+													for="analysis2_${i}" data-pk="${list[i].seed_id}" class="common_check_label"></label>
+											</span>
+										</td>
+										<td data-pk="${list[i].seed_id}" class="seed_id"><span>${list[i].seed_code}</span></td>
+										<td><span class="keyword_crop">${list[i].genetic_depth1}</span></td>
+										<td><span class="keyword_breed">${list[i].genetic_depth2}</span></td>
+										<td><span>${list[i].seed_status}</span></td>
+										<td><span class="keyword_report_name">${report_name}</span></td>
+										<td><span class="keyword_report_id">${report_id}</span></td>
+										<td><span>${list[i].seed_amount}</span></td>
+										</tr>`;
+										
+						$('#seed_list_view').append(display);
+					}
+					
+				}
+			})
+		}
+		
+		searchMethod();
+		searchSeed();
+
+		function getSeedPk(){
+			const seedList = document.querySelectorAll('#seed_tbody .seed_id');
+			const seedPkList = [];
+
+			seedList.forEach(seed =>{
+				let pk = seed.dataset.pk;
+				seedPkList.push(pk);
+			})
+			return seedPkList;
+		}
+
+		function getMethodPk(){
+			const methodList = document.querySelectorAll('#method_tbody > tr');
+			const methodPkList = [];
+
+			methodList.forEach(method =>{	
+				
+				console.log(method, "method")
+				
+				const method_id = method.querySelector('.method_pk').dataset.pk ?? 0;
+				const method_comment = method.querySelectorAll('td')[3].innerText;
+				const method_cycle = method.querySelectorAll('td')[4].innerText;
+				//const method_comment = method.querySelectorAll('td')[3].innerText;
+			
+				const planMethod = {
+					method_id,
+					method_cycle,
+					method_comment
+				};
+				methodPkList.push(planMethod);
+			})
+			return methodPkList;
+		}
+
+		function onClickRegist(){
+			const seedPkList = getSeedPk();
+			const methodPkList = getMethodPk();
+			let planMethodList = JSON.stringify(methodPkList);
+			const plan_id = [[${result.plan.plan_id}]];
+			const plan_status = [[${result.plan.plan_status}]];
+			
+			if(methodPkList == null || methodPkList.length <= 0){
+				alert("실험방법을 등록해주세요")
+				return;
+			}
+			
+			if(seedPkList == null || seedPkList.length <= 0){
+				alert("시료를 등록해주세요")
+				return;
+			}
+			
+			if(plan_status <= 2){
+				const resp = confirm("수정하실 경우 다음 단계의 데이터가 초기화됩니다.");
+				if(!resp){
+					return;
+				}
+			}
+			$.ajax({
+				url:"/regist_analysis_add/modify",
+				type:"POST",
+				data:{
+					"strPlanMethod" : planMethodList,
+					"seed_pk_list" : seedPkList,
+					"plan_id" : plan_id
+				},
+				success : function (result){
+					console.log(result, "등록 res")
+					if (result === 1) {
+						alert("수정 성공하셨습니다.");
+						window.location.href = '/regist_analysis_list';
+					}
+					else if( result < 0){
+						getErrorMessage(result);
+					}
+				},
+				error: function (xhr, status, error)
+				{
+					console.error(error)
+        		}
+			})
+		}
+	</script>
+	<script src="/js/register_for_analysis_detail.js"></script>
+</body>
+</html>

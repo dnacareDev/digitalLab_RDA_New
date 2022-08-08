@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:include="./fragments/header.html"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 파비콘 -->
+    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="../../static/favicon.ico"> -->
+    <title>Digital Lab - 결과 등록</title>
+    <link rel="stylesheet" href="/css/common/reset.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/common/ui.css">
+    <link rel="stylesheet" href="/css/style/assignment_management.css">
+
+    <script src="/js/common/jquery-3.6.0.js"></script>
+    <script src="/js/common/loadHeader.js"></script>
+    <script src="/js/common/common.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/reset.css">
+    <link rel="stylesheet" href="../../static/css/common/common.css">
+    <link rel="stylesheet" href="../../static/css/common/ui.css">
+    <link rel="stylesheet" href="../../static/css/style/assignment_management.css">
+
+    <script src="../../static/js/common/jquery-3.6.0.js"></script>
+    <script src="../../static/js/common/loadHeader.js"></script>
+    <script src="../../static/js/common/common.js"></script> -->
+    <style>
+        .data_enroll_btn {position: absolute; right: -540px;}
+        #main .card_cont_box .assignment_table tr > th {padding: 0 10px;}
+        #main .card_cont_box .assignment_table tr > th label { width: calc(100% - 10px);}
+        .card_footer {display: flex; justify-content: space-between;}
+        .list_btn {background-color: #7C8798;}
+        #main .list_btn:active:focus {background-color: #737983;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- 공통 구조 - header -->
+        <div id="header">
+			<th:block th:include="/../header/header.html"></th:block>
+		</div>
+        <!-- 공통 구조 - header end -->
+        
+        <!-- 공통 구조 - main -->
+        <main id="main">
+			<!-- 공통 구조 - main_header -->
+            <th:block th:include="/../header/main_header.html"></th:block>
+            <!-- 공통 구조 - main_header end-->
+
+            <!-- 공통 구조 - quick menu -->
+            <th:block th:include="/../header/quick_menu.html"></th:block>
+            <!-- 공통 구조 - quick menu end -->
+            
+            <section class="card_box assignment_sect">
+                <div class="card_title_box">
+                    <h2 class="card_title">결과 등록</h2>
+                    <ul class="card_list_text">
+                        <li class="card_top_list">분석 관리 - </li>
+                        <li class="card_inner_list">결과 등록 - </li>
+                        <li class="card_inner_list">고급 등록</li>
+                    </ul>
+                    <div class="print_box">
+                        <button class="form_btn common_btn1 modal_on_btn" data-modal="logModal">변경 이력</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_header">
+                        <h2 class="header_title">결과값 업로드</h2>
+                    </div>
+                    <div class="card_cont_box">
+                        <div id="planGrid" class="toastTable"></div>
+                    </div>
+                    <div class="file_cont_box common_form">
+                        <div class="form_box">
+                            <span class="file_title"></span>
+                            <div class="file_input form_inner_box" style="display: flex;">
+                                <input type="text" class="file_name" readonly><input type="file" name="" id="fileSelect" class="file_select_input" accept=".xlsx , .xls"><label for="fileSelect" class="form_btn common_btn1">파일 선택</label>
+                            </div>
+                        </div> 
+<!--                        <div class="file_download">-->
+<!--                            <span>기존 결과 파일 </span>-->
+<!--                            <a href="#"> 다운로드</a>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+
+                <div class="card_footer not_padd_footer">
+                    <button class="list_btn common_btn1" 
+                    onclick="location.href='regist_results_list'">목록</button>
+                    <div class="re_btn_box">
+                        <button class="save_btn common_btn1" onclick="readAdminExcel()">적용</button>
+                        <button class="save_btn common_btn1" onclick="onClickSave()">저장</button>
+                    </div>
+                </div>
+            </section>
+            <div class="modal harvesting_modal" id="logModal">
+                <div class="modal_box">
+                    <div class="modal_header">
+                        <h2 class="modal_title">변경 이력 조회</h2>
+                        <button class="modal_close">닫기</button>
+                    </div>
+                    <div class="card sec_card">
+                        <div class="card_cont_box">
+                            <ul class="change_list_box">
+
+                                <th:block th:each=" log : ${result.logList}">
+                                    <li class="change_list">
+                                        <span class="change_check"></span>
+                                        <div class="chang_text_box">
+                                            <p class="change_text"><span th:text="${log.data_code}"></span>
+                                                <th:block th:switch="${log.action_type}">
+                                                    <span th:case="1">등록</span>
+                                                    <span th:case="2">수정</span>
+                                                    <span th:case="3">삭제</span>
+                                                    <span th:case="4">분석 설정</span>
+                                                    <span th:case="5">시료 분석</span>
+                                                    <span th:case="6">결과 등록</span>
+                                                </th:block>
+                                            </p>
+                                            <span class="change_date" th:text="${log.log_date}"></span>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:include="./fragments/commonjs.html"></th:block>
+        <!-- 공통 구조 - main end -->
+
+    </div>
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function(){
+        searchResult();
+        console.log([[${result}]])
+    })
+    let planGrid = null;
+    function searchResult(){
+        let testData = [];
+
+        for(let i = 0; i < 5; i ++){
+            let data = new Object();
+            data.genetic_depth_1 = '감자';
+            data.genetic_depth_2 = '삼산';
+            data.sample_id = i;
+            data.test_id = 'b1-' + i;
+            data.well_no = 'A1'+i;
+            data.result = i;
+            testData.push(data);
+        }
+
+        planGrid = new tui.Grid({
+            el: document.getElementById('planGrid'),
+            scrollX:true,
+            scrollY:false,
+            data: testData,
+            rowHeaders:['rowNum'],
+            editingEvent: 'click',
+            columns: [],
+            columnOptions: {
+                frozenCount: 5,
+                frozenBorderWidth: 2,
+                minWidth: 100
+            }
+        });
+
+        const headerArr = [
+                {
+                    "header" : "작목명",
+                    "name" : "genetic_depth_1",
+                },
+                {
+                    "header" : "품종/유전자원",
+                    "name" : "genetic_depth_2",
+                },
+                {
+                    "header" : "Sample ID",
+                    "name" : "batch_sample",
+                },
+                {
+                    "header" : "Test ID",
+                    "name" : "batch_test",
+                },
+                {
+                    "header" : "Well No",
+                    "name" : "batch_well",
+                },
+            ]
+        for(let i = 1; i <= [[${result.plan.method_result}]]; i++){
+            let header = `결과 값${i}`;
+            let name = `result${i}`;
+            headerArr.push({"header" : header, "name" : name, "editor" : "text"});
+        }
+
+            planGrid.setColumns(headerArr);
+            planGrid.resetData([[${result.batch}]]);
+            const testData2 = planGrid.getData();
+            console.table(testData2);
+    }
+
+    function readAdminExcel() {
+        var input = document.getElementById('fileSelect');
+        var reader = new FileReader();
+        reader.onload = function () {
+            var fileForm = input.files[0].name.split(".")[1];
+            if(fileForm !== "xlsx"){
+                alert(".xlsx 파일이 아닙니다.");
+                return
+            };
+
+            var data = reader.result;
+            var workBook = XLSX.read(data, { type: 'binary' });
+            workBook.SheetNames.forEach(function (sheetName) {
+                var rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+                var xlsxData = JSON.parse(JSON.stringify(rows));
+                
+                console.table(xlsxData);
+                // xlsxData; <- 이거에요!
+
+                const result_count = [[${result.plan.method_result}]];
+                let testData = planGrid.getData();
+
+                let resultKeyArr = [];
+                for(let key in xlsxData[0]){
+                	
+                    if(key.includes("result")){
+                    	
+                        resultKeyArr.push(key);
+                    }
+                }
+                
+                console.log(resultKeyArr , "resultKeyArr")
+                
+                console.table(testData);
+
+                for(let i = 0 ; i < testData.length ; i++){
+                    //for(let j = 0 ; j < xlsxData.length ; j++){
+                        if(testData[i].batch_test == xlsxData[i]["Test ID"]){
+                            for(let k = 0 ; k < resultKeyArr.length ; k++){
+                            	
+                            	console.log(i , testData[i][resultKeyArr[k]])
+                            	
+                                testData[i][resultKeyArr[k]] = xlsxData[i][resultKeyArr[k]];
+
+                            	console.log(i , testData[i][resultKeyArr[k]])
+                            }
+                        }
+
+
+                    //}
+                }
+					
+                console.table(testData);
+                
+                planGrid.resetData(testData);
+
+            })
+        };
+        reader.readAsBinaryString(input.files[0]);
+    }
+
+    function onClickSave(){
+        const data = planGrid.getData();
+        let batchList = [];
+        for(let i = 0; i < data.length; i++){
+            let row = data[i];
+
+            let object = new Object();
+            if(row.batch_result){
+                object = JSON.parse(row.batch_result);
+            }
+            for(let i = 1; i <= [[${result.plan.method_result}]]; i++){
+                let name = `result${i}`;
+                object[name] = row[name];
+                if(row[name] == ''){
+                    return false;
+                }
+            }
+            let batch_data = new Object();
+            batch_data.batch_id = row.batch_id;
+            batch_data.batch_result = JSON.stringify(object);
+            batchList.push(batch_data);
+        }
+        updateBatchResult(batchList);
+        console.log(batchList,"batchList");
+    }
+
+    function updateBatchResult(batchList){
+        $.ajax({
+            url:'/api/batch/result',
+            method:"POST",
+            dataType:"JSON",
+            data :{
+                'batchJson' :  JSON.stringify(batchList),
+                'plan_id' : [[${result.plan.plan_id}]],
+                'plan_code' : [[${result.plan.plan_code}]],
+            },
+            success : function(result){
+                if (result < 0){
+                    getErrorMessage(result);
+                }
+                else{
+                	
+                	alert("결과가 저장되었습니다");
+                    location.reload();
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

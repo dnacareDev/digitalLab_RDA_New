@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digitalLab.Mapper.ErrMsgMapper">
+    <select id="getErrorMessage" parameterType="int" resultType="Err_Msg">
+        SELECT * FROM ERR_MSG
+        WHERE err_msg_id = #{err_msg_id}
+    </select>
+</mapper>
