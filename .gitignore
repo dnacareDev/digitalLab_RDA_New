@@ -39,3 +39,5 @@ out/
 ### Custom ###
 /src/main/resources/static/html/
 
+.metadata/.plugins/org.eclipse.core.resources/.root/7.tree
+.metadata/.plugins/org.eclipse.e4.ui.workbench.swt/dialog_settings.xml
